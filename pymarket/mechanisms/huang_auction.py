@@ -1,6 +1,6 @@
-from bids import BidManager
-from transactions import TransactionManger
-from demand_curves import *
+from pymarket.bids import BidManager
+from pymarket.transactions import TransactionManger
+from pymarket.bids.demand_curves import *
 
 def update_quantity(quantity, gap):
     """

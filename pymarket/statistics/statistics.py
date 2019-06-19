@@ -1,5 +1,5 @@
 import pulp
-from bids import BidManager
+from pymarket.bids import BidManager
 
 def maximum_aggregated_utility(bids):
     """

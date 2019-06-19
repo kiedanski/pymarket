@@ -1,5 +1,5 @@
 import numpy as np
-from bids import BidManager
+from pymarket.bids import BidManager
 
 
 def demand_curve_from_bids(bids):
@@ -43,7 +43,7 @@ def get_value_stepwise(x, f):
         return None
 
     for step in f:
-        if x < step[0]:
+        if x <= step[0]:
             return step[1] 
 
 
@@ -59,13 +59,13 @@ def intersect_stepwise(f, g):
     xs = sorted(list(set(g[:, 0]).union(set(f[:, 0]))))    
     fext = [get_value_stepwise(x, f) for x in xs]
     gext = [get_value_stepwise(x, g) for x in xs]
-    
+   
     x_ast = None
     for i in range(len(xs)):
         if i == len(xs) - 1:
             x_ast = np.inf
         elif (fext[i] > gext[i]) and (fext[i + 1] < gext[i + 1]):
-            x_ast = i + 1 
+            x_ast = i
             break
     x_ast = xs[x_ast] if x_ast is not None else None
     f_ast = np.argmax(f[:, 0] >= x_ast) if x_ast is not None else None
@@ -74,31 +74,3 @@ def intersect_stepwise(f, g):
     return x_ast, f_ast, g_ast
 
 
-if __name__ == '__main__':
-    bm = BidManager()
-    bm.add_bid(1, 3, 0, True, 0)
-    bm.add_bid(2, 4, 1, True, 0)
-    bm.add_bid(5, 1, 2, True, 0)
-
-    bm.add_bid(4, 2, 3, False, 0)
-    bm.add_bid(1, 1, 4, False, 0)
-    bm.add_bid(5, 6, 5, False, 0)
-    
-    df = bm.get_df()
-
-    buy, ib0 = demand_curve_from_bids(df)
-    sell, is0 = supply_curve_from_bids(df)
-
-    bm1 = BidManager()
-    bm1.add_bid(2, 2.5, 0, True, 0)
-    bm1.add_bid(2, 5, 1, True, 0)
-    bm1.add_bid(2, 3, 2, True, 0)
-
-    bm1.add_bid(2, 4, 3, False, 0)
-    bm1.add_bid(1, 1, 4, False, 0)
-    bm1.add_bid(2, 2, 5, False, 0)
-    
-    df1 = bm1.get_df()
-
-    buy1, ib1 = demand_curve_from_bids(df1)
-    sell1, ib2 = supply_curve_from_bids(df1)

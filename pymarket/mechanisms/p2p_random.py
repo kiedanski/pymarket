@@ -2,8 +2,8 @@ import pandas as pd
 import networkx as nx
 import numpy as np
 
-from transactions import TransactionManger
-from bids import BidManager
+from pymarket.transactions import TransactionManger
+from pymarket.bids import BidManager
 
 
 def p2p_random(bids, p_coef=0.5):
