@@ -1,18 +1,5 @@
 language: python
 python:
-- 3.6
-- 3.5
-- 3.4
-- 2.7
-install: pip install -U tox-travis
-script: tox
-deploy:
-  provider: pypi
-  distributions: sdist bdist_wheel
-  user: gus0k
-  password:
-    secure: d1HkoDoZy58fukmAgEYoo8QBSAVPaOI5AdNhBbiLKDXU+KvOlw0kSxo6j8kw2V+GjZ3iPQlwNhLQSgehUVr5+PdF1kdr6jOdW/fNZ8kWmsW6RPQCXNg3tk0eRP4HC9hSMAuVwDWXL07QjsQphLwfVulXSZR7Q1k44X4sAJLHVAB49wlHYzMK0Z2iYyZnzNF+SNp1/W2WMjE+KbmGBlK72iMOQFUA5dmUYgmmqwdBeAwc9qwwUHsJfoG7mgQ2vO0Mg2Wb8m247qAY/BZwipYzxZZ0FF39Eih14JHxsDsvbA5wg9YfdwBsLwLwFhpbMR4q9eslmbMgqZo6WlpRWwfzWLX6qPlEP01cMbPUYcMtKEMCwp1FZ1Jti0tzSq0RpbEI8mGI2pOR0qIDKFvJzQFjJNmHFMPE5/i5NZw7UjDdzaUyvongQ57Lbp+0hO6eHgHLOUhx29WLCvBfEiMCOZon16Ws8WDc914LWpn9YQPzInpi99XfG3/J1VfV1ECrPRwH7/+F+EbLam2YQnT7hW06FJJQm9avn7xkNVjlavpKyz8hMB3OyjWoY6+AL0mDZKuV7bEQlydjD8O/YP/+BIpdrj2p0mZUrZlGn5GX8QU37vi1xe4LCOVWcr0h5gE3kscpyzvPllhukxrDmhF8eCS4wbERlGDaB5rhwxXSl6O3jHM=
-  on:
-    tags: true
-    repo: gus0k/pymarket
-    python: 3.6
+- '2.7'
+- '3.3'
+- pypy
