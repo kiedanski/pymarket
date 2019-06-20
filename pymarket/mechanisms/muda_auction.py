@@ -22,7 +22,7 @@ def muda(bids, r=None):
     trans, fees = solve_market_side_with_exogenous_price(bids.loc[left]  , pr , trans, fees, r)
     trans, fees = solve_market_side_with_exogenous_price(bids.loc[right] , pl , trans, fees, r)
 
-    return trans, fees
+    return trans, fees, left, right
 def solve_market_side_with_exogenous_price(bids, price, trans, fees, r):
     """
     Finds who trades and at what price based on the
