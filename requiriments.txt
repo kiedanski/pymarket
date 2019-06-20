@@ -1,3 +1,4 @@
 pandas
+networkx
 numpy
 tox-travis
