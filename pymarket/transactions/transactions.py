@@ -3,7 +3,7 @@ import numpy as np
 
 COLUMNS = ['bid', 'quantity', 'price', 'source', 'active']
 
-class TransactionManger:
+class TransactionManager:
 
     def __init__(self):
         self.n_trans = 0

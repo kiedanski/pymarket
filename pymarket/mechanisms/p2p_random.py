@@ -2,11 +2,11 @@ import pandas as pd
 import networkx as nx
 import numpy as np
 
-from pymarket.transactions import TransactionManger
+from pymarket.transactions import TransactionManager
 from pymarket.bids import BidManager
 
 
-def p2p_random(bids, p_coef=0.5):
+def p2p_random(bids, p_coef=0.5, r = None):
     """
     Computes all the trades using a P2P random trading
     process as describes in [CITA].
@@ -15,9 +15,9 @@ def p2p_random(bids, p_coef=0.5):
     uses the buying price and 0 the selling price, else, linear combination.
 
     """
-    r = np.random.RandomState()
+    r = np.random.RandomState() if r is None else r
 
-    trans = TransactionManger()
+    trans = TransactionManager()
     buying = bids[bids.buying == True]
     selling = bids[bids.buying == False]
     Nb, Ns = buying.shape[0], selling.shape[0]

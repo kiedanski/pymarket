@@ -1,6 +1,6 @@
 import numpy as np
 from pymarket.bids import BidManager
-from pymarket.transactions import TransactionManger
+from pymarket.transactions import TransactionManager
 from pymarket.bids.demand_curves import *
 
 

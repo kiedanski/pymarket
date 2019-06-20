@@ -1,5 +1,5 @@
 from pymarket.bids import BidManager
-from pymarket.transactions import TransactionManger
+from pymarket.transactions import TransactionManager
 from pymarket.bids.demand_curves import *
 
 def update_quantity(quantity, gap):
@@ -42,7 +42,7 @@ def huang_auction(bids):
     :trans : Transaction Manger
     """
 
-    trans = TransactionManger()
+    trans = TransactionManager()
     
     buy, b_index  = demand_curve_from_bids(bids)
     sell, s_index = supply_curve_from_bids(bids)
@@ -75,15 +75,3 @@ def huang_auction(bids):
 
     return trans
 
-if __name__ == '__main__':
-    bm = BidManager()
-    bm.add_bid(1, 3, 0, True, 0)
-    bm.add_bid(2, 4, 1, True, 0)
-    bm.add_bid(5, 1, 2, True, 0)
-
-    bm.add_bid(4, 2, 3, False, 0)
-    bm.add_bid(1, 1, 4, False, 0)
-    bm.add_bid(5, 6, 5, False, 0)
-    
-    df = bm.get_df()
-    tt = huang_auction(df)
