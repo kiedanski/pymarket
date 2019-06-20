@@ -1,4 +1,5 @@
 pandas
+pulp
 networkx
 numpy
 tox-travis

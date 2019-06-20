@@ -91,31 +91,3 @@ def find_competitive_price(bids):
     return price
 
 
-if __name__ == '__main__':
-    bm = BidManager()
-    bm.add_bid(1, 100, 0, True, 0)
-    bm.add_bid(1, 90, 0, True, 0)
-    bm.add_bid(1, 80, 0, True, 0)
-    bm.add_bid(1, 60, 0, True, 0)
-    bm.add_bid(1, 40, 0, True, 0)
-    bm.add_bid(1, 20, 0, True, 0)
-
-    bm.add_bid(1, 10, 1, False, 0)
-    bm.add_bid(1, 20, 1, False, 0)
-    bm.add_bid(1, 40, 1, False, 0)
-    bm.add_bid(1, 60, 1, False, 0)
-    bm.add_bid(1, 70, 1, False, 0)
-    
-    bm.add_bid(1, 15, 2, False, 0)
-    bm.add_bid(1, 25, 2, False, 0)
-    bm.add_bid(1, 35, 2, False, 0)
-    bm.add_bid(1, 45, 2, False, 0)
-    bm.add_bid(1, 65, 2, False, 0)
-    
-    df = bm.get_df()
-    r = np.random.RandomState()
-    trans = TransactionManger()
-    fees = np.zeros(3)
-    tt, fees = solve_market_side_with_exogenous_price(df, 50, trans, fees, r)
-    
-    
