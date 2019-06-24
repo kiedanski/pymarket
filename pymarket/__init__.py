@@ -10,5 +10,6 @@ import pymarket.bids
 import pymarket.mechanisms
 import pymarket.statistics
 import pymarket.transactions
+import pymarket.plot
 
 from pymarket.market import *

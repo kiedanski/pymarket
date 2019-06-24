@@ -14,8 +14,6 @@ def maximum_aggregated_utility(bids):
 
     qs = pulp.LpVariable.dicts('q', index, lowBound=0, cat='Continuous')
 
-    print(index)
-
     model += pulp.lpSum(
             [qs[x[0], x[1]] * (bids.iloc[x[0], 1] - bids.iloc[x[1], 1]) for x in index])
 

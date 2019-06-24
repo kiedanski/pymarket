@@ -40,7 +40,6 @@ def solve_market_side_with_exogenous_price(bids, price, trans, fees, r):
     demand = demand.sort_values('price', ascending=False)
     supply = bids[(bids.buying == False) & (bids.price <= price)]
     supply = supply.sort_values('price')
-    print(demand, supply)
     supply_quantity = supply.quantity.sum()
     demand_quantity = demand.quantity.sum()
     
@@ -49,7 +48,6 @@ def solve_market_side_with_exogenous_price(bids, price, trans, fees, r):
     long_side      = supply if supply_long else demand
     short_side     = demand if supply_long else supply
     total_quantity = demand_quantity if supply_long else supply_quantity
-    print(supply_long, total_quantity)
     if total_quantity > 0: 
         total_quantity = int(total_quantity)
         for i, x in short_side.iterrows():
@@ -60,7 +58,6 @@ def solve_market_side_with_exogenous_price(bids, price, trans, fees, r):
         ## Vickrey style
         trading_bids = long_side.index.values[:total_quantity] 
         trading_users = long_side.iloc[:total_quantity, :].user.unique()
-        print(trading_bids) 
         ## Compute fee of each user
         for u in trading_users:
             trades_by_user = long_side[(long_side.user == u)]

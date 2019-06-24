@@ -2,6 +2,7 @@ from pymarket.bids import BidManager
 from pymarket.mechanisms import *
 from pymarket.transactions import TransactionManager
 from pymarket.statistics import *
+from pymarket.plot import plot_demand_curves
 
 MECHANISM = {
     'huang': HuangAuction,        
@@ -59,3 +60,12 @@ class Market():
         for stat in STATS:
             stats[stat] = STATS[stat](df, transactions.get_df())
         return transactions, extra, stats
+    def plot(self):
+        """Plots both demand curves
+        Returns
+        -------
+        TODO
+
+        """
+        df = self.bm.get_df()
+        plot_demand_curves(df)

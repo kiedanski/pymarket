@@ -60,7 +60,6 @@ def huang_auction(bids):
     if b_ > 0 and s_ > 0:
        long_sellers = sell[s_ - 1, 0] > buy[b_ - 1, 0] 
        gap = sell[s_ - 1, 0] - buy[b_ - 1, 0] 
-       print(long_sellers, gap)
        if long_sellers:
             quantity_sell = update_quantity(quantity_sell, gap) 
        else:
@@ -75,7 +74,8 @@ def huang_auction(bids):
            id_ = b_index[i]
            trans.add_transaction(id_, quantity_buy[i],
                    price_buy, -1, False)
-    extra = {'price_sell': price_sell, 'price_buy': price_buy}
+           extra = {'price_sell': price_sell, 'price_buy': price_buy,
+                   'quantity_traded': quantity_buy.sum()}
     return trans, extra
 
 class HuangAuction(Mechanism):
