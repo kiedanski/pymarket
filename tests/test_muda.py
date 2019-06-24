@@ -43,3 +43,48 @@ def test_example_1(bid_dataset_muda_example_1):
     print(data_trans)
     print(df2)
     assert np.allclose(data_trans, df2)
+
+def test_muda_dataset_1(bid_dataset_1):
+    """TODO: Testing muda with the splits
+
+    Parameters
+    ----------
+    bid_dataset_1 : dataframe from conftest
+
+    Returns
+    -------
+
+    """
+    df = bid_dataset_1
+    r = np.random.RandomState(1234)
+
+    trans, extra = muda(df, r)
+
+    fee = extra['fees']
+
+    true_trans = np.array([
+        [1, 1, 5.25, -1, False],
+        [3, 1, 5.25, -1, False],
+        [4, 1, 5.25, -1, False],
+        [7, 1, 5.25, -1, False],
+        [8, 1, 5.25, -1, False],
+        [9, 1, 5.25, -1, False],
+        [6, 1, 4.65, -1, False],
+        [10, 1, 4.65, -1, False],
+        [0, 1, 4.65, -1, False],
+        [2, 1, 4.65, -1, False],
+        ]).astype(float)
+    df = trans.get_df().values.astype(float)
+
+    assert np.allclose(df, true_trans)
+    
+    left = [1, 3, 4, 7, 8, 9, 11, 12]
+    right = [0, 2, 5, 6, 10]
+    assert extra['left'] == left
+    assert extra['right'] == right
+    assert np.allclose(extra['price_left'], 4.65)
+    assert np.allclose(extra['price_right'], 5.25)
+
+    fees = np.array([1.35, 0, 1.35, 0, 0, 0, 0, 1.25, 1.25, 0, 0])
+    assert np.allclose(fees, fee)
+    print(fee)

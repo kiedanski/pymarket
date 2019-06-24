@@ -59,12 +59,13 @@ def test_equilibrium_quantity_0(bid_dataset_0):
     demand_curve, _ = demand_curve_from_bids(df)
     supply_curve, _ = supply_curve_from_bids(df)
     
-    equilibrium_quantity, demand_index, supply_index = intersect_stepwise(
+    equilibrium_quantity, demand_index, supply_index, price = intersect_stepwise(
             demand_curve, supply_curve)
 
     assert np.allclose(equilibrium_quantity, 3)
     assert np.allclose(demand_index, 1)
     assert np.allclose(supply_index, 1)
+    assert np.allclose(price, 2)
 
 def test_equilibrium_quantity_1(bid_dataset_1):
     df = bid_dataset_1
@@ -72,10 +73,10 @@ def test_equilibrium_quantity_1(bid_dataset_1):
     demand_curve, _ = demand_curve_from_bids(df)
     supply_curve, _ = supply_curve_from_bids(df)
     
-    equilibrium_quantity, demand_index, supply_index = intersect_stepwise(
+    equilibrium_quantity, demand_index, supply_index, price = intersect_stepwise(
             demand_curve, supply_curve)
 
-    assert np.allclose(equilibrium_quantity, 5.1)
+    assert np.allclose(equilibrium_quantity, 6)
     assert np.allclose(demand_index, 5)
-    assert np.allclose(supply_index, 3)
-
+    assert np.allclose(supply_index, 5)
+    assert np.allclose(price, 5)

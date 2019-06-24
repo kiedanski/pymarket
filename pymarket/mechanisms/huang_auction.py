@@ -1,4 +1,5 @@
 from pymarket.bids import BidManager
+from pymarket.mechanisms import Mechanism
 from pymarket.transactions import TransactionManager
 from pymarket.bids.demand_curves import *
 
@@ -16,18 +17,20 @@ def update_quantity(quantity, gap):
     :quantity: updated quantities
     """
     quantity = quantity * 1.0
-    i_min = quantity.argmin()
-    v_min = quantity.min()
+    i_min = quantity[quantity > 0].argmin()
+    v_min = quantity[quantity > 0].min()
     end = False
     N = len(quantity)
     while not end:
-        if v_min < gap:
+        if v_min < gap / N:
             quantity[i_min] = 0.0
             N -= 1
-            gap += (gap - v_min) / N
+            gap -= v_min
+            i_min = quantity[quantity > 0].argmin()
+            v_min = quantity[quantity > 0].min()
         else:
             end = True
-    quantity -= float(gap)
+    quantity -= float(gap) / N
     max_ = quantity.max()
     quantity = np.clip(quantity, 0, max_)
     return quantity
@@ -47,7 +50,7 @@ def huang_auction(bids):
     buy, b_index  = demand_curve_from_bids(bids)
     sell, s_index = supply_curve_from_bids(bids)
 
-    q_, b_, s_ = intersect_stepwise(buy, sell)
+    q_, b_, s_, _ = intersect_stepwise(buy, sell)
 
     price_sell = sell[s_, 1]
     price_buy = buy[b_, 1]
@@ -66,12 +69,27 @@ def huang_auction(bids):
        for i in range(s_):
            id_ = s_index[i]
            trans.add_transaction(id_, quantity_sell[i],
-                   price_sell, None, False)
+                   price_sell, -1, False)
 
        for i in range(b_):
            id_ = b_index[i]
            trans.add_transaction(id_, quantity_buy[i],
-                   price_buy, None, False)
+                   price_buy, -1, False)
+    extra = {'price_sell': price_sell, 'price_buy': price_buy}
+    return trans, extra
 
-    return trans
+class HuangAuction(Mechanism):
 
+    """Iinterface for the HuangAuction"""
+
+    def __init__(self, bids, *args, **kwargs):
+        """TODO: to be defined1.
+
+        Parameters
+        ----------
+        bids : TODO
+
+
+        """
+        Mechanism.__init__(self, huang_auction,  bids, *args, **kwargs)
+        

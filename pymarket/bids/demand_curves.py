@@ -47,13 +47,16 @@ def get_value_stepwise(x, f):
             return step[1] 
 
 
-def intersect_stepwise(f, g):
+def intersect_stepwise(f, g, tiebreak=0.5):
     """
     Finds the intersection of
     two stepwise constants functions
     where f is assumed to be bigger at 0
     than g.
     If no intersection is found, None is returned
+    tiebreak: if there is no intersection,
+    is the lambda of a lienar combination between
+    the two values
     """
 
     xs = sorted(list(set(g[:, 0]).union(set(f[:, 0]))))    
@@ -62,15 +65,21 @@ def intersect_stepwise(f, g):
    
     x_ast = None
     for i in range(len(xs)):
-        if i == len(xs) - 1:
-            x_ast = np.inf
-        elif (fext[i] > gext[i]) and (fext[i + 1] < gext[i + 1]):
-            x_ast = i
-            break
-    x_ast = xs[x_ast] if x_ast is not None else None
+        if (fext[i] > gext[i]) and (fext[i + 1] < gext[i + 1]):
+            x_ast = xs[i]
+        
     f_ast = np.argmax(f[:, 0] >= x_ast) if x_ast is not None else None
     g_ast = np.argmax(g[:, 0] >= x_ast) if x_ast is not None else None
 
-    return x_ast, f_ast, g_ast
+    g_val = g[g_ast, 1]
+    f_val  = f[f_ast, 1]
+    
+    intersect_domain_both = x_ast in f[:, 0] and x_ast in g[:, 0]
+    if not intersect_domain_both:
+        v = g_val if x_ast in f[:, 0] else f_val
+    else:
+        v = g_val * tiebreak + (1 - tiebreak) * f_val
+    
+    return x_ast, f_ast, g_ast, v
 
 

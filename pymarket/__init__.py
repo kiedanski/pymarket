@@ -11,3 +11,4 @@ import pymarket.mechanisms
 import pymarket.statistics
 import pymarket.transactions
 
+from pymarket.market import *

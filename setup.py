@@ -34,11 +34,6 @@ setup(
         'Programming Language :: Python :: 3.7',
     ],
     description="A simple library for simulating markets in Python",
-    entry_points={
-        'console_scripts': [
-            'pymarket=pymarket.cli:main',
-        ],
-    },
     install_requires=requirements,
     license="MIT license",
     long_description=readme + '\n\n' + history,

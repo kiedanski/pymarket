@@ -4,6 +4,7 @@ import numpy as np
 
 from pymarket.transactions import TransactionManager
 from pymarket.bids import BidManager
+from pymarket.mechanisms import Mechanism
 
 
 def p2p_random(bids, p_coef=0.5, r = None):
@@ -22,8 +23,8 @@ def p2p_random(bids, p_coef=0.5, r = None):
     selling = bids[bids.buying == False]
     Nb, Ns = buying.shape[0], selling.shape[0]
 
-    quantities = df.quantity.values.copy()
-    prices = df.price.values.copy()
+    quantities = bids.quantity.values.copy()
+    prices = bids.price.values.copy()
    
     inactive_buying = []
     inactive_selling = []
@@ -42,7 +43,7 @@ def p2p_random(bids, p_coef=0.5, r = None):
     
     active = np.ones(Nb * Ns, dtype=bool)
     tmp_active = active.copy()
-
+    general_trading_list = []
     # Loop while there is quantities to trade or not all
     # possibilities have been tried
     while quantities.sum() > 0 and tmp_active.sum() > 0:
@@ -56,9 +57,9 @@ def p2p_random(bids, p_coef=0.5, r = None):
             tmp_active &= pairs[trade[0], :] # buyer and seller already used
             tmp_active &= pairs[trade[1], :]
 
-         
+        general_trading_list.append(trading_list) 
         for (b, s) in trading_list:
-            if prices[b] > prices[s]:
+            if prices[b] >= prices[s]:
                 q = min(quantities[b], quantities[s])
                 p = prices[b] * p_coef + (1 - p_coef) * prices[s]
                 trans_b = (b, q, p, s, (quantities[b] - q) > 0)
@@ -78,16 +79,23 @@ def p2p_random(bids, p_coef=0.5, r = None):
         for inactive in inactive_buying + inactive_selling:
             tmp_active &= pairs[inactive, :]
 
-    return trans
+    extra = {'trading_list': general_trading_list}
+    return trans, extra
+
+class P2PTrading(Mechanism):
+
+    """Docstring for P2PTrading. """
+
+    def __init__(self, bids, *args, **kwargs):
+        """TODO: to be defined1.
+
+        Parameters
+        ----------
+        bids : TODO
+        *args : TODO
 
 
-if __name__ == '__main__':
-    
-    from utils import generate_random_bid
-    from bids import BidManager
+        """
+        Mechanism.__init__(self, p2p_random, bids, *args, **kwargs)
 
-    bm = BidManager()
-    [bm.add_bid(*generate_random_bid()) for _ in range(4)]
-    df = bm.get_df()
-    print(df[df.buying==True].shape[0], df.shape[0])
-    y = p2p_random(df)
+        
