@@ -35,3 +35,13 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+
+References
+--------
+Please consider citing the following papers if you use the corresponding algorithms:
+
+* Segal-Halevi, Erel, Avinatan Hassidim, and Yonatan Aumann. "MUDA: a truthful multi-unit double-auction mechanism." Thirty-Second AAAI Conference on Artificial Intelligence. 2018.
+
+* Huang, Pu, Alan Scheller–Wolf, and Katia Sycara. "Design of a multi–unit double auction e–market." Computational Intelligence 18.4 (2002): 596-617.
+
+
