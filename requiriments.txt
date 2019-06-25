@@ -3,3 +3,4 @@ pulp
 networkx
 numpy
 tox-travis
+matplotlib
