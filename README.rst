@@ -22,6 +22,10 @@ A simple library for simulating markets in Python
 * Free software: MIT license
 * Documentation: https://pymarket.readthedocs.io.
 
+Examples
+--------
+[Simple example](Simple example.ipynb)
+
 
 Features
 --------
