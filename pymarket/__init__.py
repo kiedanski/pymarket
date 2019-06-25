@@ -4,7 +4,7 @@
 
 __author__ = """Diego Kiedanki"""
 __email__ = 'gusok@protonmail.com'
-__version__ = '__version__ = '0.5.4''
+__version__ = '0.5.4'
 
 import pymarket.bids
 import pymarket.mechanisms
