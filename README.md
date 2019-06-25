@@ -25,7 +25,7 @@ A simple library for simulating markets in Python
 Examples
 --------
 
-[](./Simple example.ipynb)
+[A simple example](./Simple example.ipynb)
 
 
 Features
