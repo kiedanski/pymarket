@@ -3,10 +3,7 @@
 
 ![](https://img.shields.io/pypi/v/pymarket.svg)
 ![](https://pypi.python.org/pypi/pymarket)
-
 ![](https://img.shields.io/travis/gus0k/pymarket.svg)
-![]https://travis-ci.org/gus0k/pymarket)
-
 ![](https://readthedocs.org/projects/pymarket/badge/?version=latest)
 ![](https://pymarket.readthedocs.io/en/latest/?badge=latest)
 
@@ -19,6 +16,9 @@ A simple library for simulating markets in Python
 * Free software: MIT license
 * [Documentation](https://pymarket.readthedocs.io)
 
+# Examples
+
+[A simple example](examples/Simple_example.ipynb)
 
 # Features
 
@@ -28,8 +28,8 @@ A simple library for simulating markets in Python
 
 This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
 
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+*  Cookiecutter: https://github.com/audreyr/cookiecutter
+*  `audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
 
 
 # References
