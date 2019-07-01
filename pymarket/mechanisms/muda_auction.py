@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from pymarket.bids import BidManager
 from pymarket.transactions import TransactionManager
 from pymarket.bids.demand_curves import *
@@ -20,9 +21,9 @@ def muda(bids, r=None):
     
     trans = TransactionManager()
     fees = np.zeros(bids.user.unique().shape[0])
+
     trans, fees = solve_market_side_with_exogenous_price(bids.loc[left]  , pr , trans, fees, r)
     trans, fees = solve_market_side_with_exogenous_price(bids.loc[right] , pl , trans, fees, r)
-
     extra = {
             'left': left,
             'right': right,
@@ -31,50 +32,226 @@ def muda(bids, r=None):
             'fees': fees
             }
     return trans, extra
+
+
 def solve_market_side_with_exogenous_price(bids, price, trans, fees, r):
     """
     Finds who trades and at what price based on the
     exogeneous price
     """
-    demand = bids[(bids.buying == True)  & (bids.price >= price)]
+    demand = bids[(bids.buying == True) & (bids.price >= price)]
     demand = demand.sort_values('price', ascending=False)
     supply = bids[(bids.buying == False) & (bids.price <= price)]
     supply = supply.sort_values('price')
     supply_quantity = supply.quantity.sum()
     demand_quantity = demand.quantity.sum()
     
-    ## Deal with the short side of the demand
-    supply_long    = supply_quantity > demand_quantity
-    long_side      = supply if supply_long else demand
-    short_side     = demand if supply_long else supply
-    total_quantity = demand_quantity if supply_long else supply_quantity
-    if total_quantity > 0: 
-        total_quantity = int(total_quantity)
-        for i, x in short_side.iterrows():
-            t = (x.name, x.quantity, price, -1, False)
-            trans.add_transaction(*t)
+    #print(supply_quantity, demand_quantity)
 
-        ## Deal with the long side of the demand
-        ## Vickrey style
-        trading_bids = long_side.index.values[:total_quantity] 
-        trading_users = long_side.iloc[:total_quantity, :].user.unique()
-        ## Compute fee of each user
-        for u in trading_users:
-            trades_by_user = long_side[(long_side.user == u)]
-            exclude_index = long_side.index.isin(trades_by_user.index)
-            trading_without_u = long_side[~exclude_index].iloc[:total_quantity, :]
-            new_bids          = trading_without_u[~trading_without_u.index.isin(trading_bids)]
-            fee               = (new_bids.price - price).sum()
-            for i, x in trades_by_user[trades_by_user.index.isin(trading_bids)].iterrows():
-                t = (x.name, x.quantity, price, -1, False)
+    # Deal with the short side of the demand
+    supply_long = supply_quantity > demand_quantity
+    long_side = supply if supply_long else demand
+    short_side = demand if supply_long else supply
+    total_quantity = demand_quantity if supply_long else supply_quantity
+    print(total_quantity)
+    if total_quantity > 0:
+
+        long_side, l_index = get_trading_bids(long_side, total_quantity)
+        short_side, s_index = get_trading_bids(short_side, total_quantity)
+        print('long', long_side, 'short', short_side)
+        #print(long_side)
+        for i, x in short_side.iterrows():
+            if i <= s_index:
+                t = (x.bid, x.quantity, price, -1, False)
                 trans.add_transaction(*t)
+
+        for i, x in long_side.iterrows():
+            if i <= l_index:
+                t = (x.bid, x.quantity, price, -1, False)
+                trans.add_transaction(*t)
+ 
+        trading_users_long_side = (
+            long_side[long_side.index <= l_index]
+            .user
+            .unique()
+        )
+        for u in trading_users_long_side:
+            
+            fee = compute_fee(long_side, l_index, u, total_quantity, price)
+            print(u, fee)
             if supply_long:
                 fees[u] = -fee
             else:
                 fees[u] = fee
 
+
+        # trading_bids = long_side.index.values[: last_bid + 1] 
+        # trading_users = long_side.iloc[: last_bid + 1, :].user.unique()
+        # ## Compute fee of each user
+        # for u in trading_users:
+        #     fee = compute_fee_user(long_side, u, last_bid,
+        #             total_quantity, trading_bids, price)
+        #     trades_by_user = long_side[(long_side.user == u)]
+        #     # exclude_index = long_side.index.isin(trades_by_user.index)
+        #     # trading_without_u = long_side[~exclude_index].iloc[:total_quantity, :]
+        #     # new_bids          = trading_without_u[~trading_without_u.index.isin(trading_bids)]
+        #     # fee               = (new_bids.price - price).sum()
+        #     trading_bids_user = trades_by_user[trades_by_user.index.isin(trading_bids)]
+        #     for i, x in trading_bids_user.iterrows():
+        #          t = (x.name, x.quantity, price, -1, False)
+        #          trans.add_transaction(*t)
+        #     if supply_long:
+        #         fees[u] = -fee
+        #     else:
+        #         fees[u] = fee
+
     return trans, fees
-            
+
+
+def get_trading_bids(bids, quantity_traded):
+    """
+    Finds the index of the rightmost trading
+    bid and splits it in two if the quantity
+    traded falls in the middle of the bid
+
+    Parameters
+    ----------
+    bids: bids of one side of the market
+    quantity_traded: quantity that clears the market
+
+    Returns
+    -------
+    bids_trading: dataframe
+        dataframe that is a copy of bids but might
+        have the rightmost bid splitted in half
+    bid_index: int
+        index of the last trading bid in the returned dataset
+
+    """
+
+    if bids.quantity.sum() > quantity_traded:
+        bid_index = np.argmax(bids.quantity.cumsum().values >= quantity_traded)
+    else:
+        bid_index = bids.shape[0] - 1
+
+    quantity_but_last = bids.iloc[: bid_index, :].quantity.sum()
+    diff = quantity_traded - quantity_but_last
+    if diff < bids.iloc[bid_index, :].quantity:
+        new_row = pd.DataFrame(bids.iloc[bid_index, :]).T
+        
+        bids_trading = (pd.concat([
+                bids.iloc[: bid_index, :],
+                new_row,
+                bids.iloc[bid_index:, :]
+            ])
+            .copy()
+            .rename_axis('bid')
+            .reset_index()
+        )
+        
+        bids_trading.iloc[bid_index, 1] = diff
+        bids_trading.iloc[bid_index + 1, 1] -= diff
+    else:
+        bids_trading = bids.copy().rename_axis('bid').reset_index()
+
+    return bids_trading, bid_index
+
+
+def compute_fee(df, index, user, quantity, price):
+    """
+    Compute the fee that a user has to pay by
+    not letting others trade
+    
+    Parameters
+    ----------
+
+    df: dataframe
+        Dataframe resulting from reseting the index
+        of a bid dataframe
+    index: int
+        Index of the last trading bid
+    user: int
+        User for which the fee should be computed
+    quantity: int
+        Total quantity to be traded
+    price: int
+        Price at which trade ocurrs
+
+    Returns
+    --------
+
+    fee: float
+        Fee to be paid by the user
+    """
+
+    trades_without_user = df[(df.user != user)]
+    if trades_without_user.shape[0] == 0:
+        # Only one player in the side of the market
+        fee = 0
+    else:
+        if trades_without_user.quantity.sum() > quantity:
+            new_index = np.argmax(trades_without_user.quantity.cumsum().values >= quantity)
+        else:
+            new_index = trades_without_user.shape[0] - 1
+
+        new_winning = trades_without_user.iloc[: new_index + 1, :].copy()
+        print('------------', index, quantity, price)
+        print(trades_without_user, '\n', new_index, '\n', new_winning)
+        diff = quantity - new_winning.iloc[:-1, :].quantity.sum()
+        if diff < new_winning.iloc[new_index, :].quantity:
+            new_winning.iloc[new_index, 1] = diff
+
+        pure_new = new_winning[new_winning.index > index]
+        print('PUREEEE NEWWWW', index, pure_new)
+
+        fee = (pure_new.price - price) * pure_new.quantity
+        fee = fee.sum()
+
+    return fee
+
+
+
+
+
+# def compute_fee_user(bids, user, bid_index, total,
+#         trading_bids, price):
+#     """For each users, removes his winning bids and computes the earns
+#     of his competitors if he had not traded at all
+
+#     Parameters
+#     ----------
+#     bids: dataframe
+#         Modified bid dataframe where bids are in the first column. The
+#         result of `df.reset_index()` a bids dataset.
+#     user : TODO
+#     bid_index : TODO
+#     total : TODO
+#     trading_bids: TODO
+#     price: trading price
+#     Returns
+#     -------
+#     TODO
+
+#     """
+#     bids = bids.copy()
+#     trading_bids = bids.index.values[: bid_index + 1] 
+#     trades_by_user = bids[(bids.user == user)]
+#     exclude_index = bids.index.isin(trades_by_user.index)
+#     trades_without_u = bids[~exclude_index]
+    
+#     if trades_without_u.quantity.sum() > total:
+#         last_new_bid = np.argmax(trades_without_u.quantity.cumsum().values > total)
+#         diff = total - trades_without_u.iloc[:last_new_bid].quantity.sum()
+#         trades_without_u.iloc[last_new_bid + 1, 0] -= diff
+#     else:
+#         last_new_bid = trades_without_u.shape[0]
+
+#     new_bids = trades_without_u[~trades_without_u.index.isin(trading_bids)] 
+#     fee = (new_bids.price - price).sum()
+    
+#     return fee
+
+
 
 def find_competitive_price(bids):
     """
@@ -82,8 +259,8 @@ def find_competitive_price(bids):
     of supply and demand
     """
         
-    buy, b_index  = demand_curve_from_bids(bids)
-    sell, s_index = supply_curve_from_bids(bids)
+    buy, _  = demand_curve_from_bids(bids)
+    sell, _ = supply_curve_from_bids(bids)
 
     q_, b_, s_, price = intersect_stepwise(buy, sell)
 

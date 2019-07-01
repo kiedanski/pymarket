@@ -28,20 +28,21 @@ def test_example_1(bid_dataset_muda_example_1):
     assert np.allclose(true_fees, fees)
 
     data_trans = [
-           [0  , 1 , 50 , -1 , False]  ,
-           [1  , 1 , 50  , -1 , False]  ,
-           [2  , 1 , 50  , -1 , False]  ,
-           [3  , 1 , 50  , -1 , False]  ,
-           [6  , 1 , 50  , -1 , False] ,
-           [7  , 1 , 50  , -1 , False] ,
-           [11 , 1 , 50  , -1 , False] ,
-           [12 , 1 , 50  , -1 , False] ,
-            ]
+        [0, 1, 50, -1, False],
+        [1, 1, 50, -1, False],
+        [2, 1, 50, -1, False],
+        [3, 1, 50, -1, False],
+        [6, 1, 50, -1, False],
+        [11, 1, 50, -1, False],
+        [7, 1, 50, -1, False],
+        [12, 1, 50, -1, False],
+    ]
     # Exclude the active colum full of Nones
     data_trans = np.array(data_trans).astype(float)
     df2 = trans.get_df().values.astype(float)
-    print(data_trans)
-    print(df2)
+    #print(data_trans)
+    #print(df2)
+    #assert 0 == 1
     assert np.allclose(data_trans, df2)
 
 def test_muda_dataset_1(bid_dataset_1):

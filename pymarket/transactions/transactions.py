@@ -32,7 +32,6 @@ class TransactionManager:
 
         return self.n_trans - 1
 
-
     def get_df(self):
         """
         Returns the transaction dataframe
@@ -42,5 +41,5 @@ class TransactionManager:
 
         """
 
-        df = pd.DataFrame(self.trans, columns = COLUMNS)
+        df = pd.DataFrame(self.trans, columns=COLUMNS)
         return df
