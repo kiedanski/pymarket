@@ -53,12 +53,12 @@ def solve_market_side_with_exogenous_price(bids, price, trans, fees, r):
     long_side = supply if supply_long else demand
     short_side = demand if supply_long else supply
     total_quantity = demand_quantity if supply_long else supply_quantity
-    print(total_quantity)
+    # print(total_quantity)
     if total_quantity > 0:
 
         long_side, l_index = get_trading_bids(long_side, total_quantity)
         short_side, s_index = get_trading_bids(short_side, total_quantity)
-        print('long', long_side, 'short', short_side)
+        # print('long', long_side, 'short', short_side)
         #print(long_side)
         for i, x in short_side.iterrows():
             if i <= s_index:
@@ -78,7 +78,7 @@ def solve_market_side_with_exogenous_price(bids, price, trans, fees, r):
         for u in trading_users_long_side:
             
             fee = compute_fee(long_side, l_index, u, total_quantity, price)
-            print(u, fee)
+            # print(u, fee)
             if supply_long:
                 fees[u] = -fee
             else:
@@ -195,14 +195,14 @@ def compute_fee(df, index, user, quantity, price):
             new_index = trades_without_user.shape[0] - 1
 
         new_winning = trades_without_user.iloc[: new_index + 1, :].copy()
-        print('------------', index, quantity, price)
-        print(trades_without_user, '\n', new_index, '\n', new_winning)
+        # print('------------', index, quantity, price)
+        # print(trades_without_user, '\n', new_index, '\n', new_winning)
         diff = quantity - new_winning.iloc[:-1, :].quantity.sum()
         if diff < new_winning.iloc[new_index, :].quantity:
             new_winning.iloc[new_index, 1] = diff
 
         pure_new = new_winning[new_winning.index > index]
-        print('PUREEEE NEWWWW', index, pure_new)
+        #  print('PUREEEE NEWWWW', index, pure_new)
 
         fee = (pure_new.price - price) * pure_new.quantity
         fee = fee.sum()
