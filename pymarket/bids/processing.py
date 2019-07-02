@@ -8,18 +8,18 @@ import pandas as pd
 
 def new_player_id(index):
     """
-    Helper function for 
+    Helper function for
     merge_same price
     Maps list of one user to
     the exact user and list of several
     users to a new value
-    
+
     Paramters
     -----------
     index: int
-        First identifier to use for the 
+        First identifier to use for the
         new fake players
-    
+
     Returns
     --------
 
@@ -31,14 +31,14 @@ def new_player_id(index):
         """
         Maps a list of users
         to the only value if the length
-        is 1, or to the current value of the 
+        is 1, or to the current value of the
         closured index
 
         Paramters
         ----------
         users: list
             list of user indentifiers
-        
+
         Returns:
         new_index: int
             The new index to use
@@ -65,9 +65,9 @@ def merge_same_price(df, prec=5):
     -----------
     df: pandas dataframe
         Dataframe with bids where there are at least
-        two players in the same side of the market 
+        two players in the same side of the market
         with the same price
-    
+
     Returns
     -------
     dataframe_new: pandas dataframe
@@ -77,7 +77,7 @@ def merge_same_price(df, prec=5):
     final_maping: dict
         A map between the new bid index and the old bids index
     """
- 
+
     id_gen = new_player_id(df.user.max() + 1)
     columns = df.columns.copy()
 
@@ -88,7 +88,7 @@ def merge_same_price(df, prec=5):
     sell = df.loc[~df['buying'], :]
 
     dataframes = [buy, sell]
-    
+
     agg_fun = {
         'bid': list,
         'user': list,
@@ -106,7 +106,7 @@ def merge_same_price(df, prec=5):
         df_new.user = df_new.user.apply(id_gen)
         maping = df_new.set_index('user').bid.to_dict()
         for k, v in maping.items():
-            user_to_bid[k] = v   
+            user_to_bid[k] = v
 
         dataframe_new.append(df_new)
 
