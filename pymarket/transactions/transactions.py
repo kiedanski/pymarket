@@ -32,7 +32,6 @@ class TransactionManager:
 
         return self.n_trans - 1
 
-
     def get_df(self):
         """
         Returns the transaction dataframe
@@ -42,5 +41,29 @@ class TransactionManager:
 
         """
 
-        df = pd.DataFrame(self.trans, columns = COLUMNS)
+        df = pd.DataFrame(self.trans, columns=COLUMNS)
         return df
+
+    def merge(self, other):
+        """
+        Merges two transaction managers with each other
+        
+        Parameters
+        ----------
+        other: TransactionManager
+
+        Returns
+        --------
+        trans: TransactionManager
+
+        """
+
+        assert isinstance(other, TransactionManager)
+
+        trans = TransactionManager()
+        for t in self.trans:
+            trans.add_transaction(*t)
+        for t in other.trans:
+            trans.add_transaction(*t)
+        
+        return trans

@@ -7,3 +7,4 @@ __email__ = 'gusok@protonmail.com'
 __version__ = '0.5.3'
 
 from pymarket.transactions.transactions import *
+from pymarket.transactions.processing import *

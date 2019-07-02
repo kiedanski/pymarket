@@ -38,3 +38,10 @@ Please consider citing the following papers if you use the corresponding algorit
 
 * Segal-Halevi, Erel, Avinatan Hassidim, and Yonatan Aumann. "MUDA: a truthful multi-unit double-auction mechanism." Thirty-Second AAAI Conference on Artificial Intelligence. 2018.
 * Huang, Pu, Alan Scheller–Wolf, and Katia Sycara. "Design of a multi–unit double auction e–market." Computational Intelligence 18.4 (2002): 596-617.
+* Blouin, Max R., and Roberto Serrano. "A decentralized market with common values uncertainty: Non-steady states." The Review of Economic Studies 68.2 (2001): 323-346.
+
+# Articles using this algorithms
+
+* Horta, José, et al. "Novel market approach for locally balancing renewable energy production and flexible demand." 2017 IEEE International Conference on Smart Grid Communications (SmartGridComm). IEEE, 2017.
+* Kiedanski, Diego, et al. "Strategy-proof local energy market with sequential stochastic decision process for battery control." IEEE Innovative Smart Grid Technologies 2019 NA. 2019.
+* Mengelkamp, Esther, et al. "Trading on local energy markets: A comparison of market designs and bidding strategies." 2017 14th International Conference on the European Energy Market (EEM). IEEE, 2017. 
