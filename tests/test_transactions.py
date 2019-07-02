@@ -29,13 +29,12 @@ def test_split_transactions():
     df = mar.bm.get_df()
     df_, maping = merge_same_price(df)
 
-    trans = TransactionManager()
     r = np.random.RandomState(1234)
-    trans, fee = solve_market_side_with_exogenous_price(df_, 95, trans, np.arange(df_.shape[0] + 1), r)
+    trans, fee = solve_market_side_with_exogenous_price(df_, 95, np.arange(df_.shape[0] + 1), r)
 
-    new_trans = split_transactions_merged_players(trans.get_df(), df, maping)
+    new_trans = split_transactions_merged_players(trans, df, maping)
 
-    X_obtained = new_trans.sort_values('bid').values.astype('float')
+    X_obtained = new_trans.get_df().sort_values('bid').values.astype('float')
 
     X_true = np.array([
         [0, 1, 95, -1, False],

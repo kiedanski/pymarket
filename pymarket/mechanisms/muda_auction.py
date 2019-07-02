@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
-from pymarket.bids import BidManager
-from pymarket.transactions import TransactionManager
+from pymarket.bids import BidManager, merge_same_price
+from pymarket.transactions import TransactionManager, split_transactions_merged_players
 from pymarket.bids.demand_curves import *
 from pymarket.mechanisms import Mechanism
 
@@ -19,11 +19,15 @@ def muda(bids, r=None):
     pl = find_competitive_price(bids.loc[left])
     pr = find_competitive_price(bids.loc[right])
     
-    trans = TransactionManager()
+    
     fees = np.zeros(bids.user.unique().shape[0])
+    
+    trans_left, fees = solve_market_side_with_exogenous_price(bids.loc[left], pr, fees, r)
+    trans_right, fees = solve_market_side_with_exogenous_price(bids.loc[right], pl, fees, r)
+    
+    trans = trans_left.merge(trans_right)
+    
 
-    trans, fees = solve_market_side_with_exogenous_price(bids.loc[left]  , pr , trans, fees, r)
-    trans, fees = solve_market_side_with_exogenous_price(bids.loc[right] , pl , trans, fees, r)
     extra = {
             'left': left,
             'right': right,
@@ -34,11 +38,14 @@ def muda(bids, r=None):
     return trans, extra
 
 
-def solve_market_side_with_exogenous_price(bids, price, trans, fees, r):
+def solve_market_side_with_exogenous_price(bids, price, fees, r):
     """
     Finds who trades and at what price based on the
     exogeneous price
     """
+
+    #bids, maping = merge_same_price(df)
+
     demand = bids[(bids.buying == True) & (bids.price >= price)]
     demand = demand.sort_values('price', ascending=False)
     supply = bids[(bids.buying == False) & (bids.price <= price)]
@@ -46,7 +53,7 @@ def solve_market_side_with_exogenous_price(bids, price, trans, fees, r):
     supply_quantity = supply.quantity.sum()
     demand_quantity = demand.quantity.sum()
     
-    #print(supply_quantity, demand_quantity)
+    trans = TransactionManager()
 
     # Deal with the short side of the demand
     supply_long = supply_quantity > demand_quantity
@@ -58,8 +65,7 @@ def solve_market_side_with_exogenous_price(bids, price, trans, fees, r):
 
         long_side, l_index = get_trading_bids(long_side, total_quantity)
         short_side, s_index = get_trading_bids(short_side, total_quantity)
-        # print('long', long_side, 'short', short_side)
-        #print(long_side)
+
         for i, x in short_side.iterrows():
             if i <= s_index:
                 t = (x.bid, x.quantity, price, -1, False)
@@ -70,40 +76,28 @@ def solve_market_side_with_exogenous_price(bids, price, trans, fees, r):
                 t = (x.bid, x.quantity, price, -1, False)
                 trans.add_transaction(*t)
  
+        #trading_bids = [maping[x] for x in long_side.index if x <= l_index]
+
+        #trans = split_transactions_merged_players(trans, df, maping)
+
         trading_users_long_side = (
             long_side[long_side.index <= l_index]
             .user
             .unique()
         )
+        #fees_ = {}
         for u in trading_users_long_side:
             
             fee = compute_fee(long_side, l_index, u, total_quantity, price)
-            # print(u, fee)
             if supply_long:
                 fees[u] = -fee
             else:
                 fees[u] = fee
+        #print(fees_)
+        #trans, fees_ = split_transactions_merged_players(trans, df, maping, fees_)
+        #for k, v in fees_.items():
+        #    fees[k] = v
 
-
-        # trading_bids = long_side.index.values[: last_bid + 1] 
-        # trading_users = long_side.iloc[: last_bid + 1, :].user.unique()
-        # ## Compute fee of each user
-        # for u in trading_users:
-        #     fee = compute_fee_user(long_side, u, last_bid,
-        #             total_quantity, trading_bids, price)
-        #     trades_by_user = long_side[(long_side.user == u)]
-        #     # exclude_index = long_side.index.isin(trades_by_user.index)
-        #     # trading_without_u = long_side[~exclude_index].iloc[:total_quantity, :]
-        #     # new_bids          = trading_without_u[~trading_without_u.index.isin(trading_bids)]
-        #     # fee               = (new_bids.price - price).sum()
-        #     trading_bids_user = trades_by_user[trades_by_user.index.isin(trading_bids)]
-        #     for i, x in trading_bids_user.iterrows():
-        #          t = (x.name, x.quantity, price, -1, False)
-        #          trans.add_transaction(*t)
-        #     if supply_long:
-        #         fees[u] = -fee
-        #     else:
-        #         fees[u] = fee
 
     return trans, fees
 
@@ -209,10 +203,6 @@ def compute_fee(df, index, user, quantity, price):
 
     return fee
 
-
-
-
-
 # def compute_fee_user(bids, user, bid_index, total,
 #         trading_bids, price):
 #     """For each users, removes his winning bids and computes the earns
@@ -252,7 +242,6 @@ def compute_fee(df, index, user, quantity, price):
 #     return fee
 
 
-
 def find_competitive_price(bids):
     """
     Finds the unique trading price of the intersection
@@ -265,6 +254,7 @@ def find_competitive_price(bids):
     q_, b_, s_, price = intersect_stepwise(buy, sell)
 
     return price
+
 
 class MudaAuction(Mechanism):
 

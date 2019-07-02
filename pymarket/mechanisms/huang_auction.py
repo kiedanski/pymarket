@@ -91,5 +91,5 @@ class HuangAuction(Mechanism):
 
 
         """
-        Mechanism.__init__(self, huang_auction,  bids, *args, **kwargs)
+        Mechanism.__init__(self, huang_auction,  bids, *args, merge=True, **kwargs)
         

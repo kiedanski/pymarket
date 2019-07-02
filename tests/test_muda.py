@@ -22,7 +22,7 @@ def test_example_1(bid_dataset_muda_example_1):
     fees = np.zeros(df.user.unique().shape[0])
     trans = TransactionManager()
     price = 50
-    trans, fees = solve_market_side_with_exogenous_price(df, price, trans, fees, r)
+    trans, fees = solve_market_side_with_exogenous_price(df, price, fees, r)
 
     true_fees = np.array([0, 20, 10])
     assert np.allclose(true_fees, fees)
