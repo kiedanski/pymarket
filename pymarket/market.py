@@ -2,7 +2,7 @@ from pymarket.bids import BidManager
 from pymarket.mechanisms import *
 from pymarket.transactions import TransactionManager
 from pymarket.statistics import *
-from pymarket.plot import plot_demand_curves
+from pymarket.plot import plot_demand_curves, plot_trades_as_graph, plot_both_side_muda, plot_huang_auction
 
 MECHANISM = {
     'huang': HuangAuction,
@@ -100,3 +100,48 @@ class Market():
         """
         df = self.bm.get_df()
         plot_demand_curves(df)
+
+    def plot_method(self, method, ax=None):
+        """
+        Plots all trades as a bipartite graph.
+        It makes sense only for P2P
+
+        Parameters
+        -----------
+        method (string):
+            One of `muda, `huang` or `p2p`, makes the specific
+            plot asociated with each method
+        ax (pyplot axe, optional):
+            Optional default axe in which is traded
+        """
+
+        trans = self.transactions
+        bids = self.bm
+        e = self.extra
+        if method == 'p2p':
+            ax = plot_trades_as_graph(bids, trans, ax)
+        elif method == 'muda':
+            
+            left_players = e['left']
+            right_players = e['right']
+            left_price = e['price_left']
+            right_price = e['price_right']
+            ax = plot_both_side_muda(
+                bids,
+                left_players,
+                right_players,
+                left_price,
+                right_price)
+        elif method == 'huang':
+            price_sell = e['price_sell']
+            price_buy = e['price_buy']
+            quantity_traded = e['quantity_traded']
+            ax = plot_huang_auction(
+                bids,
+                price_sell,
+                price_buy,
+                quantity_traded,
+                ax
+            )
+
+        return ax
