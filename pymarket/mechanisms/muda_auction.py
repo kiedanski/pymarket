@@ -5,14 +5,21 @@ from pymarket.transactions import TransactionManager, \
     split_transactions_merged_players
 from pymarket.bids.demand_curves import *
 from pymarket.mechanisms import Mechanism
+from pymarket.utils.decorators import check_equal_price
 
 
+@check_equal_price
 def muda(bids, r=None):
     '''
     Implements MUDA as describes in paper...
 
     '''
-    r = np.random.RandomState() if r is None else r
+    if r is None:
+        r = np.random.RandomState()
+        print('Es None')
+    
+    
+    #r = np.random.RandomState() if r is None else r
     left = [i for i in bids.index if r.rand() > 0.5]
     right = [i for i in bids.index if i not in left]
 
@@ -43,17 +50,23 @@ def solve_market_side_with_exogenous_price(bids, price, fees, r):
     Finds who trades and at what price based on the
     exogeneous price
     """
-
-    # bids, maping = merge_same_price(df)
-
-    demand = bids.loc[bids['buying'], :][(bids.price >= price)]
-    demand = demand.sort_values('price', ascending=False)
-    supply = bids.loc[~bids['buying']][(bids.price <= price)]
-    supply = supply.sort_values('price')
+    trans = TransactionManager()
+    demand = bids.loc[bids['buying']]
+    if demand.shape[0] > 0:
+        demand = demand.query('price >= @price')
+        demand = demand.sort_values('price', ascending=False)
+    else:
+        return trans, fees
+    supply = bids.loc[~bids['buying']]
+    if supply.shape[0] > 0:
+        supply = supply.query('price <= @price')
+        supply = supply.sort_values('price')
+    else:
+        return trans, fees
     supply_quantity = supply.quantity.sum()
     demand_quantity = demand.quantity.sum()
 
-    trans = TransactionManager()
+    
 
     # Deal with the short side of the demand
     supply_long = supply_quantity > demand_quantity

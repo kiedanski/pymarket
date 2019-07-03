@@ -57,14 +57,13 @@ def bid_dataset_1():
 
     bm.add_bid(1, 1, 6, False, 0)
     bm.add_bid(1, 2, 7, False, 0)
-    bm.add_bid(1, 3, 8, False, 0)
-    bm.add_bid(1, 3, 8, False, 0)
-    bm.add_bid(1, 4, 9, False, 0)
-    bm.add_bid(1, 4, 9, False, 0)
+    bm.add_bid(2, 3, 8, False, 0)
+    bm.add_bid(2, 4, 9, False, 0)
     bm.add_bid(1, 6.1, 10, False, 0)
     
     df = bm.get_df()
     return df
+
 @pytest.fixture(scope='module')
 def bid_dataset_muda_example_1():
     """Simple example with 3 biders as described

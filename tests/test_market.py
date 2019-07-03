@@ -14,7 +14,6 @@ def test_market_init():
     # Initialize the dataset
     mar = Market()
 
-
     mar.accept_bid(1, 4, 0, True, 0)
     mar.accept_bid(1, 3, 1, True, 0)
     mar.accept_bid(1, 2, 2, True, 0)
@@ -32,9 +31,11 @@ def test_market_init():
     for al in algos:
         if al != 'huang':
             r = np.random.RandomState(1234)
-            tr, ex, st = mar.run(al, r=r)
+            tr, ex = mar.run(al, r=r)
+            st = mar.statistics()
         else:
-            tr, ex, st = mar.run(al)
+            tr, ex = mar.run(al)
+            st = mar.statistics()
         trans[al] = tr
         extras[al] = ex
         stats[al] = st

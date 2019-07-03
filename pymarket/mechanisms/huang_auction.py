@@ -3,6 +3,7 @@ from pymarket.mechanisms import Mechanism
 from pymarket.transactions import TransactionManager
 from pymarket.bids.demand_curves import *
 
+
 def update_quantity(quantity, gap):
     """
     Implements the footnote of the paper

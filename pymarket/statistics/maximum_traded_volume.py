@@ -1,16 +1,17 @@
 import pulp
 from pymarket.bids import BidManager
 
-def maximum_traded_volume(bids):
+
+def maximum_traded_volume(bids, *args, reservation_prices={}):
     """
     """
 
     model = pulp.LpProblem("Max aggregated utility", pulp.LpMaximize)
-    buyers = bids[bids.buying == True].index.values
-    sellers = bids[bids.buying == False].index.values
+    buyers = bids.loc[bids['buying']].index.values
+    sellers = bids.loc[~bids['buying']].index.values
 
-    index = [(i, j) for i in buyers for j in sellers if bids.iloc[i, 1]
-            >= bids.iloc[j, 1]]
+    index = [(i, j) for i in buyers for j in sellers
+             if bids.iloc[i, 1] >= bids.iloc[j, 1]]
 
     qs = pulp.LpVariable.dicts('q', index, lowBound=0, cat='Continuous')
 
@@ -31,12 +32,10 @@ def maximum_traded_volume(bids):
         v = qs[q].varValue
         variables[q] = v
 
-
     return status, objective, variables
-    
 
- 
-def percentage_traded(bids, transactions):
+
+def percentage_traded(bids, transactions, reservation_prices={}, **kwargs):
     """Calculates from the transaction dataframe
     the percentage of the total maximum possible
     traded quantity.

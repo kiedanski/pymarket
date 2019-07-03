@@ -78,5 +78,5 @@ def test_equilibrium_quantity_1(bid_dataset_1):
 
     assert np.allclose(equilibrium_quantity, 6)
     assert np.allclose(demand_index, 5)
-    assert np.allclose(supply_index, 5)
+    assert np.allclose(supply_index, 3)
     assert np.allclose(price, 5)

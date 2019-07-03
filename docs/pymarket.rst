@@ -8,8 +8,21 @@ Subpackages
 
     pymarket.bids
     pymarket.mechanisms
+    pymarket.plot
     pymarket.statistics
     pymarket.transactions
+
+Submodules
+----------
+
+pymarket.market module
+----------------------
+
+.. automodule:: pymarket.market
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------
