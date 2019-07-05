@@ -4,6 +4,19 @@ from pymarket.bids import BidManager
 
 def maximum_traded_volume(bids, *args, reservation_prices={}):
     """
+
+    Parameters
+    ----------
+    bids :
+        
+    *args :
+        
+    reservation_prices :
+         (Default value = {})
+
+    Returns
+    -------
+
     """
 
     model = pulp.LpProblem("Max aggregated utility", pulp.LpMaximize)
@@ -43,12 +56,18 @@ def percentage_traded(bids, transactions, reservation_prices={}, **kwargs):
     Parameters
     ----------
     bids : TODO
+        
     transactions : TODO
+        
+    reservation_prices :
+         (Default value = {})
+    **kwargs :
+        
 
     Returns
     -------
-    TODO
 
+    
     """
     _, objective, _ = maximum_traded_volume(bids)
     

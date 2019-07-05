@@ -5,10 +5,9 @@ from pymarket.plot.demand_curves import plot_demand_curves
 def plot_both_side_muda(
         bids, left_players, right_players, left_price,
         right_price, FIGSIZE=(12, 6), **kwargs):
-    """
-    Plots the two sides in which MUDA divides the trades with the
+    """Plots the two sides in which MUDA divides the trades with the
     corresponding prices
-
+    
     Paramters
     ----------
     bids (pandas dataframe):
@@ -23,11 +22,30 @@ def plot_both_side_muda(
         Price obtained from the right side to be used in the left side
     FIGSIZE (tuple):
         Tuple (width, height) of the figure to be created
-    
+
+    Parameters
+    ----------
+    bids :
+        
+    left_players :
+        
+    right_players :
+        
+    left_price :
+        
+    right_price :
+        
+    FIGSIZE :
+         (Default value = (12)
+    6) :
+        
+    **kwargs :
+        
+
     Returns
-    --------
-    ax (list of matplotlib.pyplot.axe):
-       the two axes in which the figure was plotted 
+    -------
+
+    
     """
     bids = bids.get_df()
     fig, ax = plt.subplots(1, 2, figsize=FIGSIZE)

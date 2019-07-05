@@ -21,7 +21,15 @@ STATS = {
 class Market():
 
     """General interface for calling the different
-    market mechanisms"""
+    market mechanisms
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+
+    """
 
     def __init__(self):
         """TODO: to be defined1."""
@@ -33,11 +41,14 @@ class Market():
         Parameters
         ----------
         bid : TODO
+            
+        *args :
+            
 
         Returns
         -------
-        TODO
 
+        
         """
         self.bm.add_bid(*args)
         return 1
@@ -49,11 +60,16 @@ class Market():
         Parameters
         ----------
         algo : TODO
+            
+        *args :
+            
+        **kwargs :
+            
 
         Returns
         -------
-        TODO
 
+        
         """
         df = self.bm.get_df()
         mec = MECHANISM[algo](df, *args, **kwargs)
@@ -63,19 +79,20 @@ class Market():
         return transactions, extra
 
     def statistics(self, reservation_prices=None):
-        """
-        Computes the standard statistics of the market
+        """Computes the standard statistics of the market
 
         Parameters
-        -----------
-        reservation_prices (dict, optional):
+        ----------
+        reservation_prices (dict, optional) :
             the reservation prices of the users. If there is none,
             the bid will be assumed truthfull
-        
+        reservation_prices :
+             (Default value = None)
+
         Returns
-        --------
-        stats (dict):
-            Dictionary with the different statistics calculated
+        -------
+
+        
         """
         stats = {}
         extras = {}
@@ -92,27 +109,25 @@ class Market():
         return stats
 
     def plot(self):
-        """Plots both demand curves
-        Returns
-        -------
-        TODO
-
-        """
+        """Plots both demand curves"""
         df = self.bm.get_df()
         plot_demand_curves(df)
 
     def plot_method(self, method, ax=None):
-        """
-        Plots all trades as a bipartite graph.
+        """Plots all trades as a bipartite graph.
         It makes sense only for P2P
 
         Parameters
-        -----------
-        method (string):
-            One of `muda, `huang` or `p2p`, makes the specific
-            plot asociated with each method
-        ax (pyplot axe, optional):
-            Optional default axe in which is traded
+        ----------
+        method :
+            
+        ax :
+             (Default value = None)
+
+        Returns
+        -------
+
+        
         """
 
         trans = self.transactions

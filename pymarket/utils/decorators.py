@@ -5,24 +5,37 @@ PRECISION = 8
 
 
 def check_equal_price(f):
-    """
-    CHeck wheather there are two bids
+    """CHeck wheather there are two bids
     with the same price in the same side
     and in that case rises an error
 
     Parameters
     ----------
-    f (function, mechanisms):
+    f (function, mechanisms) :
         Mechanisms to be tested
+    f :
+        
 
     Returns
-    --------
-    wrapper (function, mechanism):
-        same function as before with the argument
-        checked
+    -------
+
+    
     """
     @wraps(f)
     def wrapper(*args, **kwds):
+        """
+
+        Parameters
+        ----------
+        *args :
+            
+        **kwds :
+            
+
+        Returns
+        -------
+
+        """
         bids = args[0]
 
         buy = bids.loc[bids['buying'], :]

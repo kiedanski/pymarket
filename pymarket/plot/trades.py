@@ -3,23 +3,23 @@ import matplotlib.pyplot as plt
 
 
 def plot_trades_as_graph(bids, transactions, ax):
-    """
-    Plots all the bids as a bipartit graph
+    """Plots all the bids as a bipartit graph
     with buyers and trades and an edge between
     each pair that traded
 
     Parameters
-    -----------
-    transactions (pandas dataframe):
-        Transactions table with the result of running the market
-    bids (pandas dataframe):
-        Bids table with the submitted bids to the market
-    ax (matplotlib.pyplot axes):
-        axe in which to plot, if None, create new
+    ----------
+    bids :
+        
+    transactions :
+        
+    ax :
+        
 
-    Returns:
-    ax (matplotlib figure):
-        axe in which everything is plotted
+    Returns
+    -------
+
+    
     """
     bids = bids.get_df()
     tmp = transactions.get_df()

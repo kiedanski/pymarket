@@ -10,10 +10,19 @@ from pymarket.utils.decorators import check_equal_price
 
 @check_equal_price
 def muda(bids, r=None):
-    '''
-    Implements MUDA as describes in paper...
+    """Implements MUDA as describes in paper...
 
-    '''
+    Parameters
+    ----------
+    bids :
+        
+    r :
+         (Default value = None)
+
+    Returns
+    -------
+
+    """
     if r is None:
         r = np.random.RandomState()
         print('Es None')
@@ -46,9 +55,23 @@ def muda(bids, r=None):
 
 
 def solve_market_side_with_exogenous_price(bids, price, fees, r):
-    """
-    Finds who trades and at what price based on the
+    """Finds who trades and at what price based on the
     exogeneous price
+
+    Parameters
+    ----------
+    bids :
+        
+    price :
+        
+    fees :
+        
+    r :
+        
+
+    Returns
+    -------
+
     """
     trans = TransactionManager()
     demand = bids.loc[bids['buying']]
@@ -116,24 +139,21 @@ def solve_market_side_with_exogenous_price(bids, price, fees, r):
 
 
 def get_trading_bids(bids, quantity_traded):
-    """
-    Finds the index of the rightmost trading
+    """Finds the index of the rightmost trading
     bid and splits it in two if the quantity
     traded falls in the middle of the bid
 
     Parameters
     ----------
-    bids: bids of one side of the market
-    quantity_traded: quantity that clears the market
+    bids : bids of one side of the market
+        
+    quantity_traded : quantity that clears the market
+        
 
     Returns
     -------
-    bids_trading: dataframe
-        dataframe that is a copy of bids but might
-        have the rightmost bid splitted in half
-    bid_index: int
-        index of the last trading bid in the returned dataset
 
+    
     """
 
     if bids.quantity.sum() > quantity_traded:
@@ -165,30 +185,27 @@ def get_trading_bids(bids, quantity_traded):
 
 
 def compute_fee(df, index, user, quantity, price):
-    """
-    Compute the fee that a user has to pay by
+    """Compute the fee that a user has to pay by
     not letting others trade
 
     Parameters
     ----------
-
-    df: dataframe
+    df : dataframe
         Dataframe resulting from reseting the index
         of a bid dataframe
-    index: int
+    index : int
         Index of the last trading bid
-    user: int
+    user : int
         User for which the fee should be computed
-    quantity: int
+    quantity : int
         Total quantity to be traded
-    price: int
+    price : int
         Price at which trade ocurrs
 
     Returns
-    --------
+    -------
 
-    fee: float
-        Fee to be paid by the user
+    
     """
 
     trades_without_user = df[(df.user != user)]
@@ -219,9 +236,17 @@ def compute_fee(df, index, user, quantity, price):
 
 
 def find_competitive_price(bids):
-    """
-    Finds the unique trading price of the intersection
+    """Finds the unique trading price of the intersection
     of supply and demand
+
+    Parameters
+    ----------
+    bids :
+        
+
+    Returns
+    -------
+
     """
 
     buy, _ = demand_curve_from_bids(bids)
@@ -234,7 +259,7 @@ def find_competitive_price(bids):
 
 class MudaAuction(Mechanism):
 
-    """Docstring for MudaAuction. """
+    """Docstring for MudaAuction."""
 
     def __init__(self, bids, *args, **kwargs):
         """TODO: to be defined1. """

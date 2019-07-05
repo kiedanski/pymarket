@@ -3,24 +3,21 @@ from pymarket.bids import BidManager
 
 
 def maximum_aggregated_utility(bids, *args, reservation_prices=None):
-    """
-    Maximizes the total welfare
+    """Maximizes the total welfare
 
     Parameters
     ----------
-    bids (pandas dataframe):
-        Table with all the submited bids
-    reservation_prices (dict, optional):
-        Reservation prices of the different participants. If None, the bids
-        will be assumed to be the truthfull values.
+    bids :
+        
+    *args :
+        
+    reservation_prices :
+         (Default value = None)
 
-    Returns:
-    status (string):
-        Status of the optimization problem, 'Optimal' is the expected
-    objective (float):
-        Total welfare achivable
-    variables (dicts):
-        Maping of variables to a value that maximizes total welfare.
+    Returns
+    -------
+
+    
     """
 
     if reservation_prices is None:
@@ -68,18 +65,26 @@ def percentage_welfare(bids, transactions, reservation_prices=None, **kwargs):
 
     Parameters
     ----------
-    bids (pandas dataframe):
+    bids (pandas dataframe) :
         Table with all the submited bids
-    transactions (pandas dataframe):
+    transactions (pandas dataframe) :
         Table with all the transactions that ocurred in the market
-    reservation_prices (dict, optional):
+    reservation_prices (dict, optional) :
         Reservation prices of the different participants. If None, the bids
         will be assumed to be the truthfull values.
+    bids :
+        
+    transactions :
+        
+    reservation_prices :
+         (Default value = None)
+    **kwargs :
+        
 
     Returns
     -------
-    TODO
 
+    
     """
     if reservation_prices is None:
         reservation_prices = {}
@@ -109,11 +114,12 @@ def get_gain(row):
     Parameters
     ----------
     row : TODO
+        
 
     Returns
     -------
-    TODO
 
+    
     """
     gap = row.price_y - row.price_x
     if not row.buying:

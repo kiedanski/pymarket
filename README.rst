@@ -4,10 +4,10 @@ PyMarket
 
 
 .. image:: https://img.shields.io/pypi/v/pymarket.svg
-.. image:: (https://pypi.python.org/pypi/pymarket
-.. image:: (https://img.shields.io/travis/gus0k/pymarket.svg
-.. image:: (https://readthedocs.org/projects/pymarket/badge/?version=latest
-.. image:: (https://pymarket.readthedocs.io/en/latest/?badge=latest
+.. image:: https://pypi.python.org/pypi/pymarket
+.. image:: https://img.shields.io/travis/gus0k/pymarket.svg
+.. image:: https://readthedocs.org/projects/pymarket/badge/?version=latest
+.. image:: https://pymarket.readthedocs.io/en/latest/?badge=latest
 
 
 

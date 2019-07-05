@@ -30,15 +30,15 @@ class Mechanism():
     def _sanitize_bids(self, bids):
         """Adapts the bids to a friendly format
 
-
         Parameters
         ----------
         bids : TODO
+            
 
         Returns
         -------
-        TODO
 
+        
         """
         if self.merge:
             self.old_bids = bids
@@ -50,12 +50,7 @@ class Mechanism():
         return new_bids
 
     def _run(self):
-        """Runs the mechanisms
-        Returns
-        -------
-        TODO
-
-        """
+        """Runs the mechanisms"""
         trans, extra = self.algo(self.bids, *self.args, **self.kwargs)
         return trans, extra
     
@@ -66,11 +61,12 @@ class Mechanism():
         Parameters
         ----------
         trans : TODO
+            
 
         Returns
         -------
-        TODO
 
+        
         """
 
         if self.merge:
@@ -79,12 +75,7 @@ class Mechanism():
         return trans
 
     def run(self):
-        """Runs the mechanisms
-        Returns
-        -------
-        TODO
-
-        """
+        """Runs the mechanisms"""
         trans, extra = self._run()
         trans = self._cleanup(trans)
         return trans, extra

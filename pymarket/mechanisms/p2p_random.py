@@ -8,12 +8,25 @@ from pymarket.mechanisms import Mechanism
 
 
 def p2p_random(bids, p_coef=0.5, r = None):
-    """
-    Computes all the trades using a P2P random trading
+    """Computes all the trades using a P2P random trading
     process as describes in [CITA].
-    :params bids: BidManager class
-    :params p_coef: coefficient to calculate the trading price, 1
-    uses the buying price and 0 the selling price, else, linear combination.
+
+    Parameters
+    ----------
+    s :
+        bids: BidManager class
+    s :
+        p_coef: coefficient to calculate the trading price, 1
+        uses the buying price and 0 the selling price, else, linear combination.
+    bids :
+        
+    p_coef :
+         (Default value = 0.5)
+    r :
+         (Default value = None)
+
+    Returns
+    -------
 
     """
     r = np.random.RandomState() if r is None else r
@@ -84,7 +97,7 @@ def p2p_random(bids, p_coef=0.5, r = None):
 
 class P2PTrading(Mechanism):
 
-    """Docstring for P2PTrading. """
+    """Docstring for P2PTrading."""
 
     def __init__(self, bids, *args, **kwargs):
         """TODO: to be defined1.

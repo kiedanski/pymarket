@@ -5,17 +5,25 @@ from pymarket.bids.demand_curves import *
 
 
 def update_quantity(quantity, gap):
-    """
-    Implements the footnote of the paper
-    where the long side updates their 
+    """Implements the footnote of the paper
+    where the long side updates their
     trading quantities to match the short side
     Parms:
-    :param quantity: numpy array with the quantities
-    traded
-    :param gap: difference between the short and long side
 
-    Returns:
-    :quantity: updated quantities
+    Parameters
+    ----------
+    quantity :
+        numpy array with the quantities
+        traded
+    gap :
+        difference between the short and long side
+        
+        Returns:
+        :quantity: updated quantities
+
+    Returns
+    -------
+
     """
     quantity = quantity * 1.0
     i_min = quantity[quantity > 0].argmin()
@@ -37,13 +45,22 @@ def update_quantity(quantity, gap):
     return quantity
 
 def huang_auction(bids):
-    """
-    Implements the auction described in
+    """Implements the auction described in
     `DESIGN OF A MULTI-UNIT DOUBLE AUCTION E-MARKET`
-    :params bids: BidManager
 
-    Returns:
-    :trans : Transaction Manger
+    Parameters
+    ----------
+    s :
+        bids: BidManager
+        
+        Returns:
+        :trans : Transaction Manger
+    bids :
+        
+
+    Returns
+    -------
+
     """
 
     trans = TransactionManager()

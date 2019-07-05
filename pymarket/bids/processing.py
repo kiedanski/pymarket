@@ -7,41 +7,53 @@ import pandas as pd
 
 
 def new_player_id(index):
-    """
-    Helper function for
+    """Helper function for
     merge_same price
     Maps list of one user to
     the exact user and list of several
     users to a new value
-
+    
     Paramters
     -----------
     index: int
         First identifier to use for the
         new fake players
 
+    Parameters
+    ----------
+    index :
+        
+
     Returns
-    --------
+    -------
 
-    new_id: function
-
+    
     """
 
     def new_id(users):
-        """
-        Maps a list of users
+        """Maps a list of users
         to the only value if the length
         is 1, or to the current value of the
         closured index
-
+        
         Paramters
         ----------
         users: list
             list of user indentifiers
-
+        
         Returns:
         new_index: int
             The new index to use
+
+        Parameters
+        ----------
+        users :
+            
+
+        Returns
+        -------
+
+        
         """
         nonlocal index
         if len(users) > 1:
@@ -55,27 +67,24 @@ def new_player_id(index):
 
 
 def merge_same_price(df, prec=5):
-    """
-    Takes a bid where there are two players
+    """Takes a bid where there are two players
     in the same side of the market with the same
     price and merges them into a new player with
     aggregated quantity
 
     Parameters
-    -----------
-    df: pandas dataframe
+    ----------
+    df : pandas dataframe
         Dataframe with bids where there are at least
         two players in the same side of the market
         with the same price
+    prec :
+         (Default value = 5)
 
     Returns
     -------
-    dataframe_new: pandas dataframe
-        A new bid dataframe where all players with
-        the same price have been merged into a single
-        player
-    final_maping: dict
-        A map between the new bid index and the old bids index
+
+    
     """
 
     id_gen = new_player_id(df.user.max() + 1)

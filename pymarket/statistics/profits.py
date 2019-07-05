@@ -3,26 +3,25 @@ import numpy as np
 
 
 def calculate_profits(bids, transactions, reservation_prices=None, fees=None, **kwargs):
-    """
-    Extras from the transactions and the bids the profit
+    """Extras from the transactions and the bids the profit
     of each player and the market maker
 
     Parameters
-    -----------
-    transactions (pandas dataframe):
-        Transactions table with the result of running the market
-    bids (pandas dataframe):
-        Bids table with the submitted bids to the market
-    reservation_prices (dict):
-        The reservation price for each of the participants, if it is empty
-        it is assumed that the bid was truthful and the reservation price
-        was exactly the bidded one.
-    fees (list, optional):
-        A list of fees to pay for each player.
+    ----------
+    bids :
+        
+    transactions :
+        
+    reservation_prices :
+         (Default value = None)
+    fees :
+         (Default value = None)
+    **kwargs :
+        
 
-    Returns:
-    profits (pandas dataframe):
-        Table with the profits of each player and the marketmaker
+    Returns
+    -------
+
     
     """
     users = sorted(bids.user.unique())
@@ -65,18 +64,19 @@ def calculate_profits(bids, transactions, reservation_prices=None, fees=None, **
 
 
 def get_gain(row):
-        """Finds the gain of the row
+    """Finds the gain of the row
 
-        Parameters
-        ----------
-        row : TODO
+    Parameters
+    ----------
+    row : TODO
+        
 
-        Returns
-        -------
-        TODO
+    Returns
+    -------
 
-        """
-        gap = row.price_y - row.price_x
-        if not row.buying:
-            gap = - gap
-        return gap * row.quantity
+    
+    """
+    gap = row.price_y - row.price_x
+    if not row.buying:
+        gap = - gap
+    return gap * row.quantity

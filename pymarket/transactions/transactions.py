@@ -4,6 +4,7 @@ import numpy as np
 COLUMNS = ['bid', 'quantity', 'price', 'source', 'active']
 
 class TransactionManager:
+    """ """
 
     def __init__(self):
         self.n_trans = 0
@@ -11,18 +12,28 @@ class TransactionManager:
 
 
     def add_transaction(self, bid, quantity, price, source, active):
-        """
-        Add a transaction to the transactions list
-        :param bid: id of the bid
-        :param quantity: transacted quantity
-        :param price: transacted price
-        :param source: second party in the trasaction, -1 if there is
-        no clear second party.
-        :param active: `True` if the bid is still active after the
-        transaction.
+        """Add a transaction to the transactions list
 
-        Returns:
-        :trans_id: id of the added transaction, -1 if fails
+        Parameters
+        ----------
+        bid :
+            id of the bid
+        quantity :
+            transacted quantity
+        price :
+            transacted price
+        source :
+            second party in the trasaction, -1 if there is
+            no clear second party.
+        active :
+            True` if the bid is still active after the
+            transaction.
+            
+            Returns:
+            :trans_id: id of the added transaction, -1 if fails
+
+        Returns
+        -------
 
         """
 
@@ -33,11 +44,15 @@ class TransactionManager:
         return self.n_trans - 1
 
     def get_df(self):
-        """
-        Returns the transaction dataframe
+        """Returns the transaction dataframe
 
-        Returns:
-        :df: dataframe with all the transactions
+        Parameters
+        ----------
+
+        Returns
+        -------
+        
+            df: dataframe with all the transactions
 
         """
 
@@ -45,17 +60,17 @@ class TransactionManager:
         return df
 
     def merge(self, other):
-        """
-        Merges two transaction managers with each other
-        
+        """Merges two transaction managers with each other
+
         Parameters
         ----------
-        other: TransactionManager
+        other : TransactionManager
+            
 
         Returns
-        --------
-        trans: TransactionManager
+        -------
 
+        
         """
 
         assert isinstance(other, TransactionManager)

@@ -4,10 +4,9 @@ from pymarket.plot.demand_curves import plot_demand_curves
 
 
 def plot_huang_auction(bids, price_sell, price_buy, quantity_traded, ax=None):
-    """
-    Plots the results of the huang auction with some of the characteristics
+    """Plots the results of the huang auction with some of the characteristics
     of such auction
-
+    
     Paramters
     ----------
     bids (pandas dataframe):
@@ -19,10 +18,23 @@ def plot_huang_auction(bids, price_sell, price_buy, quantity_traded, ax=None):
     quantity traded (float):
         The total quantity traded
 
+    Parameters
+    ----------
+    bids :
+        
+    price_sell :
+        
+    price_buy :
+        
+    quantity_traded :
+        
+    ax :
+         (Default value = None)
+
     Returns
-    --------
-    ax (list of matplotlib.pyplot.axe):
-       the two axes in which the figure was plotted 
+    -------
+
+    
     """
     bids = bids.get_df()
     if ax is None:
