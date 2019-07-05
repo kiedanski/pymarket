@@ -30,7 +30,6 @@ def p2p_random(bids, p_coef=0.5, r = None):
 
     """
     r = np.random.RandomState() if r is None else r
-
     trans = TransactionManager()
     buying = bids[bids.buying == True]
     selling = bids[bids.buying == False]

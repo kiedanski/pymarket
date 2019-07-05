@@ -1,19 +1,80 @@
 import numpy as np
+import pandas as pd
+from typing import Tuple
 from pymarket.bids import BidManager
 
 
-def demand_curve_from_bids(bids):
+def demand_curve_from_bids(bids: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
     """
-    Sorts buying bids by descending price
-    and creates an accumulation of them
+    Creates a demand curve from a set of buying bids.
+    It is the inverse cumulative distribution of quantity
+    as a function of price.
+
+    Parameters
+    ----------
+    bids
+        Collection of all the bids in the market. The algorithm
+        filters only the buying bids.
+
+    Returns
+    ---------
+    demand_curve: np.ndarray
+       Stepwise constant demand curve represented as a collection
+       of the N rightmost points of each interval (N-1 bids). It is stored
+       as a (N, 2) matrix where the first column is the x-coordinate
+       and the second column is the y-coordinate.
+       An extra point is added with x coordinate at infinity and
+       price at 0 to represent the end of the curve.
+    
+    index : np.ndarray
+        The order of the identifier of each bid in the demand
+        curve.
+
+    Examples
+    ---------
+
+    A minimal example, selling bid is ignored:
+
+    >>> bm = pm.BidManager()
+    >>> bm.add_bid(1, 1, 0, buying=True)
+    0
+    >>> bm.add_bid(1, 1, 1, buying=False)
+    1
+    >>> dc, index = pm.demand_curve_from_bids(bm.get_df())
+    >>> dc
+    array([[ 1.,  1.],
+           [inf,  0.]])
+    >>> index
+    array([0])
+
+    A larger example with reordering of bids:
+
+    >>> bm = pm.BidManager()
+    >>> bm.add_bid(1, 1, 0, buying=True)
+    0
+    >>> bm.add_bid(1, 1, 1, buying=False)
+    1
+    >>> bm.add_bid(3, 0.5, 2, buying=True)
+    2
+    >>> bm.add_bid(2.3, 0.1, 3, buying=True)
+    3
+    >>> dc, index = pm.demand_curve_from_bids(bm.get_df())
+    >>> dc
+    array([[1. , 1. ],
+           [4. , 0.5],
+           [6.3, 0.1],
+           [inf, 0. ]])
+    >>> index
+    array([0, 2, 3])    
+
     """
     buying = bids[bids.buying == True]
     buying = buying.sort_values('price', ascending=False)
     buying['acum'] = buying.quantity.cumsum()
-    pairs = buying[['acum', 'price']].values
-    pairs = np.vstack([pairs, [np.inf, 0]])
+    demand_curve = buying[['acum', 'price']].values
+    demand_curve = np.vstack([demand_curve, [np.inf, 0]])
     index = buying.index.values
-    return pairs, index
+    return demand_curve, index
     
 def supply_curve_from_bids(bids):
     """

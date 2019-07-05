@@ -16,9 +16,8 @@ def bid_dataset_0():
     bm.add_bid(4, 2, 3, False, 0)
     bm.add_bid(1, 1, 4, False, 0)
     bm.add_bid(5, 6, 5, False, 0)
-    
-    df = bm.get_df()
-    return df
+        
+    return bm.get_df()
 
 
 @pytest.fixture(scope='module')
@@ -37,8 +36,7 @@ def bidlist_dataset_0():
     bm.add_bid(1, 1, 4, False, 0)
     bm.add_bid(5, 6, 5, False, 0)
     
-    df = bm.get_df()
-    return df
+    return bm.get_df()
 
 @pytest.fixture(scope='module')
 def bid_dataset_1():
@@ -61,8 +59,7 @@ def bid_dataset_1():
     bm.add_bid(2, 4, 9, False, 0)
     bm.add_bid(1, 6.1, 10, False, 0)
     
-    df = bm.get_df()
-    return df
+    return bm.get_df()
 
 @pytest.fixture(scope='module')
 def bid_dataset_muda_example_1():
@@ -94,8 +91,7 @@ def bid_dataset_muda_example_1():
     bm.add_bid(1, 45, 2, False, 0)
     bm.add_bid(1, 65, 2, False, 0)
     
-    df = bm.get_df()
-    return df
+    return bm.get_df()
 
 
 @pytest.fixture(scope='module')
@@ -112,5 +108,4 @@ def bid_dataset_3():
     bm.add_bid(1   , 2.5 , 6 , False , 0)
     bm.add_bid(1   , 4   , 7 , False , 0)
 
-    df = bm.get_df()
-    return df
+    return bm.get_df()

@@ -9,7 +9,8 @@ class BidManager(object):
     -----------
     col_names : :obj:`list` of :obj:`str`
         Column names for the different attributes in the dataframe
-        to be created.
+        to be created. Currently and in order: `quantity`, `price`,
+        `user`, `buying`, `time`, `divisible`.
     n_bids : int
         Number of bids currently stored. Used as a unique identifier
         for each bid within a BidManager.

@@ -27,7 +27,6 @@ def muda(bids, r=None):
         r = np.random.RandomState()
         print('Es None')
     
-    
     #r = np.random.RandomState() if r is None else r
     left = [i for i in bids.index if r.rand() > 0.5]
     right = [i for i in bids.index if i not in left]

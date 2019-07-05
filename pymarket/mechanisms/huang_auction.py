@@ -62,7 +62,6 @@ def huang_auction(bids):
     -------
 
     """
-
     trans = TransactionManager()
     
     buy, b_index  = demand_curve_from_bids(bids)

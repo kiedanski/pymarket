@@ -4,6 +4,7 @@ mechanisms can use them
 """
 import numpy as np
 import pandas as pd
+from pymarket.bids import BidManager
 
 
 def new_player_id(index):
@@ -66,7 +67,7 @@ def new_player_id(index):
     return new_id
 
 
-def merge_same_price(df, prec=5):
+def merge_same_price(df : pd.DataFrame, prec=5):
     """Takes a bid where there are two players
     in the same side of the market with the same
     price and merges them into a new player with
