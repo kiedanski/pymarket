@@ -11,6 +11,7 @@ Subpackages
     pymarket.plot
     pymarket.statistics
     pymarket.transactions
+    pymarket.utils
 
 Submodules
 ----------
