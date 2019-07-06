@@ -1,32 +1,73 @@
 import pandas as pd
 import networkx as nx
 import numpy as np
-
+from typing import Union
 from pymarket.transactions import TransactionManager
 from pymarket.bids import BidManager
-from pymarket.mechanisms import Mechanism
+from pymarket.mechanisms import Mechanism, MechanismReturn
 
+RandomState = Union[np.random.RandomState, None]
 
-def p2p_random(bids, p_coef=0.5, r = None):
+def p2p_random(bids: pd.DataFrame, p_coef:float=0.5, r:RandomState=None) -> MechanismReturn:
     """Computes all the trades using a P2P random trading
-    process as describes in [CITA].
+    process inspired in [1].
 
     Parameters
     ----------
-    s :
-        bids: BidManager class
-    s :
-        p_coef: coefficient to calculate the trading price, 1
-        uses the buying price and 0 the selling price, else, linear combination.
-    bids :
-        
-    p_coef :
-         (Default value = 0.5)
-    r :
-         (Default value = None)
+    bids
+        Collection of bids that will trade.
+        Precondition: a user participates only in one
+        side of the market, i.e, it cannot sell and buy in
+        the same run.
+    p_coef:
+        coefficient to calculate the trading price as a convex
+        combination of the price of the seller and the price of
+        the buyer.
+    r
+        Random state to generate stochastic values. If None,
+        then the outcome of the market will be different on
+        each run.
 
     Returns
     -------
+    trans : TransactionManger
+        Collection of all the transactions that ocurred in the market
+
+    extra : dict
+        Extra information provided by the mechanisms.
+        Keys:
+            * trading_list: list of list of tuples of all the
+            pairs that traded in each round.
+        
+
+    Notes
+    -------
+    [1] Blouin, Max R., and Roberto Serrano. "A decentralized market with
+    common values uncertainty: Non-steady states." The Review of Economic
+    Studies 68.2 (2001): 323-346.
+
+    Examples
+    ---------
+
+    >>> bm = pm.BidManager()
+    >>> bm.add_bid(1, 3, 0)
+    0
+    >>> bm.add_bid(1, 0.5, 1)
+    1
+    >>> bm.add_bid(1, 1, 2, False)
+    2
+    >>> bm.add_bid(1, 2, 3, False)
+    3
+    >>> r = np.random.RandomState(420)
+    >>> trans, extra = p2p_random(bm.get_df(), r=r)
+    >>> extra
+    {'trading_list': [[(0, 3), (1, 2)]]}
+    >>> trans.get_df()
+        bid  quantity  price  source  active
+    0    0         1    2.5       3   False
+    1    3         1    2.5       0   False
+    2    1         0    0.0       2    True
+    3    2         0    0.0       1    True
 
     """
     r = np.random.RandomState() if r is None else r
@@ -96,17 +137,18 @@ def p2p_random(bids, p_coef=0.5, r = None):
 
 class P2PTrading(Mechanism):
 
-    """Docstring for P2PTrading."""
+    """Interface for P2PTrading.
+    
+    Parameters
+    -----------
 
+    bids: pd.DataFrame
+        Collections of bids to use
+    
+    """
+    
     def __init__(self, bids, *args, **kwargs):
-        """TODO: to be defined1.
-
-        Parameters
-        ----------
-        bids : TODO
-        *args : TODO
-
-
+        """
         """
         Mechanism.__init__(self, p2p_random, bids, *args, **kwargs)
 

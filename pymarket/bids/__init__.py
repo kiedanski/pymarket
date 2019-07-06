@@ -11,3 +11,4 @@ from pymarket.bids.demand_curves import *
 from pymarket.bids.processing import *
 
 import pymarket.bids.demand_curves
+import pymarket.bids.processing

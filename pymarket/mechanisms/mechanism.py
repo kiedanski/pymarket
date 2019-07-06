@@ -2,7 +2,10 @@ import pandas as pd
 
 from pymarket.bids.processing import merge_same_price
 from pymarket.transactions.processing import split_transactions_merged_players
+from pymarket.transactions.transactions import TransactionManager
+from typing import Tuple
 
+MechanismReturn = Tuple[TransactionManager, dict]
 
 class Mechanism():
 

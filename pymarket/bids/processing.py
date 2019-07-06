@@ -4,57 +4,64 @@ mechanisms can use them
 """
 import numpy as np
 import pandas as pd
+from typing import Callable, List
 from pymarket.bids import BidManager
 
 
-def new_player_id(index):
+def new_player_id(index : int) -> Callable[[List[int]], int]:
     """Helper function for
-    merge_same price
-    Maps list of one user to
-    the exact user and list of several
-    users to a new value
+    merge_same_price
+    Creates a function that returns consecutive integers.
     
     Paramters
     -----------
-    index: int
+    index
         First identifier to use for the
         new fake players
 
-    Parameters
-    ----------
-    index :
-        
-
     Returns
     -------
+    Callable
+        Function that maps a list
+        of user ids into a new user id.
 
-    
+    Examples
+    ----------
+    >>> id_gen = new_player_id(6)
+    >>> id_gen([3])
+    3
+    >>> id_gen([5])
+    5 
+    >>> id_gen([0, 1])
+    6
+    >>> id_gen([2, 4])
+    7
+
     """
 
-    def new_id(users):
-        """Maps a list of users
-        to the only value if the length
-        is 1, or to the current value of the
-        closured index
+    def new_id(users: List[int]) -> int:
+        """
+        Generates a unique identifier for a
+        list of users. If the list has
+        only one user, then the id is mantained
+        else, a new user id is created for the 
+        whole list.
         
         Paramters
         ----------
-        users: list
-            list of user indentifiers
-        
-        Returns:
-        new_index: int
-            The new index to use
-
-        Parameters
-        ----------
-        users :
-            
-
+        users
+            List of 1 or more user's identifiers.
+            Precondition: all elements of users
+            are smaller than index.
         Returns
         -------
+        int
+            The old identifier if in the list
+            there was only one player
+            and or the next new consecutive
+            identifier if there where more
+            than one.
 
-        
         """
         nonlocal index
         if len(users) > 1:
@@ -64,27 +71,64 @@ def new_player_id(index):
             new_index = users[0]
 
         return new_index
+
     return new_id
 
 
-def merge_same_price(df : pd.DataFrame, prec=5):
-    """Takes a bid where there are two players
-    in the same side of the market with the same
-    price and merges them into a new player with
-    aggregated quantity
+def merge_same_price(df : pd.DataFrame, prec: float=5) -> pd.DataFrame:
+    """
+    Process a collection of bids by merging in each
+    side (buying or selling) all players with the same
+    price into a new user with their aggregated quantity
 
     Parameters
     ----------
-    df : pandas dataframe
-        Dataframe with bids where there are at least
-        two players in the same side of the market
-        with the same price
-    prec :
-         (Default value = 5)
+    df
+        Collection of bids to process
+    prec
+        Number of digits to use after the comma
+        while comparing floating point prices
+        as equal.
 
     Returns
     -------
+    dataframe_new: pd.DataFrame
+        The new collection of bids where
+        players with the same price have
+        been merged into one.
+    
+    final_maping : dict
+        Maping from new bids index to the
+        old bids index.
 
+    Exampels
+    ---------
+    >>> bm = BidManager()
+    >>> bm.add_bid(0.3, 1, 0)
+    0
+    >>> bm.add_bid(0.7, 1, 1)
+    1
+    >>> bm.add_bid(2, 1, 2, False)
+    2
+    >>> bm.add_bid(1, 2.444446, 3, False)
+    3
+    >>> bm.add_bid(3, 2.444447, 4, False)
+    4
+    >>> bm.get_df()
+        quantity     price  user  buying  time  divisible
+    0       0.3  1.000000     0    True     0       True
+    1       0.7  1.000000     1    True     0       True
+    2       2.0  1.000000     2   False     0       True
+    3       1.0  2.444446     3   False     0       True
+    4       3.0  2.444447     4   False     0       True
+    >>> bids, index = pm.merge_same_price(bm.get_df(), 5)
+    >>> bids
+        quantity     price  user  buying  time  divisible
+    0       1.0  1.00000     5    True     0       True
+    1       2.0  1.00000     2   False     0       True
+    2       4.0  2.44445     6   False     0       True
+    >>> index
+    {0: [0, 1], 1: [2], 2: [3, 4]}
     
     """
 
@@ -92,7 +136,6 @@ def merge_same_price(df : pd.DataFrame, prec=5):
     columns = df.columns.copy()
 
     df = df.copy().reset_index().rename(columns={'index': 'bid'})
-    print(df)
 
     buy = df.loc[df['buying'], :]
     sell = df.loc[~df['buying'], :]

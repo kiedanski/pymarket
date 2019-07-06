@@ -1,28 +1,46 @@
 from pymarket.bids import BidManager
-from pymarket.mechanisms import Mechanism
+from pymarket.mechanisms import Mechanism, MechanismReturn
 from pymarket.transactions import TransactionManager
 from pymarket.bids.demand_curves import *
+from typing import List
 
-
-def update_quantity(quantity, gap):
-    """Implements the footnote of the paper
+def update_quantity(quantity : np.ndarray, gap: float) -> np.ndarray:
+    """Implements the footnote in page 8 of [1],
     where the long side updates their
-    trading quantities to match the short side
-    Parms:
+    trading quantities to match the short side.
 
     Parameters
     ----------
-    quantity :
-        numpy array with the quantities
-        traded
-    gap :
-        difference between the short and long side
+    quantity
+        List of the quantities to be traded by each
+        player.
+    gap
+        Difference between the short and long side
         
-        Returns:
-        :quantity: updated quantities
-
     Returns
     -------
+    quantity
+        Updated list of quantities to be traded
+        by each player
+
+    Notes
+    ------
+    [1] Huang, Pu, Alan Scheller–Wolf, and Katia Sycara. "Design of a multi–unit
+    double auction e–market." Computational Intelligence 18.4 (2002): 596-617.
+    
+    Examples
+    ---------
+    All keep trading, with less quantity
+    
+    >>> l, g = np.array([1, 2, 3]), 0.6
+    >>> update_quantity(l, g)
+    array([0.8, 1.8, 2.8])
+   
+    The gap is to big for small trader:
+
+    >>> l,g = np.array([1, 0.5, 2]), 1.8
+    >>> update_quantity(l, g)
+    array([0.35, 0. , 1.35])
 
     """
     quantity = quantity * 1.0
@@ -44,22 +62,67 @@ def update_quantity(quantity, gap):
     quantity = np.clip(quantity, 0, max_)
     return quantity
 
-def huang_auction(bids):
-    """Implements the auction described in
-    `DESIGN OF A MULTI-UNIT DOUBLE AUCTION E-MARKET`
-
+def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
+    """Implements the auction described in [1]
+    
     Parameters
     ----------
-    s :
-        bids: BidManager
-        
-        Returns:
-        :trans : Transaction Manger
-    bids :
-        
+    bids:
+        Collection of all the bids to take
+        into account by the mechanism
 
     Returns
     -------
+    trans : TransactionManager
+        Collection of all the trasactions cleared
+        by the mechanism
+    
+    extra : dict
+        Extra information provided by the mecanism.
+        Keys:
+        * price_sell: price at which sellers traded
+        * price_buy: price at which the buyers traded
+        * quantity_traded: the total quantity traded
+
+    
+    Notes
+    ------
+    [1] Huang, Pu, Alan Scheller–Wolf, and Katia Sycara. "Design of a multi–unit
+    double auction e–market." Computational Intelligence 18.4 (2002): 596-617.
+
+    Examples
+    --------
+    No trade because price setters don't trade:
+    
+    >>> bm = pm.BidManager()
+    >>> bm.add_bid(1, 3, 0)
+    0
+    >>> bm.add_bid(2, 1, 1)
+    1
+    >>> bm.add_bid(2, 2, 2, False)
+    2
+    >>> trans, extra = huang_auction(bm.get_df())
+    >>> trans.get_df()
+    Empty DataFrame
+    Columns: [bid, quantity, price, source, active]
+    Index: []
+    >>> extra
+    {'price_sell': 2.0, 'price_buy': 3.0, 'quantity_traded': 0}
+
+    Adding small bids at the beginning, those can trade
+    because they don't define de market price:
+
+    >>> bm.add_bid(0.3, 1, 3, False)
+    3
+    >>> bm.add_bid(0.2, 3.3, 4)
+    4
+    >>> trans, extra = huang_auction(bm.get_df())
+    >>> trans.get_df()
+       bid  quantity  price  source  active
+    0    3       0.2    2.0      -1   False
+    1    4       0.2    3.0      -1   False
+    >>> extra
+    {'price_sell': 2.0, 'price_buy': 3.0, 'quantity_traded': 0.2}
 
     """
     trans = TransactionManager()
@@ -91,22 +154,27 @@ def huang_auction(bids):
            id_ = b_index[i]
            trans.add_transaction(id_, quantity_buy[i],
                    price_buy, -1, False)
-           extra = {'price_sell': price_sell, 'price_buy': price_buy,
+
+    extra = {'price_sell': price_sell, 'price_buy': price_buy,
                    'quantity_traded': quantity_buy.sum()}
     return trans, extra
 
 class HuangAuction(Mechanism):
 
-    """Iinterface for the HuangAuction"""
+    """Iinterface for the HuangAuction
+    
+    Parameters
+    -----------
+    bids: pd.DataFrame
+        Collection of bids to use in the market
+    merge: bool
+        Wheather to merge players with the
+        same price. Always `True`
+    
+    """
 
     def __init__(self, bids, *args, **kwargs):
-        """TODO: to be defined1.
-
-        Parameters
-        ----------
-        bids : TODO
-
-
+        """
         """
         Mechanism.__init__(self, huang_auction,  bids, *args, merge=True, **kwargs)
         
