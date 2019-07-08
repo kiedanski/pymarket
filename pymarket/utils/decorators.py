@@ -11,14 +11,12 @@ def check_equal_price(f):
 
     Parameters
     ----------
-    f (function, mechanisms) :
+    f  :(function, mechanisms)
         Mechanisms to be tested
-    f :
         
 
     Returns
     -------
-
     
     """
     @wraps(f)

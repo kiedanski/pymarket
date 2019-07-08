@@ -1,4 +1,5 @@
 import pulp
+import pandas as pd
 from pymarket.bids import BidManager
 
 
@@ -7,17 +8,61 @@ def maximum_aggregated_utility(bids, *args, reservation_prices=None):
 
     Parameters
     ----------
-    bids :
+    bids : pd.DataFrame
+       Collection of bids
         
-    *args :
-        
-    reservation_prices :
-         (Default value = None)
+    reservation_prices : dict of floats or None, (Default value = None)
+        A maping from user ids to reservation prices. If no reservation
+        price for a user is given, his bid will be assumed to be his
+        true value.
 
     Returns
     -------
+    status : str
+        Status of the optimization problem. Desired output is 'Optimal'
+    objective: float
+        Maximum aggregated utility that can be obtained
+    variables: dict
+        A set of values achieving the objective. Maps a pair of bids
+        to the quantity traded by them.
 
+    Examples
+    ---------
+
+    >>> bm = pm.BidManager()
+    >>> bm.add_bid(1, 3, 0)
+    0 
+    >>> bm.add_bid(1, 2, 1)
+    1
+    >>> bm.add_bid(1.5, 1, 2, False)
+    2
+    >>> s, o, v = maximum_aggregated_utility(bm.get_df())
+    >>> s
+    'Optimal'
+    >>> o
+    2.5
+    >>> v
+    {(0, 2): 1.0, (1, 2): 0.5}
     
+    If in reality the seller had 0 value for his commodity,
+    the social welfare will be 1.5 units larger
+
+    >>> bm = pm.BidManager()
+    >>> bm.add_bid(1, 3, 0)
+    0 
+    >>> bm.add_bid(1, 2, 1)
+    1
+    >>> bm.add_bid(1.5, 1, 2, False)
+    2
+    >>> rp = {2: 0}
+    >>> s, o, v = maximum_aggregated_utility(bm.get_df(),
+    ...        reservation_prices=rp)
+    >>> s
+    'Optimal'
+    >>> o
+    4.0
+    >>> v
+    {(0, 2): 1.0, (1, 2): 0.5}
     """
 
     if reservation_prices is None:
@@ -72,19 +117,32 @@ def percentage_welfare(bids, transactions, reservation_prices=None, **kwargs):
     reservation_prices (dict, optional) :
         Reservation prices of the different participants. If None, the bids
         will be assumed to be the truthfull values.
-    bids :
-        
-    transactions :
-        
-    reservation_prices :
-         (Default value = None)
-    **kwargs :
-        
 
     Returns
     -------
+    ratio : float
+        The ratio of the maximum social welfare achieved by the
+        collection of transactions.
 
-    
+    Examples
+    ---------
+    Only bid 0 and 2 trade. That represents a net utility of 2
+    which is 80% of the total max utility 2.5
+
+    >>> tm = pm.TransactionManager()
+    >>> bm = pm.BidManager()
+    >>> bm.add_bid(1, 3, 0)
+    0 
+    >>> bm.add_bid(1, 2, 1)
+    1
+    >>> bm.add_bid(1.5, 1, 2, False)
+    2
+    >>> tm.add_transaction(0, 1, 2, 2, False)
+    0
+    >>> tm.add_transaction(2, 1, 2, 0, False)
+    1
+    >>> percentage_welfare(bm.get_df(), tm.get_df())  
+    0.8
     """
     if reservation_prices is None:
         reservation_prices = {}
@@ -113,11 +171,15 @@ def get_gain(row):
 
     Parameters
     ----------
-    row : TODO
+    row : pandas row
+        A row resulting from merging transactions
+        with bids
         
 
     Returns
     -------
+    gain : float
+        The gain obtained by a given transaction
 
     
     """

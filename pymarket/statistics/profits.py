@@ -8,21 +8,53 @@ def calculate_profits(bids, transactions, reservation_prices=None, fees=None, **
 
     Parameters
     ----------
-    bids :
+    bids : pd.DataFrame
+        Collections of bids to be used
         
-    transactions :
-        
-    reservation_prices :
-         (Default value = None)
-    fees :
-         (Default value = None)
-    **kwargs :
-        
+    transactions : pd.DataFrame
+        Collection of transactions to be taken into account 
+    reservation_prices : dict, (Default value = None)
+        Maping between users and their reservation prices. If None,
+        it is assumed that each user bided truthfully and the 
+        information is extracted from the bid.
+    fees : np.ndarray, (Default value = None)
+        List of fees that each user has to pay to trade in the market. 
 
     Returns
     -------
+    profit: dict
+        A dictionary with three values:
+        * player_bid: A list with the profits of each user
+        using their bids as reservation prices
+        * player_reservation: Same as above but using
+        their reservation prices, if none are provided,
+        it is the same as `player_bid`
+        * market: profit of the market maker
 
     
+    Examples
+    ---------
+    >>> tm = pm.TransactionManager()
+    >>> bm = pm.BidManager()
+    >>> bm.add_bid(1, 3, 0)
+    0 
+    >>> bm.add_bid(1, 2, 1)
+    1
+    >>> bm.add_bid(1.5, 1, 2, False)
+    2
+    >>> tm.add_transaction(0, 1, 2, 2, False)
+    0
+    >>> tm.add_transaction(2, 1, 2, 0, False)
+    1
+    >>> rp = {2: 0}
+    >>> profits = calculate_profits(bm.get_df(), tm.get_df(),
+    ...        reservation_prices=rp)
+    >>> profits['player_bid']
+    array([1, 0, 1])  
+    >>> profits['player_reservation']
+    array([1, 0, 2])  
+    >>> profits['market']
+    0.0
     """
     users = sorted(bids.user.unique())
     buyers = bids.loc[bids['buying']].index.values
@@ -68,12 +100,14 @@ def get_gain(row):
 
     Parameters
     ----------
-    row : TODO
-        
+    row : pandas row
+       Row obtained by merging a transaction with a
+       bid dataframe
 
     Returns
     -------
-
+    gain
+        The gain obtained by the row
     
     """
     gap = row.price_y - row.price_x

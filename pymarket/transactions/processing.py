@@ -11,11 +11,13 @@ def split_transactions_merged_players(transactions, bids, maping, fees=None):
     """
     Splits the transactions of a market that used merged bids into the original
     bids
+    Uses a proportional split, based on the offered (or asked) quantity by
+    each player.
 
     Parametes
     ----------
-    transactions: pandas dataframe
-        the transactions obtained by running a market mechanism
+    transactions: TransactionManager
+        the transactions manager returned by the mechanism.
     bids: pandas dataframe
         the original bid dataframe where some players might be repeated
     maping: pandas dataframe
@@ -30,6 +32,22 @@ def split_transactions_merged_players(transactions, bids, maping, fees=None):
     fees: dict or None
         dictionary obtained by splitting the fees equal to the transactions
 
+    Examples
+    -----------
+    >>> bm = pm.BidManager()
+    >>> tm = pm.TransactionManager()
+    >>> bm.add_bid(1, 1, 0)
+    0 
+    >>> bm.add_bid(2, 1, 1)
+    1
+    >>> tm.add_transaction(0, 1, 1, -1, False)
+    0
+    >>> tm_2 = split_transactions_merged_players(tm, bm.get_df(), {0:[0,1]})
+    >>> tm_2.get_df()
+       bid  quantity  price  source  active
+    0    0  0.333333      1      -1   False
+    1    1  0.666667      1      -1   False
+                   
     """
 
     trans = TransactionManager()

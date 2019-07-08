@@ -22,7 +22,8 @@ def p2p_random(bids: pd.DataFrame, p_coef:float=0.5, r:RandomState=None) -> Mech
     p_coef:
         coefficient to calculate the trading price as a convex
         combination of the price of the seller and the price of
-        the buyer.
+        the buyer. If 1, the seller gets all the profit and if 0,
+        the buyer gets all the profit.
     r
         Random state to generate stochastic values. If None,
         then the outcome of the market will be different on
