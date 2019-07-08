@@ -19,7 +19,7 @@ def p2p_random(bids: pd.DataFrame, p_coef:float=0.5, r:RandomState=None) -> Mech
         Precondition: a user participates only in one
         side of the market, i.e, it cannot sell and buy in
         the same run.
-    p_coef:
+    p_coef
         coefficient to calculate the trading price as a convex
         combination of the price of the seller and the price of
         the buyer. If 1, the seller gets all the profit and if 0,

@@ -67,6 +67,7 @@ def muda(bids: pd.DataFrame, r:np.random.RandomState=None) -> MechanismReturn:
     >>> trans, extra = muda(bm.get_df(), r)
     >>> extra
     {'left': [], 'right': [0, 1, 2, 3], 'price_left': inf, 'price_right': 2.5, 'fees': array([0., 0., 0., 0.])}
+
     >>> trans.get_df()
     Empty DataFrame
     Columns: [bid, quantity, price, source, active]
