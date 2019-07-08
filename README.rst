@@ -21,10 +21,10 @@ A simple library for simulating markets in Python
 Examples
 ---------
 
-.. examples/Huang.ipynb
-.. examples/MUDA.ipynb
-.. examples/P2P.ipynb
-.. Simple_example.ipynb
+.. `examples/Huang.ipynb`
+.. `examples/MUDA.ipynb`
+.. `examples/P2P.ipynb`
+.. `Simple_example.ipynb`
 
 Features
 ---------
