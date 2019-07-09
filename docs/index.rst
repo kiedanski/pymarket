@@ -22,7 +22,7 @@ This library aims to provide a simple interface for such process, making results
 
    installation
    quickstart
-   usage
+   examples
    modules
    contributing
    authors

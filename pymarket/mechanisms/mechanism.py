@@ -120,6 +120,7 @@ class Mechanism():
         if self.merge:
             self.old_bids = bids
             new_bids, maping = merge_same_price(bids)
+            # print(maping)
             self.maping = maping
         else:
             new_bids = bids

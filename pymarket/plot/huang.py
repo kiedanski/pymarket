@@ -43,8 +43,7 @@ def plot_huang_auction(bids, price_sell, price_buy, quantity_traded, ax=None):
     ax.axhline(price_sell, linestyle='--', c='k', label='Sell price')
     ax.axhline(price_buy, linestyle='-.',  c='k', label='Buy price')
     ax.axvline(quantity_traded, linestyle='--', c='k', label='Quantity traded')
-    ax.fill_between(np.arange(0, quantity_traded, 0.01), y1=4, y2=6, alpha=0.3, label='Market profit')
-    # ax.fill_between(np.arange(quantity_traded, 6, 0.01), y1=4, y2=6, alpha=0.3, label='Lost efficiency')
+    ax.fill_between(np.arange(0, quantity_traded, 0.01), y1=price_buy, y2=price_sell, alpha=0.3, label='Market profit')
     ax.legend()
 
     return ax

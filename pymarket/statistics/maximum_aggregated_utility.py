@@ -144,8 +144,7 @@ def percentage_welfare(bids, transactions, reservation_prices=None, **kwargs):
     >>> percentage_welfare(bm.get_df(), tm.get_df())  
     0.8
     """
-    if reservation_prices is None:
-        reservation_prices = {}
+    reservation_prices = {}
     for i, x in bids.iterrows():
         if i not in reservation_prices:
             reservation_prices[i] = x.price
@@ -153,37 +152,20 @@ def percentage_welfare(bids, transactions, reservation_prices=None, **kwargs):
     _, objective, _ = maximum_aggregated_utility(bids, reservation_prices)
 
     tmp = bids.reset_index().rename(columns={'index': 'bid'})
-    tmp.price = tmp.apply(
-        lambda x: reservation_prices.get(x.user, x.price), axis=1)
     tmp = tmp[['bid', 'price', 'buying']]
     merged = transactions.merge(tmp, on='bid')
 
-    welfare = merged.apply(lambda x: get_gain(x), axis=1).sum()
+    buyers = merged.loc[merged['buying']]
+    profit_buyers = (buyers.price_y - buyers.price_x) * buyers.quantity
+    profit_buyers = profit_buyers.sum()
 
+    sellers = merged.loc[~merged['buying']]
+    profit_sellers = (sellers.price_x - sellers.price_y) * sellers.quantity
+    profit_sellers = profit_sellers.sum()
+
+    welfare = profit_buyers + profit_sellers
+    
     if objective > 0:
         return welfare / objective
     else:
         return None
-
-
-def get_gain(row):
-    """Finds the gain of the row
-
-    Parameters
-    ----------
-    row : pandas row
-        A row resulting from merging transactions
-        with bids
-        
-
-    Returns
-    -------
-    gain : float
-        The gain obtained by a given transaction
-
-    
-    """
-    gap = row.price_y - row.price_x
-    if not row.buying:
-        gap = -gap
-    return gap * row.quantity

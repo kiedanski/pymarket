@@ -50,8 +50,8 @@ class Market():
 
         
         """
-        self.bm.add_bid(*args)
-        return 1
+        bid_id = self.bm.add_bid(*args)
+        return bid_id
 
     def run(self, algo, *args, **kwargs):
         """Runs a given mechanism with the current
@@ -78,7 +78,7 @@ class Market():
         self.extra = extra
         return transactions, extra
 
-    def statistics(self, reservation_prices=None):
+    def statistics(self, reservation_prices=None, exclude=[]):
         """Computes the standard statistics of the market
 
         Parameters
@@ -88,9 +88,16 @@ class Market():
             the bid will be assumed truthfull
         reservation_prices :
              (Default value = None)
+        exclude :
+            List of mechanisms to ignore will comuting statistics
 
         Returns
         -------
+        stats : dict
+            Dictionary with the differnt statistics. Currently:
+                * percentage_welfare
+                * percentage_traded
+                * profits
 
         
         """
@@ -98,13 +105,14 @@ class Market():
         extras = {}
         if 'fees' in self.extra:
             extras['fees'] = self.extra['fees']
-        extras['reservation_price'] = reservation_prices
+        extras['reservation_prices'] = reservation_prices
         for stat in STATS:
-            stats[stat] = STATS[stat](
-                self.bm.get_df(),
-                self.transactions.get_df(),
-                **extras
-            )
+            if stat not in exclude:
+                stats[stat] = STATS[stat](
+                    self.bm.get_df(),
+                    self.transactions.get_df(),
+                    **extras
+                )
         self.stats = stats
         return stats
 

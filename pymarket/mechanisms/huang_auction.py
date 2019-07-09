@@ -125,6 +125,9 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
     {'price_sell': 2.0, 'price_buy': 3.0, 'quantity_traded': 0.2}
 
     """
+
+    # print(bids)
+
     trans = TransactionManager()
     
     buy, b_index  = demand_curve_from_bids(bids)
@@ -135,28 +138,53 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
     price_sell = sell[s_, 1]
     price_buy = buy[b_, 1]
    
-    quantity_buy = bids.iloc[b_index[:b_], 0].values
-    quantity_sell = bids.iloc[s_index[:s_], 0].values
-    if b_ > 0 and s_ > 0:
-       long_sellers = sell[s_ - 1, 0] > buy[b_ - 1, 0] 
-       gap = sell[s_ - 1, 0] - buy[b_ - 1, 0] 
-       if long_sellers:
-            quantity_sell = update_quantity(quantity_sell, gap) 
-       else:
-           quantity_buy = update_quantity(quantity_buy, - gap)
-            
-       for i in range(s_):
-           id_ = s_index[i]
-           trans.add_transaction(id_, quantity_sell[i],
-                   price_sell, -1, False)
+    #quantity_buy = bids.iloc[b_index[:b_], 0].values
+    #quantity_sell = bids.iloc[s_index[:s_], 0].values
+    
+    buying_bids  = bids.loc[bids['buying']].sort_values('price', ascending=False)
+    selling_bids = bids.loc[~bids['buying']].sort_values('price', ascending=True)
+    
+    ## Filter only the trading bids.
+    buying_bids = buying_bids.iloc[: b_, :]
+    selling_bids = selling_bids.iloc[: s_, :]
 
-       for i in range(b_):
-           id_ = b_index[i]
-           trans.add_transaction(id_, quantity_buy[i],
-                   price_buy, -1, False)
+    # print(selling_bids, buying_bids)
+
+    quantity_buy = buying_bids.quantity.values
+    quantity_sell = selling_bids.quantity.values
+    
+    if b_ > 0 and s_ > 0:
+        #long_sellers = sell[s_ - 1, 0] > buy[b_ - 1, 0] 
+        #gap = sell[s_ - 1, 0] - buy[b_ - 1, 0] 
+        gap = quantity_sell.sum() - quantity_buy.sum()
+        if gap > 0:
+            quantity_sell = update_quantity(quantity_sell, gap) 
+        else:
+            quantity_buy = update_quantity(quantity_buy, - gap)
+
+        for (i, x), q in zip(selling_bids.iterrows(), quantity_sell):
+            # print(i)
+            t = (i, q, price_sell, -1, False)
+            trans.add_transaction(*t)
+
+        for (i, x), q in zip(buying_bids.iterrows(), quantity_buy):
+            # print(i)
+            t = (i, q, price_buy, -1, False)
+            trans.add_transaction(*t)
+
+    #    for i in range(s_):
+    #        id_ = s_index[i]
+    #        trans.add_transaction(id_, quantity_sell[i],
+    #                price_sell, -1, False)
+
+    #    for i in range(b_):
+    #        id_ = b_index[i]
+    #        trans.add_transaction(id_, quantity_buy[i],
+    #                price_buy, -1, False)
 
     extra = {'price_sell': price_sell, 'price_buy': price_buy,
                    'quantity_traded': quantity_buy.sum()}
+    # print(trans.get_df())
     return trans, extra
 
 class HuangAuction(Mechanism):

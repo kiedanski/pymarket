@@ -71,24 +71,27 @@ def calculate_profits(bids, transactions, reservation_prices=None, fees=None, **
    
     profit = {}
     for case in ['bid', 'reservation']:
-        tmp = bids.reset_index().rename(columns={'index': 'bid'})
+        tmp = bids.reset_index().rename(columns={'index': 'bid'}).copy()
         tmp = tmp[['bid', 'price', 'buying', 'user']]
         if case == 'reservation':
             tmp.price = tmp.apply(
-                lambda x: reservation_prices.get(x.user, x.price), axis=1)
-        merged = transactions.merge(tmp, on='bid')
+                lambda x: reservation_prices.get(x.bid, x.price), axis=1)
+        merged = transactions.merge(tmp, on='bid').copy()
         merged['gain'] = merged.apply(lambda x: get_gain(x), axis=1)
         profit_player = merged.groupby('user')['gain'].sum()
+        #print(profit_player)
         profit_player = np.array([profit_player.get(x, 0) for x in users])
         profit[f'player_{case}'] = profit_player
 
         if case == 'bid':
-            mb = merged[merged.user.isin(buyers)]
-            ms = merged[merged.user.isin(sellers)]
-            profit_market = (
-                (mb.price_x * mb.quantity).sum() -
-                (ms.price_x * ms.quantity).sum()
-            )
+            # print(merged)
+            mb = merged.loc[merged['buying']]
+            ms = merged.loc[~merged['buying']]
+            # print(ms)
+            # print(ms.quantity.sum(), mb.quantity.sum())
+            # print(ms.price_x * ms.quantity)
+            profit_market = (mb.price_x * mb.quantity).values.sum()
+            profit_market -= (ms.price_x * ms.quantity).values.sum()
             profit_market += fees.sum()
             profit['market'] = profit_market
 
