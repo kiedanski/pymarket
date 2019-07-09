@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
 
     pymarket.bids
+    pymarket.datasets
     pymarket.mechanisms
     pymarket.plot
     pymarket.statistics

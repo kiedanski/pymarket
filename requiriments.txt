@@ -4,3 +4,4 @@ networkx
 numpy
 tox-travis
 matplotlib
+sphinx_rtd_theme

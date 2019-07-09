@@ -22,6 +22,8 @@ you through the process.
 .. _pip: https://pip.pypa.io
 .. _Python installation guide: http://docs.python-guide.org/en/latest/starting/installation/
 
+.. warning::
+    Python `3.6 >=` is required. PyMarket won't run on Python 2.
 
 From sources
 ------------

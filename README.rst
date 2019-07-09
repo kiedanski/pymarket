@@ -22,7 +22,9 @@ Examples
 ---------
 
 `Using Huang auction <examples/Huang.ipynb>`_
+
 `Using P2P trading <examples/P2P.ipynb>`_
+
 `Using MUDA auction <examples/MUDA.ipynb>`_
 
 Features
