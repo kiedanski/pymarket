@@ -1,24 +1,26 @@
 import networkx as nx
+import pandas as pd
 import matplotlib.pyplot as plt
 
 
-def plot_trades_as_graph(bids, transactions, ax):
+def plot_trades_as_graph(bids: pd.DataFrame, transactions: pd.DataFrame, ax=None):
     """Plots all the bids as a bipartit graph
     with buyers and trades and an edge between
     each pair that traded
 
     Parameters
     ----------
-    bids :
-        
-    transactions :
-        
-    ax :
-        
+    bids
+        Collection of bids to be used
+    transactions
+        Collection of transactions to be used
+    ax
+        The axe in which the figure should be ploted
 
     Returns
     -------
-
+     axe : matplotlib.axes._subplots.AxesSubplot
+        The axe in which the figure was plotted.
     
     """
     bids = bids.get_df()

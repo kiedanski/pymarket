@@ -8,7 +8,7 @@ def plot_both_side_muda(
     """Plots the two sides in which MUDA divides the trades with the
     corresponding prices
     
-    Paramters
+    Parameters
     ----------
     bids (pandas dataframe):
         Table with all the bids submitted
@@ -23,29 +23,10 @@ def plot_both_side_muda(
     FIGSIZE (tuple):
         Tuple (width, height) of the figure to be created
 
-    Parameters
-    ----------
-    bids :
-        
-    left_players :
-        
-    right_players :
-        
-    left_price :
-        
-    right_price :
-        
-    FIGSIZE :
-         (Default value = (12)
-    6) :
-        
-    **kwargs :
-        
-
     Returns
     -------
-
-    
+     axe : matplotlib.axes._subplots.AxesSubplot
+        The axe in which the figure was plotted.
     """
     bids = bids.get_df()
     fig, ax = plt.subplots(1, 2, figsize=FIGSIZE)

@@ -7,7 +7,7 @@ def plot_huang_auction(bids, price_sell, price_buy, quantity_traded, ax=None):
     """Plots the results of the huang auction with some of the characteristics
     of such auction
     
-    Paramters
+    Parameters
     ----------
     bids (pandas dataframe):
         Table with all the bids submitted
@@ -18,21 +18,10 @@ def plot_huang_auction(bids, price_sell, price_buy, quantity_traded, ax=None):
     quantity traded (float):
         The total quantity traded
 
-    Parameters
-    ----------
-    bids :
-        
-    price_sell :
-        
-    price_buy :
-        
-    quantity_traded :
-        
-    ax :
-         (Default value = None)
-
     Returns
     -------
+    axe : matplotlib.axes._subplots.AxesSubplot
+        The axe in which the figure was plotted.
 
     
     """

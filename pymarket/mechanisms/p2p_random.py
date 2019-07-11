@@ -8,7 +8,8 @@ from pymarket.mechanisms import Mechanism, MechanismReturn
 
 RandomState = Union[np.random.RandomState, None]
 
-def p2p_random(bids: pd.DataFrame, p_coef:float=0.5, r:RandomState=None) -> MechanismReturn:
+
+def p2p_random(bids: pd.DataFrame, p_coef: float=0.5, r: RandomState=None) -> MechanismReturn:
     """Computes all the trades using a P2P random trading
     process inspired in [1].
 
@@ -37,9 +38,8 @@ def p2p_random(bids: pd.DataFrame, p_coef:float=0.5, r:RandomState=None) -> Mech
     extra : dict
         Extra information provided by the mechanisms.
         Keys:
-            * trading_list: list of list of tuples of all the
-            pairs that traded in each round.
-        
+       
+        * trading_list: list of list of tuples of all the pairs that traded in each round.
 
     Notes
     -------

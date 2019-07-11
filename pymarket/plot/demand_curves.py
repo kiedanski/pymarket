@@ -12,7 +12,8 @@ def plot_demand_curves(bids, ax=None, margin_X = 1.2, margin_Y = 1.2):
 
     Parameters
     ----------
-    bids : TODO
+    bids
+          Collection of bids to be used 
         
     ax : TODO, optional
          (Default value = None)

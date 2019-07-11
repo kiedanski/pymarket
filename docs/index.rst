@@ -23,10 +23,9 @@ This library aims to provide a simple interface for such process, making results
    installation
    quickstart
    examples
-   modules
+   source/modules
    contributing
    authors
-   history
 
 Indices and tables
 ==================

@@ -12,6 +12,14 @@ pymarket.mechanisms.huang\_auction module
     :undoc-members:
     :show-inheritance:
 
+pymarket.mechanisms.mechanism module
+------------------------------------
+
+.. automodule:: pymarket.mechanisms.mechanism
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 pymarket.mechanisms.muda\_auction module
 ----------------------------------------
 

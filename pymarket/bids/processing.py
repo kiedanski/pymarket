@@ -9,11 +9,10 @@ from pymarket.bids import BidManager
 
 
 def new_player_id(index : int) -> Callable[[List[int]], int]:
-    """Helper function for
-    merge_same_price
+    """Helper function for merge_same_price.
     Creates a function that returns consecutive integers.
     
-    Paramters
+    Parameters
     -----------
     index
         First identifier to use for the
@@ -47,7 +46,7 @@ def new_player_id(index : int) -> Callable[[List[int]], int]:
         else, a new user id is created for the 
         whole list.
         
-        Paramters
+        Parameters
         ----------
         users
             List of 1 or more user's identifiers.
@@ -101,7 +100,7 @@ def merge_same_price(df : pd.DataFrame, prec: float=5) -> pd.DataFrame:
         Maping from new bids index to the
         old bids index.
 
-    Exampels
+    Examples
     ---------
     >>> bm = BidManager()
     >>> bm.add_bid(0.3, 1, 0)

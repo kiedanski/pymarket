@@ -20,6 +20,14 @@ pymarket.bids.demand\_curves module
     :undoc-members:
     :show-inheritance:
 
+pymarket.bids.processing module
+-------------------------------
+
+.. automodule:: pymarket.bids.processing
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------

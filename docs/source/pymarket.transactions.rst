@@ -4,6 +4,14 @@ pymarket.transactions package
 Submodules
 ----------
 
+pymarket.transactions.processing module
+---------------------------------------
+
+.. automodule:: pymarket.transactions.processing
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 pymarket.transactions.transactions module
 -----------------------------------------
 

@@ -14,7 +14,7 @@ def split_transactions_merged_players(transactions, bids, maping, fees=None):
     Uses a proportional split, based on the offered (or asked) quantity by
     each player.
 
-    Parametes
+    Parameters
     ----------
     transactions: TransactionManager
         the transactions manager returned by the mechanism.
