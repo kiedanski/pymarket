@@ -1,11 +1,4 @@
 
-
-```python
-%matplotlib inline
-import pandas as pd
-pd.set_option('display.notebook_repr_html', False)
-```
-
 # PyMarket
 
 [![Build Status](https://travis-ci.org/gus0k/pymarket.svg?branch=master)](https://travis-ci.org/gus0k/pymarket)
@@ -47,7 +40,7 @@ mar.plot()
 ```
 
 
-![png](README_files/README_5_0.png)
+![png](README_files/README_4_0.png)
 
 
 ### Access the bids
