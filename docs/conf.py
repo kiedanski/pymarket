@@ -206,8 +206,8 @@ def run_apidoc(_):
         "-T",
         "-e",
         "-M",
-        "-o", ".",
-        ".."
+        "-o", "./source",
+        "../pymarket"
     ] + ignore_paths
 
     try:
