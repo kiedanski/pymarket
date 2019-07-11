@@ -85,4 +85,5 @@ install: clean ## install the package to the active Python's site-packages
 	python setup.py install
 
 readme:
-	jupyter nbconvert --to markdown README.ipynb
+	jupyter nbconvert --to markdown README.ipynb --TagRemovePreprocessor.remove_cell_tags='{"remove_cell"}'
+

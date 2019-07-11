@@ -1,4 +1,11 @@
 
+
+```python
+%matplotlib inline
+import pandas as pd
+pd.set_option('display.notebook_repr_html', False)
+```
+
 # PyMarket
 
 [![Build Status](https://travis-ci.org/gus0k/pymarket.svg?branch=master)](https://travis-ci.org/gus0k/pymarket)
@@ -40,7 +47,7 @@ mar.plot()
 ```
 
 
-![png](README_files/README_4_0.png)
+![png](README_files/README_5_0.png)
 
 
 ### Access the bids
@@ -54,81 +61,12 @@ bids.head()
 
 
 
-<div>
-<style>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>quantity</th>
-      <th>price</th>
-      <th>user</th>
-      <th>buying</th>
-      <th>time</th>
-      <th>divisible</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0.2374</td>
-      <td>1.0234</td>
-      <td>0</td>
-      <td>True</td>
-      <td>0</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0.1784</td>
-      <td>1.1770</td>
-      <td>1</td>
-      <td>True</td>
-      <td>0</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0.6301</td>
-      <td>1.5789</td>
-      <td>2</td>
-      <td>True</td>
-      <td>0</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.1600</td>
-      <td>1.8008</td>
-      <td>3</td>
-      <td>True</td>
-      <td>0</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.7920</td>
-      <td>1.5478</td>
-      <td>4</td>
-      <td>True</td>
-      <td>0</td>
-      <td>True</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+       quantity   price  user  buying  time  divisible
+    0    0.2374  1.0234     0    True     0       True
+    1    0.1784  1.1770     1    True     0       True
+    2    0.6301  1.5789     2    True     0       True
+    3    0.1600  1.8008     3    True     0       True
+    4    0.7920  1.5478     4    True     0       True
 
 
 
@@ -144,75 +82,12 @@ transactions.head()
 
 
 
-<div>
-<style>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>bid</th>
-      <th>quantity</th>
-      <th>price</th>
-      <th>source</th>
-      <th>active</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>12</td>
-      <td>0.0786</td>
-      <td>1.28745</td>
-      <td>28</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>28</td>
-      <td>0.0786</td>
-      <td>1.28745</td>
-      <td>12</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>8</td>
-      <td>0.0000</td>
-      <td>0.00000</td>
-      <td>23</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>23</td>
-      <td>0.0000</td>
-      <td>0.00000</td>
-      <td>8</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>13</td>
-      <td>0.4147</td>
-      <td>1.98175</td>
-      <td>22</td>
-      <td>False</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+       bid  quantity   price  source  active
+    0   16    0.0000  0.0000      34    True
+    1   34    0.0000  0.0000      16    True
+    2    0    0.0000  0.0000      23    True
+    3   23    0.0000  0.0000       0    True
+    4   12    0.0786  1.3828      26   False
 
 
 
@@ -224,9 +99,4 @@ transactions.head()
 
 ```python
 pip install pymarket
-```
-
-
-```python
-
 ```
