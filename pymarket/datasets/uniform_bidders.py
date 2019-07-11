@@ -41,7 +41,7 @@ def generate(
     ---------
     >>> r = np.random.RandomState(420)
     >>> generate(2, 3, 1, 2, r, 0.1)
-    [(0.5, 2.8, 0, False, 0, True), (0.7000000000000001, 2.5, 1, False, 0, True), (0.6000000000000001, 1.2, 2, True, 0, True), (0.1, 1.7000000000000002, 3, True, 0, True), (0.2, 1.3, 4, True, 0, True)]
+    [(0.5, 2.8, 0, True, 0, True), (0.7000000000000001, 2.5, 1, True, 0, True), (0.6000000000000001, 1.2, 2, False, 0, True), (0.1, 1.7000000000000002, 3, False, 0, True), (0.2, 1.3, 4, False, 0, True)]
     """
 
     if r is None:
@@ -57,7 +57,7 @@ def generate(
         qs = r.choice(range_, q_, replace=False)
         vs = r.choice(range_ + o_, q_, replace=False)
         for j in range(q_):
-            bid = (qs[j], vs[j], user, bool(i), 0, True)
+            bid = (qs[j], vs[j], user, bool(1 - i), 0, True)
             bids.append(bid)
             user += 1
     return bids

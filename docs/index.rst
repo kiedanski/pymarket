@@ -26,6 +26,7 @@ This library aims to provide a simple interface for such process, making results
    source/modules
    contributing
    authors
+   references
 
 Indices and tables
 ==================

@@ -2,6 +2,13 @@
 Credits
 =======
 
+Team
+-----
+
+* Diego Kiedanski
+* Daniel Kofman
+* José Horta
+
 Development Lead
 ----------------
 
