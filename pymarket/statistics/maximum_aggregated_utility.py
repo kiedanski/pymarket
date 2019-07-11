@@ -10,7 +10,7 @@ def maximum_aggregated_utility(bids, *args, reservation_prices=None):
     ----------
     bids : pd.DataFrame
        Collection of bids
-        
+
     reservation_prices : dict of floats or None, (Default value = None)
         A maping from user ids to reservation prices. If no reservation
         price for a user is given, his bid will be assumed to be his
@@ -31,7 +31,7 @@ def maximum_aggregated_utility(bids, *args, reservation_prices=None):
 
     >>> bm = pm.BidManager()
     >>> bm.add_bid(1, 3, 0)
-    0 
+    0
     >>> bm.add_bid(1, 2, 1)
     1
     >>> bm.add_bid(1.5, 1, 2, False)
@@ -43,13 +43,13 @@ def maximum_aggregated_utility(bids, *args, reservation_prices=None):
     2.5
     >>> v
     {(0, 2): 1.0, (1, 2): 0.5}
-    
+
     If in reality the seller had 0 value for his commodity,
     the social welfare will be 1.5 units larger
 
     >>> bm = pm.BidManager()
     >>> bm.add_bid(1, 3, 0)
-    0 
+    0
     >>> bm.add_bid(1, 2, 1)
     1
     >>> bm.add_bid(1.5, 1, 2, False)
@@ -87,15 +87,15 @@ def maximum_aggregated_utility(bids, *args, reservation_prices=None):
 
     for b in buyers:
         model += pulp.lpSum(qs[b, j] for j in sellers) <= bids.iloc[b, 0]
-    
+
     for s in sellers:
         model += pulp.lpSum(qs[i, s] for i in buyers) <= bids.iloc[s, 0]
-    
+
     model.solve()
 
     status = pulp.LpStatus[model.status]
     objective = pulp.value(model.objective)
-   
+
     variables = {}
     for var in qs:
         varval = qs[var].varValue
@@ -132,7 +132,7 @@ def percentage_welfare(bids, transactions, reservation_prices=None, **kwargs):
     >>> tm = pm.TransactionManager()
     >>> bm = pm.BidManager()
     >>> bm.add_bid(1, 3, 0)
-    0 
+    0
     >>> bm.add_bid(1, 2, 1)
     1
     >>> bm.add_bid(1.5, 1, 2, False)
@@ -141,7 +141,7 @@ def percentage_welfare(bids, transactions, reservation_prices=None, **kwargs):
     0
     >>> tm.add_transaction(2, 1, 2, 0, False)
     1
-    >>> percentage_welfare(bm.get_df(), tm.get_df())  
+    >>> percentage_welfare(bm.get_df(), tm.get_df())
     0.8
     """
     reservation_prices = {}
@@ -164,7 +164,7 @@ def percentage_welfare(bids, transactions, reservation_prices=None, **kwargs):
     profit_sellers = profit_sellers.sum()
 
     welfare = profit_buyers + profit_sellers
-    
+
     if objective > 0:
         return welfare / objective
     else:

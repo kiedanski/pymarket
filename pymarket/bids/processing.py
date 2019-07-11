@@ -8,10 +8,10 @@ from typing import Callable, List
 from pymarket.bids import BidManager
 
 
-def new_player_id(index : int) -> Callable[[List[int]], int]:
+def new_player_id(index: int) -> Callable[[List[int]], int]:
     """Helper function for merge_same_price.
     Creates a function that returns consecutive integers.
-    
+
     Parameters
     -----------
     index
@@ -30,7 +30,7 @@ def new_player_id(index : int) -> Callable[[List[int]], int]:
     >>> id_gen([3])
     3
     >>> id_gen([5])
-    5 
+    5
     >>> id_gen([0, 1])
     6
     >>> id_gen([2, 4])
@@ -43,9 +43,9 @@ def new_player_id(index : int) -> Callable[[List[int]], int]:
         Generates a unique identifier for a
         list of users. If the list has
         only one user, then the id is mantained
-        else, a new user id is created for the 
+        else, a new user id is created for the
         whole list.
-        
+
         Parameters
         ----------
         users
@@ -74,7 +74,7 @@ def new_player_id(index : int) -> Callable[[List[int]], int]:
     return new_id
 
 
-def merge_same_price(df : pd.DataFrame, prec: float=5) -> pd.DataFrame:
+def merge_same_price(df: pd.DataFrame, prec: float=5) -> pd.DataFrame:
     """
     Process a collection of bids by merging in each
     side (buying or selling) all players with the same
@@ -95,7 +95,7 @@ def merge_same_price(df : pd.DataFrame, prec: float=5) -> pd.DataFrame:
         The new collection of bids where
         players with the same price have
         been merged into one.
-    
+
     final_maping : dict
         Maping from new bids index to the
         old bids index.
@@ -128,63 +128,63 @@ def merge_same_price(df : pd.DataFrame, prec: float=5) -> pd.DataFrame:
     2       4.0  2.44445     6   False     0       True
     >>> index
     {0: [0, 1], 1: [2], 2: [3, 4]}
-    
+
 
     >>> mar = pm.Market()
-    >>> mar.accept_bid(250, 200, 0, True) # CleanRetail  
+    >>> mar.accept_bid(250, 200, 0, True) # CleanRetail
     0
-    >>> mar.accept_bid(300, 110, 1, True) # El4You       
+    >>> mar.accept_bid(300, 110, 1, True) # El4You
     1
-    >>> mar.accept_bid(120, 100, 2, True) # EVcharge     
+    >>> mar.accept_bid(120, 100, 2, True) # EVcharge
     2
-    >>> mar.accept_bid( 80,  90, 3, True) # QualiWatt    
+    >>> mar.accept_bid( 80,  90, 3, True) # QualiWatt
     3
-    >>> mar.accept_bid( 40,  85, 4, True) # IntelliWatt  
+    >>> mar.accept_bid( 40,  85, 4, True) # IntelliWatt
     4
-    >>> mar.accept_bid( 70,  75, 1, True) # El4You       
+    >>> mar.accept_bid( 70,  75, 1, True) # El4You
     5
-    >>> mar.accept_bid( 60,  65, 0, True) # CleanRetail  
+    >>> mar.accept_bid( 60,  65, 0, True) # CleanRetail
     6
-    >>> mar.accept_bid( 45,  40, 4, True) # IntelliWatt  
+    >>> mar.accept_bid( 45,  40, 4, True) # IntelliWatt
     7
-    >>> mar.accept_bid( 30,  38, 3, True) # QualiWatt    
+    >>> mar.accept_bid( 30,  38, 3, True) # QualiWatt
     8
-    >>> mar.accept_bid( 35,  31, 4, True) # IntelliWatt  
+    >>> mar.accept_bid( 35,  31, 4, True) # IntelliWatt
     9
-    >>> mar.accept_bid( 25,  24, 0, True) # CleanRetail  
+    >>> mar.accept_bid( 25,  24, 0, True) # CleanRetail
     10
-    >>> mar.accept_bid( 10,  21, 1, True) # El4You       
+    >>> mar.accept_bid( 10,  21, 1, True) # El4You
     11
 
-    >>> mar.accept_bid(120,   0, 5, False) # RT             
+    >>> mar.accept_bid(120,   0, 5, False) # RT
     12
-    >>> mar.accept_bid(50,    0, 6, False) # WeTrustInWind  
+    >>> mar.accept_bid(50,    0, 6, False) # WeTrustInWind
     13
-    >>> mar.accept_bid(200,  15, 7, False) # BlueHydro      
+    >>> mar.accept_bid(200,  15, 7, False) # BlueHydro
     14
-    >>> mar.accept_bid(400,  30, 5, False) # RT             
+    >>> mar.accept_bid(400,  30, 5, False) # RT
     15
-    >>> mar.accept_bid(60, 32.5, 8, False) # KøbenhavnCHP   
+    >>> mar.accept_bid(60, 32.5, 8, False) # KøbenhavnCHP
     16
-    >>> mar.accept_bid(50,   34, 8, False) # KøbenhavnCHP   
+    >>> mar.accept_bid(50,   34, 8, False) # KøbenhavnCHP
     17
-    >>> mar.accept_bid(60,   36, 8, False) # KøbenhavnCHP   
+    >>> mar.accept_bid(60,   36, 8, False) # KøbenhavnCHP
     18
-    >>> mar.accept_bid(100,37.5, 9, False) # DirtyPower     
+    >>> mar.accept_bid(100,37.5, 9, False) # DirtyPower
     19
-    >>> mar.accept_bid(70,   39, 9, False) # DirtyPower     
+    >>> mar.accept_bid(70,   39, 9, False) # DirtyPower
     20
-    >>> mar.accept_bid(50,   40, 9, False) # DirtyPower     
+    >>> mar.accept_bid(50,   40, 9, False) # DirtyPower
     21
-    >>> mar.accept_bid(70,   60, 5, False) # RT             
+    >>> mar.accept_bid(70,   60, 5, False) # RT
     22
-    >>> mar.accept_bid(45,   70, 5, False) # RT             
+    >>> mar.accept_bid(45,   70, 5, False) # RT
     23
-    >>> mar.accept_bid(50,  100, 10, False) # SafePeak      
+    >>> mar.accept_bid(50,  100, 10, False) # SafePeak
     24
-    >>> mar.accept_bid(60,  150, 10, False) # SafePeak      
+    >>> mar.accept_bid(60,  150, 10, False) # SafePeak
     25
-    >>> mar.accept_bid(50,  200, 10, False) # SafePeak      
+    >>> mar.accept_bid(50,  200, 10, False) # SafePeak
     26
     >>> bids, index = pm.merge_same_price(mar.bm.get_df())
     >>> mar.bm.get_df()
@@ -248,7 +248,7 @@ def merge_same_price(df : pd.DataFrame, prec: float=5) -> pd.DataFrame:
         # print(df_new)
         df_new.user = df_new.user.apply(id_gen)
         #maping = df_new.set_index('user').bid.to_dict()
-        #for k, v in maping.items():
+        # for k, v in maping.items():
         #    user_to_bid[k] = v
 
         dataframe_new.append(df_new)

@@ -4,7 +4,8 @@ from pymarket.transactions import TransactionManager
 from pymarket.bids.demand_curves import *
 from typing import List
 
-def update_quantity(quantity : np.ndarray, gap: float) -> np.ndarray:
+
+def update_quantity(quantity: np.ndarray, gap: float) -> np.ndarray:
     """Implements the footnote in page 8 of [1],
     where the long side updates their
     trading quantities to match the short side.
@@ -16,7 +17,7 @@ def update_quantity(quantity : np.ndarray, gap: float) -> np.ndarray:
         player.
     gap
         Difference between the short and long side
-        
+
     Returns
     -------
     quantity
@@ -27,15 +28,15 @@ def update_quantity(quantity : np.ndarray, gap: float) -> np.ndarray:
     ------
     [1] Huang, Pu, Alan Scheller–Wolf, and Katia Sycara. "Design of a multi–unit
     double auction e–market." Computational Intelligence 18.4 (2002): 596-617.
-    
+
     Examples
     ---------
     All keep trading, with less quantity
-    
+
     >>> l, g = np.array([1, 2, 3]), 0.6
     >>> update_quantity(l, g)
     array([0.8, 1.8, 2.8])
-   
+
     The gap is to big for small trader:
 
     >>> l,g = np.array([1, 0.5, 2]), 1.8
@@ -62,9 +63,10 @@ def update_quantity(quantity : np.ndarray, gap: float) -> np.ndarray:
     quantity = np.clip(quantity, 0, max_)
     return quantity
 
+
 def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
     """Implements the auction described in [1]
-    
+
     Parameters
     ----------
     bids:
@@ -76,7 +78,7 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
     trans : TransactionManager
         Collection of all the trasactions cleared
         by the mechanism
-    
+
     extra : dict
         Extra information provided by the mecanism.
         Keys:
@@ -84,7 +86,7 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
         * price_buy: price at which the buyers traded
         * quantity_traded: the total quantity traded
 
-    
+
     Notes
     ------
     [1] Huang, Pu, Alan Scheller–Wolf, and Katia Sycara. "Design of a multi–unit
@@ -93,7 +95,7 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
     Examples
     --------
     No trade because price setters don't trade:
-    
+
     >>> bm = pm.BidManager()
     >>> bm.add_bid(1, 3, 0)
     0
@@ -129,22 +131,24 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
     # print(bids)
 
     trans = TransactionManager()
-    
-    buy, b_index  = demand_curve_from_bids(bids)
+
+    buy, b_index = demand_curve_from_bids(bids)
     sell, s_index = supply_curve_from_bids(bids)
 
     q_, b_, s_, _ = intersect_stepwise(buy, sell)
 
     price_sell = sell[s_, 1]
     price_buy = buy[b_, 1]
-   
+
     #quantity_buy = bids.iloc[b_index[:b_], 0].values
     #quantity_sell = bids.iloc[s_index[:s_], 0].values
-    
-    buying_bids  = bids.loc[bids['buying']].sort_values('price', ascending=False)
-    selling_bids = bids.loc[~bids['buying']].sort_values('price', ascending=True)
-    
-    ## Filter only the trading bids.
+
+    buying_bids = bids.loc[bids['buying']].sort_values(
+        'price', ascending=False)
+    selling_bids = bids.loc[~bids['buying']
+                            ].sort_values('price', ascending=True)
+
+    # Filter only the trading bids.
     buying_bids = buying_bids.iloc[: b_, :]
     selling_bids = selling_bids.iloc[: s_, :]
 
@@ -152,13 +156,13 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
 
     quantity_buy = buying_bids.quantity.values
     quantity_sell = selling_bids.quantity.values
-    
+
     if b_ > 0 and s_ > 0:
-        #long_sellers = sell[s_ - 1, 0] > buy[b_ - 1, 0] 
-        #gap = sell[s_ - 1, 0] - buy[b_ - 1, 0] 
+        #long_sellers = sell[s_ - 1, 0] > buy[b_ - 1, 0]
+        #gap = sell[s_ - 1, 0] - buy[b_ - 1, 0]
         gap = quantity_sell.sum() - quantity_buy.sum()
         if gap > 0:
-            quantity_sell = update_quantity(quantity_sell, gap) 
+            quantity_sell = update_quantity(quantity_sell, gap)
         else:
             quantity_buy = update_quantity(quantity_buy, - gap)
 
@@ -183,14 +187,15 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
     #                price_buy, -1, False)
 
     extra = {'price_sell': price_sell, 'price_buy': price_buy,
-                   'quantity_traded': quantity_buy.sum()}
+             'quantity_traded': quantity_buy.sum()}
     # print(trans.get_df())
     return trans, extra
+
 
 class HuangAuction(Mechanism):
 
     """Iinterface for the HuangAuction
-    
+
     Parameters
     -----------
     bids: pd.DataFrame
@@ -198,11 +203,16 @@ class HuangAuction(Mechanism):
     merge: bool
         Wheather to merge players with the
         same price. Always `True`
-    
+
     """
 
     def __init__(self, bids, *args, **kwargs):
         """
         """
-        Mechanism.__init__(self, huang_auction,  bids, *args, merge=True, **kwargs)
-        
+        Mechanism.__init__(
+            self,
+            huang_auction,
+            bids,
+            *args,
+            merge=True,
+            **kwargs)

@@ -9,4 +9,3 @@ from pymarket.statistics.profits import *
 __author__ = """Diego Kiedanki"""
 __email__ = 'gusok@protonmail.com'
 __version__ = '0.5.3'
-

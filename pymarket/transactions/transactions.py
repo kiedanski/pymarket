@@ -5,7 +5,7 @@ import numpy as np
 class TransactionManager:
     """
     An interaface to store and
-    manage all transactions. 
+    manage all transactions.
     Transactions are the minimal unit to represent
     the outcome of a market.
 
@@ -19,14 +19,14 @@ class TransactionManager:
     trans: list of tuples
         List of the actual transactions available
     """
-    
+
     name_col = ['bid', 'quantity', 'price', 'source', 'active']
+
     def __init__(self):
         """
         """
         self.n_trans = 0
         self.trans = []
-
 
     def add_transaction(self, bid, quantity, price, source, active):
         """Add a transaction to the transactions list
@@ -41,12 +41,12 @@ class TransactionManager:
             transacted price
         source : int
             Identifier of the second party in the trasaction,
-            -1 if there is no clear second party, such as 
+            -1 if there is no clear second party, such as
             in a double auction.
         active :
             True` if the bid is still active after the
             transaction.
-            
+
         Returns
         --------
         trans_id: int
@@ -102,7 +102,7 @@ class TransactionManager:
         """
         Merges two transaction managers with each other
         There are no checks on whether the new
-        TransactionManger is consisten after the 
+        TransactionManger is consisten after the
         merge.
 
         Parameters
@@ -140,5 +140,5 @@ class TransactionManager:
             trans.add_transaction(*t)
         for t in other.trans:
             trans.add_transaction(*t)
-        
+
         return trans

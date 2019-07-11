@@ -7,13 +7,14 @@ from typing import Tuple, Callable
 
 MechanismReturn = Tuple[TransactionManager, dict]
 
+
 class Mechanism():
 
     """Implements a standard interface for mechanisms
 
     Attributes
     -----------
-    
+
     algo: Callable
         Algorithm to execute to solve the market.
     bids: pd.DataFrame
@@ -30,7 +31,7 @@ class Mechanism():
 
     Examples
     ---------
-    
+
     Run p2p mechanism channging parameters with
     default parameters.
 
@@ -69,7 +70,7 @@ class Mechanism():
     3    2         0    0.0       1    True
     """
 
-    def __init__(self, algo,  bids, *args,  merge=False, **kwargs):
+    def __init__(self, algo, bids, *args, merge=False, **kwargs):
         """Creates a mechanisms with bids
 
         """
@@ -96,11 +97,11 @@ class Mechanism():
             The set of bids after processing.
         maping: dict
             Maping from new bids to old bids.
-       
+
 
         Raises
         --------
-        
+
         Examples
         ---------
 
@@ -131,8 +132,8 @@ class Mechanism():
         """Runs the mechanisms"""
         trans, extra = self.algo(self.bids, *self.args, **self.kwargs)
         return trans, extra
-    
-    def _cleanup(self,  trans: pd.DataFrame):
+
+    def _cleanup(self, trans: pd.DataFrame):
         """Makes the necessary adjustements
         to return the transactions in a proper format.
 
@@ -145,18 +146,19 @@ class Mechanism():
         trans
             Collection of all the transactions executed
             in the market.
-            
+
 
         Returns
         -------
         trans: pd.DataFrame
             The processed collection of transactions
             after the necesary adjustments.
-       
+
         """
 
         if self.merge:
-            trans = split_transactions_merged_players(trans, self.old_bids, self.maping)
+            trans = split_transactions_merged_players(
+                trans, self.old_bids, self.maping)
 
         return trans
 

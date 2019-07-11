@@ -9,7 +9,8 @@ from pymarket.mechanisms import Mechanism, MechanismReturn
 RandomState = Union[np.random.RandomState, None]
 
 
-def p2p_random(bids: pd.DataFrame, p_coef: float=0.5, r: RandomState=None) -> MechanismReturn:
+def p2p_random(bids: pd.DataFrame, p_coef: float=0.5,
+               r: RandomState=None) -> MechanismReturn:
     """Computes all the trades using a P2P random trading
     process inspired in [1].
 
@@ -38,7 +39,7 @@ def p2p_random(bids: pd.DataFrame, p_coef: float=0.5, r: RandomState=None) -> Me
     extra : dict
         Extra information provided by the mechanisms.
         Keys:
-       
+
         * trading_list: list of list of tuples of all the pairs that traded in each round.
 
     Notes
@@ -73,13 +74,13 @@ def p2p_random(bids: pd.DataFrame, p_coef: float=0.5, r: RandomState=None) -> Me
     """
     r = np.random.RandomState() if r is None else r
     trans = TransactionManager()
-    buying = bids[bids.buying == True]
+    buying = bids[bids.buying]
     selling = bids[bids.buying == False]
     Nb, Ns = buying.shape[0], selling.shape[0]
 
     quantities = bids.quantity.values.copy()
     prices = bids.price.values.copy()
-   
+
     inactive_buying = []
     inactive_selling = []
 
@@ -89,12 +90,11 @@ def p2p_random(bids: pd.DataFrame, p_coef: float=0.5, r: RandomState=None) -> Me
     i = 0
     for b in buying.index:
         for s in selling.index:
-            pairs[b, i] = False # Row b has 0s whenever the pair involves b
-            pairs[s, i] = False # Same for s
+            pairs[b, i] = False  # Row b has 0s whenever the pair involves b
+            pairs[s, i] = False  # Same for s
             pairs_inv.append((b, s))
-            i += 1 
+            i += 1
 
-    
     active = np.ones(Nb * Ns, dtype=bool)
     tmp_active = active.copy()
     general_trading_list = []
@@ -102,16 +102,16 @@ def p2p_random(bids: pd.DataFrame, p_coef: float=0.5, r: RandomState=None) -> Me
     # possibilities have been tried
     while quantities.sum() > 0 and tmp_active.sum() > 0:
         trading_list = []
-        while tmp_active.sum() > 0: # We can select a pair
+        while tmp_active.sum() > 0:  # We can select a pair
             where = np.where(tmp_active == 1)[0]
             x = r.choice(where)
             trade = pairs_inv[x]
-            active[x] = False # Pair has already traded
+            active[x] = False  # Pair has already traded
             trading_list.append(trade)
-            tmp_active &= pairs[trade[0], :] # buyer and seller already used
+            tmp_active &= pairs[trade[0], :]  # buyer and seller already used
             tmp_active &= pairs[trade[1], :]
 
-        general_trading_list.append(trading_list) 
+        general_trading_list.append(trading_list)
         for (b, s) in trading_list:
             if prices[b] >= prices[s]:
                 q = min(quantities[b], quantities[s])
@@ -125,10 +125,10 @@ def p2p_random(bids: pd.DataFrame, p_coef: float=0.5, r: RandomState=None) -> Me
                 trans_s = (s, 0, 0, b, True)
             trans.add_transaction(*trans_b)
             trans.add_transaction(*trans_s)
-       
+
         inactive_buying = [b for b in buying.index if quantities[b] == 0]
         inactive_selling = [s for s in selling.index if quantities[s] == 0]
-       
+
         tmp_active = active.copy()
         for inactive in inactive_buying + inactive_selling:
             tmp_active &= pairs[inactive, :]
@@ -136,21 +136,20 @@ def p2p_random(bids: pd.DataFrame, p_coef: float=0.5, r: RandomState=None) -> Me
     extra = {'trading_list': general_trading_list}
     return trans, extra
 
+
 class P2PTrading(Mechanism):
 
     """Interface for P2PTrading.
-    
+
     Parameters
     -----------
 
     bids: pd.DataFrame
         Collections of bids to use
-    
+
     """
-    
+
     def __init__(self, bids, *args, **kwargs):
         """
         """
         Mechanism.__init__(self, p2p_random, bids, *args, **kwargs)
-
-        

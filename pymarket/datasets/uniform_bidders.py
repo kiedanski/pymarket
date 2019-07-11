@@ -1,7 +1,13 @@
 import numpy as np
 
-def generate(cant_buyers: int, cant_sellers: int, offset_sellers: float=0,
-        offset_buyers: float=0, r:np.random.RandomState = None, eps:float=1e-4):
+
+def generate(
+        cant_buyers: int,
+        cant_sellers: int,
+        offset_sellers: float=0,
+        offset_buyers: float=0,
+        r: np.random.RandomState = None,
+        eps: float=1e-4):
     """
     Generates random bids. All the volumes and reservation
     prices are sampled independently from a uniform distribution.
@@ -42,7 +48,7 @@ def generate(cant_buyers: int, cant_sellers: int, offset_sellers: float=0,
 
     if r is None:
         r = np.random.RandomState()
-    
+
     offset = [offset_buyers, offset_sellers]
     quantities = [cant_buyers, cant_sellers]
     bids = []
@@ -50,13 +56,10 @@ def generate(cant_buyers: int, cant_sellers: int, offset_sellers: float=0,
     user = 0
     for i, (o_, q_) in enumerate(zip(offset, quantities)):
         range_ = np.arange(0, 1, eps)
-        qs = r.choice(range_, q_, replace=False) 
-        vs = r.choice(range_+ o_, q_, replace=False)
+        qs = r.choice(range_, q_, replace=False)
+        vs = r.choice(range_ + o_, q_, replace=False)
         for j in range(q_):
             bid = (qs[j], vs[j], user, bool(i), 0, True)
             bids.append(bid)
             user += 1
     return bids
-    
-    
-

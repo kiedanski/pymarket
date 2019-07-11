@@ -13,11 +13,11 @@ def check_equal_price(f):
     ----------
     f  :(function, mechanisms)
         Mechanisms to be tested
-        
+
 
     Returns
     -------
-    
+
     """
     @wraps(f)
     def wrapper(*args, **kwds):
@@ -26,9 +26,9 @@ def check_equal_price(f):
         Parameters
         ----------
         *args :
-            
+
         **kwds :
-            
+
 
         Returns
         -------

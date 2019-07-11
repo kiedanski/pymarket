@@ -9,8 +9,8 @@ def maximum_traded_volume(bids, *args, reservation_prices={}):
     Parameters
     ----------
     bids : pd.DataFrame
-       Collections of bids 
-        
+       Collections of bids
+
     reservation_prices : dict of floats or None, (Default value = None)
         A maping from user ids to reservation prices. If no reservation
         price for a user is given, his bid will be assumed to be his
@@ -31,7 +31,7 @@ def maximum_traded_volume(bids, *args, reservation_prices={}):
 
     >>> bm = pm.BidManager()
     >>> bm.add_bid(1, 3, 0)
-    0 
+    0
     >>> bm.add_bid(1, 2, 1)
     1
     >>> bm.add_bid(1.5, 1, 2, False)
@@ -58,11 +58,13 @@ def maximum_traded_volume(bids, *args, reservation_prices={}):
     model += pulp.lpSum([qs[x[0], x[1]] for x in index])
 
     for b in buyers:
-        model += pulp.lpSum(qs[b, j] for j in sellers if (b, j) in index) <= bids.iloc[b, 0]
-    
+        model += pulp.lpSum(qs[b, j]
+                            for j in sellers if (b, j) in index) <= bids.iloc[b, 0]
+
     for s in sellers:
-        model += pulp.lpSum(qs[i, s] for i in buyers if (i, s) in index) <= bids.iloc[s, 0]
-    
+        model += pulp.lpSum(qs[i, s]
+                            for i in buyers if (i, s) in index) <= bids.iloc[s, 0]
+
     model.solve()
 
     status = pulp.LpStatus[model.status]
@@ -104,7 +106,7 @@ def percentage_traded(bids, transactions, reservation_prices={}, **kwargs):
     >>> tm = pm.TransactionManager()
     >>> bm = pm.BidManager()
     >>> bm.add_bid(1, 3, 0)
-    0 
+    0
     >>> bm.add_bid(1, 2, 1)
     1
     >>> bm.add_bid(1.5, 1, 2, False)
@@ -113,12 +115,12 @@ def percentage_traded(bids, transactions, reservation_prices={}, **kwargs):
     0
     >>> tm.add_transaction(2, 1, 2, 0, False)
     1
-    >>> percentage_traded(bm.get_df(), tm.get_df())  
+    >>> percentage_traded(bm.get_df(), tm.get_df())
     0.6666666666666666
 
     """
     _, objective, _ = maximum_traded_volume(bids)
-    
+
     total_traded = transactions.quantity.sum() / 2
 
     if objective > 0:

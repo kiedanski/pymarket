@@ -4,7 +4,7 @@ import pandas as pd
 class BidManager(object):
     """A class used to store and manipulate a collection
     of all the bids in the market.
-    
+
     Attributes
     -----------
     col_names : :obj:`list` of :obj:`str`
@@ -19,27 +19,27 @@ class BidManager(object):
     """
 
     col_names = [
-            'quantity',
-            'price',
-            'user',
-            'buying',
-            'time',
-            'divisible',
-        ]
+        'quantity',
+        'price',
+        'user',
+        'buying',
+        'time',
+        'divisible',
+    ]
 
     def __init__(self):
         self.n_bids = 0
         self.bids = []
 
     def add_bid(
-            self,
-            quantity: float,
-            price: float,
-            user: int,
-            buying: bool=True,
-            time: float = 0,
-            divisible: bool =True
-        ) -> int:
+        self,
+        quantity: float,
+        price: float,
+        user: int,
+        buying: bool=True,
+        time: float = 0,
+        divisible: bool =True
+    ) -> int:
         """Appends a bid to the bid list
 
         Parameters
@@ -61,7 +61,7 @@ class BidManager(object):
         divisible
             `True` is the user accepts a fraction of the asked quantity as
             a result and `False` otherwise.
-            
+
         Returns
         -------
         int
@@ -76,9 +76,8 @@ class BidManager(object):
         new_bid = (quantity, price, user, buying, time, divisible)
         self.bids.append(new_bid)
         self.n_bids += 1
-        
-        return self.n_bids - 1
 
+        return self.n_bids - 1
 
     def get_df(self) -> pd.DataFrame:
         """Creates a dataframe with the bids
@@ -88,7 +87,7 @@ class BidManager(object):
 
         Returns
         -------
-        pd.DataFrame 
+        pd.DataFrame
             Dataframe with each row a different bid
             and each column each of the different attributes.
 

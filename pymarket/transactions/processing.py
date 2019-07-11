@@ -37,7 +37,7 @@ def split_transactions_merged_players(transactions, bids, maping, fees=None):
     >>> bm = pm.BidManager()
     >>> tm = pm.TransactionManager()
     >>> bm.add_bid(1, 1, 0)
-    0 
+    0
     >>> bm.add_bid(2, 1, 1)
     1
     >>> tm.add_transaction(0, 1, 1, -1, False)
@@ -47,7 +47,7 @@ def split_transactions_merged_players(transactions, bids, maping, fees=None):
        bid  quantity  price  source  active
     0    0  0.333333      1      -1   False
     1    1  0.666667      1      -1   False
-                   
+
     """
 
     trans = TransactionManager()
@@ -61,16 +61,16 @@ def split_transactions_merged_players(transactions, bids, maping, fees=None):
             fee = fees.pop(t.user, None)
         for r in rows:
             #t_ = pd.DataFrame(t).copy().T
-            #print(r)
+            # print(r)
             t_ = t.copy().values
-            #print(t_)
+            # print(t_)
             t_[0] = r
             t_[1] *= perc[r]
             if len(rows) > 1 and fees is not None and fee is not None:
                 fees[bids.iloc[r, :].user] = fee * perc[r]
             #t_.iloc[0, 0] = r
             #t_.iloc[0, 1] *= perc[r]
-            #new_rows.append(t_)
+            # new_rows.append(t_)
             trans.add_transaction(*t_)
     #transactions_splited = pd.concat(new_rows)
     if fees is not None:

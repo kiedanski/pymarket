@@ -2,7 +2,12 @@ import pandas as pd
 import numpy as np
 
 
-def calculate_profits(bids, transactions, reservation_prices=None, fees=None, **kwargs):
+def calculate_profits(
+        bids,
+        transactions,
+        reservation_prices=None,
+        fees=None,
+        **kwargs):
     """Extras from the transactions and the bids the profit
     of each player and the market maker
 
@@ -10,15 +15,15 @@ def calculate_profits(bids, transactions, reservation_prices=None, fees=None, **
     ----------
     bids : pd.DataFrame
         Collections of bids to be used
-        
+
     transactions : pd.DataFrame
-        Collection of transactions to be taken into account 
+        Collection of transactions to be taken into account
     reservation_prices : dict, (Default value = None)
         Maping between users and their reservation prices. If None,
-        it is assumed that each user bided truthfully and the 
+        it is assumed that each user bided truthfully and the
         information is extracted from the bid.
     fees : np.ndarray, (Default value = None)
-        List of fees that each user has to pay to trade in the market. 
+        List of fees that each user has to pay to trade in the market.
 
     Returns
     -------
@@ -31,13 +36,13 @@ def calculate_profits(bids, transactions, reservation_prices=None, fees=None, **
         it is the same as `player_bid`
         * market: profit of the market maker
 
-    
+
     Examples
     ---------
     >>> tm = pm.TransactionManager()
     >>> bm = pm.BidManager()
     >>> bm.add_bid(1, 3, 0)
-    0 
+    0
     >>> bm.add_bid(1, 2, 1)
     1
     >>> bm.add_bid(1.5, 1, 2, False)
@@ -50,16 +55,16 @@ def calculate_profits(bids, transactions, reservation_prices=None, fees=None, **
     >>> profits = calculate_profits(bm.get_df(), tm.get_df(),
     ...        reservation_prices=rp)
     >>> profits['player_bid']
-    array([1, 0, 1])  
+    array([1, 0, 1])
     >>> profits['player_reservation']
-    array([1, 0, 2])  
+    array([1, 0, 2])
     >>> profits['market']
     0.0
     """
     users = sorted(bids.user.unique())
     buyers = bids.loc[bids['buying']].index.values
     sellers = bids.loc[~bids['buying']].index.values
-    
+
     if reservation_prices is None:
         reservation_prices = {}
     for i, x in bids.iterrows():
@@ -68,7 +73,7 @@ def calculate_profits(bids, transactions, reservation_prices=None, fees=None, **
 
     if fees is None:
         fees = np.zeros(bids.user.unique().shape[0])
-   
+
     profit = {}
     for case in ['bid', 'reservation']:
         tmp = bids.reset_index().rename(columns={'index': 'bid'}).copy()
@@ -79,7 +84,7 @@ def calculate_profits(bids, transactions, reservation_prices=None, fees=None, **
         merged = transactions.merge(tmp, on='bid').copy()
         merged['gain'] = merged.apply(lambda x: get_gain(x), axis=1)
         profit_player = merged.groupby('user')['gain'].sum()
-        #print(profit_player)
+        # print(profit_player)
         profit_player = np.array([profit_player.get(x, 0) for x in users])
         profit[f'player_{case}'] = profit_player
 
@@ -111,7 +116,7 @@ def get_gain(row):
     -------
     gain
         The gain obtained by the row
-    
+
     """
     gap = row.price_y - row.price_x
     if not row.buying:

@@ -10,7 +10,7 @@ from pymarket.utils.decorators import check_equal_price
 
 
 @check_equal_price
-def muda(bids: pd.DataFrame, r:np.random.RandomState=None) -> MechanismReturn:
+def muda(bids: pd.DataFrame, r: np.random.RandomState=None) -> MechanismReturn:
     """Implements the Vickrey MUDA as described in [1].
 
     The mechanism does not support two players in the
@@ -20,7 +20,7 @@ def muda(bids: pd.DataFrame, r:np.random.RandomState=None) -> MechanismReturn:
     ----------
     bids
         Collection of bids to be used in the market
-    r 
+    r
         A numpy random state generator. If not given,
         a new one will be created and the output will
         be random.
@@ -29,7 +29,7 @@ def muda(bids: pd.DataFrame, r:np.random.RandomState=None) -> MechanismReturn:
     -------
     trans: TransactionManager
         A collection of all the transactions performed.
-    
+
     extra: dict
         Dictionary with extra information provided by
         the mechanism.
@@ -43,14 +43,14 @@ def muda(bids: pd.DataFrame, r:np.random.RandomState=None) -> MechanismReturn:
 
     Notes
     ------
-    
+
     [1] Segal-Halevi, Erel, Avinatan Hassidim, and Yonatan Aumann. "MUDA:
     a truthful multi-unit double-auction mechanism." Thirty-Second AAAI
     Conference on Artificial Intelligence. 2018.
 
     Examples
     ---------
-    
+
     A case in which the market puts all the players
     in the same side and no one trades.
 
@@ -71,7 +71,7 @@ def muda(bids: pd.DataFrame, r:np.random.RandomState=None) -> MechanismReturn:
     Empty DataFrame
     Columns: [bid, quantity, price, source, active]
     Index: []
-                    
+
     A case in which there are 2 players in each side but the
     cleared prices makes it impossible to trade:
 
@@ -85,7 +85,7 @@ def muda(bids: pd.DataFrame, r:np.random.RandomState=None) -> MechanismReturn:
     Index: []
 
     A case with trade:
-    
+
     >>> bm.add_bid(1, 5, 4)
     4
     >>> r = np.random.RandomState(69)
@@ -103,7 +103,7 @@ def muda(bids: pd.DataFrame, r:np.random.RandomState=None) -> MechanismReturn:
     """
     if r is None:
         r = np.random.RandomState()
-    
+
     left = [i for i in bids.index if r.rand() > 0.5]
     right = [i for i in bids.index if i not in left]
 
@@ -120,19 +120,19 @@ def muda(bids: pd.DataFrame, r:np.random.RandomState=None) -> MechanismReturn:
     trans = trans_left.merge(trans_right)
 
     extra = {
-            'left': left,
-            'right': right,
-            'price_left': pl,
-            'price_right': pr,
-            'fees': fees
-            }
+        'left': left,
+        'right': right,
+        'price_left': pl,
+        'price_right': pr,
+        'fees': fees
+    }
     return trans, extra
 
 
 def solve_market_side_with_exogenous_price(
-        bids: pd.DataFrame, price: float,
-        fees: List[float]
-    ) -> Tuple[TransactionManager, List[float]]:
+    bids: pd.DataFrame, price: float,
+    fees: List[float]
+) -> Tuple[TransactionManager, List[float]]:
     """
     Clears the market based on an external price.
     First it removes all biders that are not willing
@@ -197,8 +197,6 @@ def solve_market_side_with_exogenous_price(
     supply_quantity = supply.quantity.sum()
     demand_quantity = demand.quantity.sum()
 
-    
-
     # Deal with the short side of the demand
     supply_long = supply_quantity > demand_quantity
     long_side = supply if supply_long else demand
@@ -232,9 +230,9 @@ def solve_market_side_with_exogenous_price(
 
 
 def get_trading_bids(
-        bids: pd.DataFrame,
-        quantity_traded: float
-    ) -> Tuple[pd.DataFrame, int]:
+    bids: pd.DataFrame,
+    quantity_traded: float
+) -> Tuple[pd.DataFrame, int]:
     """
     Finds the index of the rightmost trading
     bid in a side of the market.
@@ -266,10 +264,10 @@ def get_trading_bids(
 
     bid_index:
         Index of the `worst` bid that gets to trade.
-    
+
     Examples
     ---------
-    
+
     No splitting needed
 
     >>> bm = pm.BidManager()
@@ -281,7 +279,7 @@ def get_trading_bids(
        quantity  price  user  buying  time  divisible
     0         1      3     0    True     0       True
     1         1      2     1    True     0       True
-    >>> bids, index = get_trading_bids(bm.get_df(), 1) 
+    >>> bids, index = get_trading_bids(bm.get_df(), 1)
     >>> bids
        bid  quantity  price  user  buying  time  divisible
     0    0         1      3     0    True     0       True
@@ -301,7 +299,7 @@ def get_trading_bids(
        quantity  price  user  buying  time  divisible
     0         1      3     0    True     0       True
     1         1      2     1    True     0       True
-    >>> bids, index = get_trading_bids(bm.get_df(), 0.3) 
+    >>> bids, index = get_trading_bids(bm.get_df(), 0.3)
     >>> bids
        bid quantity price user buying time divisible
     0    0      0.3     3    0   True    0      True
@@ -323,10 +321,10 @@ def get_trading_bids(
         new_row = pd.DataFrame(bids.iloc[bid_index, :]).T
 
         bids_trading = (pd.concat([
-                bids.iloc[: bid_index, :],
-                new_row,
-                bids.iloc[bid_index:, :]
-            ])
+            bids.iloc[: bid_index, :],
+            new_row,
+            bids.iloc[bid_index:, :]
+        ])
             .copy()
             .rename_axis('bid')
             .reset_index()
@@ -341,12 +339,12 @@ def get_trading_bids(
 
 
 def compute_fee(
-        df: pd.DataFrame,
-        index: int,
-        user: int,
-        quantity: float,
-        price: float
-    ) -> float:
+    df: pd.DataFrame,
+    index: int,
+    user: int,
+    quantity: float,
+    price: float
+) -> float:
     """Computes the fee that a user has to pay by
     not letting others trade
 
@@ -417,7 +415,7 @@ def find_competitive_price(bids: pd.DataFrame) -> float:
     bids
         Collection of bids to process the
         mechanism with.
-        
+
     Returns
     -------
     price
@@ -439,7 +437,7 @@ def find_competitive_price(bids: pd.DataFrame) -> float:
 class MudaAuction(Mechanism):
 
     """Interface for MudaAuction.
-    
+
     Parameters
     -----------
     bids
