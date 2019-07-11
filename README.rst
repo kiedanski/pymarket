@@ -1,8 +1,4 @@
 
-.. code:: ipython3
-
-    %matplotlib inline
-
 PyMarket
 ========
 
@@ -55,7 +51,7 @@ Getting Started
 
 
 
-.. image:: README_files/README_5_0.png
+.. image:: README_files/README_4_0.png
 
 
 Access the bids
