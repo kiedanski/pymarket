@@ -8,4 +8,4 @@ coverage==4.5.1
 Sphinx==1.8.1
 twine==1.12.1
 sphinxcontrib-napoleon
-
+sphinx_rtd_theme

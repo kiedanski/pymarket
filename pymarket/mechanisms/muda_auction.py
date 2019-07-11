@@ -174,7 +174,7 @@ def solve_market_side_with_exogenous_price(
     >>> fees = [0, 0, 0, 0]
     >>> trans, fees = solve_market_side_with_exogenous_price(bm.get_df(),2.5, fees)
     >>> trans.get_df()
-        bid  quantity  price  source  active
+       bid  quantity  price  source  active
     0    0         1    2.5      -1   False
     1    2         1    2.5      -1   False
     >>> fees

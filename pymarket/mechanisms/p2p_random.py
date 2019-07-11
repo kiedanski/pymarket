@@ -65,7 +65,7 @@ def p2p_random(bids: pd.DataFrame, p_coef: float=0.5,
     >>> extra
     {'trading_list': [[(0, 3), (1, 2)]]}
     >>> trans.get_df()
-        bid  quantity  price  source  active
+       bid  quantity  price  source  active
     0    0         1    2.5       3   False
     1    3         1    2.5       0   False
     2    1         0    0.0       2    True

@@ -41,7 +41,7 @@ def update_quantity(quantity: np.ndarray, gap: float) -> np.ndarray:
 
     >>> l,g = np.array([1, 0.5, 2]), 1.8
     >>> update_quantity(l, g)
-    array([0.35, 0. , 1.35])
+    array([0.35, 0.  , 1.35])
 
     """
     quantity = quantity * 1.0
