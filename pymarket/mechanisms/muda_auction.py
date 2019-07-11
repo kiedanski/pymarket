@@ -97,8 +97,7 @@ def muda(bids: pd.DataFrame, r: np.random.RandomState=None) -> MechanismReturn:
     2    2         1    3.0      -1   False
     3    0         1    3.0      -1   False
     >>> extra
-    {'left': [1, 3, 4], 'right': [0, 2], 'price_left': 3.0, 'price_right':
-            3.5, 'fees': array([0., 0., 0., 0., 0.])}
+    {'left': [1, 3, 4], 'right': [0, 2], 'price_left': 3.0, 'price_right': 3.5, 'fees': array([0., 0., 0., 0., 0.])}
 
     """
     if r is None:

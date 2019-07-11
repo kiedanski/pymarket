@@ -122,7 +122,7 @@ def merge_same_price(df: pd.DataFrame, prec: float=5) -> pd.DataFrame:
     4       3.0  2.444447     4   False     0       True
     >>> bids, index = pm.merge_same_price(bm.get_df(), 5)
     >>> bids
-        quantity     price  user  buying  time  divisible
+      quantity     price  user  buying  time  divisible
     0       1.0  1.00000     5    True     0       True
     1       2.0  1.00000     2   False     0       True
     2       4.0  2.44445     6   False     0       True
