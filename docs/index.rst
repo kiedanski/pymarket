@@ -23,7 +23,7 @@ This library aims to provide a simple interface for such process, making results
    installation
    quickstart
    examples
-   source/modules
+   pymarket
    contributing
    authors
    references
