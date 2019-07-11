@@ -85,4 +85,4 @@ install: clean ## install the package to the active Python's site-packages
 	python setup.py install
 
 readme:
-	jupyter nbconvert --to rst README.ipynb
+	jupyter nbconvert --to markdown README.ipynb
