@@ -65,7 +65,7 @@ def demand_curve_from_bids(bids: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
            [6.3, 0.1],
            [inf, 0. ]])
     >>> index
-    array([0, 2, 3])    
+    array([0, 2, 3])   
 
     """
     buying = bids[bids.buying == True]
