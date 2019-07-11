@@ -15,4 +15,4 @@ from pymarket.market import *
 
 __author__ = """Diego Kiedanki"""
 __email__ = 'gusok@protonmail.com'
-__version__ = '0.5.9'
+__version__ = '0.5.10'
