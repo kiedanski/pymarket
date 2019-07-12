@@ -19,6 +19,12 @@
 
 # -- Project information -----------------------------------------------------
 
+import os
+import sys
+sys.path.insert(0, os.path.abspath('..'))
+
+import pymarket
+
 project = 'PyMarket'
 copyright = '2019, Diego Kiedanski'
 author = 'Diego Kiedanski'
@@ -195,8 +201,6 @@ intersphinx_mapping = {'https://docs.python.org/': None}
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
-import os
-import sys
 
 def run_apidoc(_):
     ignore_paths = []
