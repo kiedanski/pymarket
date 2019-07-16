@@ -8,9 +8,6 @@ from setuptools import setup, find_packages
 with open('README.md') as readme_file:
     readme = readme_file.read()
 
-with open('HISTORY.rst') as history_file:
-    history = history_file.read()
-
 requirements = ['Click>=6.0', 'pandas>=0.24', 'numpy>=1.16', 'networkx', 'pulp', 'matplotlib']
 
 setup_requirements = ['pytest-runner']
@@ -31,7 +28,8 @@ setup(
     description="A simple library for simulating markets in Python",
     install_requires=requirements,
     license="MIT license",
-    long_description=readme + '\n\n' + history,
+    long_description=readme,
+    long_description_content_type='text/markdown',
     include_package_data=True,
     keywords='pymarket',
     name='pymarket',
