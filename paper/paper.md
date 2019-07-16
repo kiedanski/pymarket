@@ -18,7 +18,7 @@ affiliations:
    index: 1
  - name: ICT4V
    index: 2
-date: 17 May 2019
+date: 16 July 2019
 bibliography: paper.bib
 ---
 
