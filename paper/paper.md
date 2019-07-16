@@ -24,26 +24,17 @@ bibliography: paper.bib
 
 # Summary
 
-PyMarket is a python library designed to ease the simulation and
-comparison of different market mechanisms.
+PyMarket is a python library aimed to ease the design, simulation and comparison of different market mechanisms.
 
-Marketplaces can be proposed to solve a diverse array of problems. They
-are used to sell ads online, bandwith spectrum, energy, etc.
-PyMarket provides a simple environment to try, simulate and compare different
-market mechanisms, a task that is inherent to the process of establishing a new
-market.
+Marketplaces have been proposed to solve a diverse array of problems. They are currently used to sell ads online, allocate bandwidth spectrum, exchange energy, etc. PyMarket provides a simple environment to try, simulate, compare and visualize different market mechanisms; a task that is inherent to the process of market design.
 
-As an example, Local Energy Markets (LEMs) have been proposed to syncronize energy consumption
-with surplus of renewable generation. Several mechanisms have been proposed for such a market:
-from double sided auctions to peer to peer trading. 
+As an example, Local Energy Markets (LEMs) have been proposed to synchronize energy consumption with surplus of renewable generation. Several mechanisms have been proposed for such markets: from discrete-time double sided auctions to continuous peer to peer trading.
 
-This library aims to provide a simple interface for such process, making results reproducible. In doing so,
-it exposes a `Market` interface that accepts bids, runs market mechanisms algorithms to clear the market,
-produces statistics about the results and plots the results.
-An intuitive procedure is provided to implement new mechanisms and compare them with the existing ones.
+This library aims to provide a simple interface for such process, making results reproducible. In doing so, it exposes a Market interface that accepts bids, runs market clearing algorithms, and produces statistics  and plots (Figure \ref{figure}) from the results. Moreover, an intuitive procedure is provided to implement new market mechanisms and compare them with existing ones.
 
-Algorithms implemented in this library have been used by the authors [@horta2017, @kiedanski2019] as well as other researchers
-in the field [@mengelkamp2017]. Moreover, the library is a key enabler of ongoing research in the LEMs.
+![png\label{figure}](../README_files/README_4_0.png)
+
+Algorithms implemented in this library have been used by the authors [@horta2017] [@kiedanski2019] as well as other researchers in the field [@mengelkamp2017]. Moreover, the library is a key enabler of ongoing research in the LEMs.
 
 
 

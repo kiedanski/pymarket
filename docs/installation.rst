@@ -51,3 +51,19 @@ Once you have a copy of the source, you can install it with:
 
 .. _Github repo: https://github.com/gus0k/pymarket
 .. _tarball: https://github.com/gus0k/pymarket/tarball/master
+
+
+Running Tests
+---------------
+
+If the project was installed from source:
+
+.. code-block:: console
+
+    pip install --user -r requirements_dev.txt
+    make test
+
+And to check the coverage
+
+.. code-block:: console
+    make coverage
