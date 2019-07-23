@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#import pymarket.bids
-from . import bids
+import pymarket.bids
 import pymarket.mechanisms
 import pymarket.statistics
 import pymarket.transactions
