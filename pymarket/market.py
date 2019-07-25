@@ -52,7 +52,7 @@ class Market():
     1
     >>> trans, extra = mar.run('huang')
     >>> extra
-    {}    
+    {}
     >>> trans.get_df()
     Empty DataFrame
     Columns: [bid, quantity, price, source, active]
@@ -69,7 +69,7 @@ class Market():
     1
     >>> trans, extra = mar.run('huang')
     >>> extra
-    {}    
+    {}
     >>> trans.get_df()
     Empty DataFrame
     Columns: [bid, quantity, price, source, active]
