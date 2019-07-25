@@ -130,8 +130,14 @@ class Mechanism():
 
     def _run(self):
         """Runs the mechanisms"""
-        trans, extra = self.algo(self.bids, *self.args, **self.kwargs)
-        return trans, extra
+        bids = self.bids
+        N = bids.shape[0]
+        if bids.loc[bids['buying']].shape[0] not in [0, N]:
+            trans, extra = self.algo(self.bids, *self.args, **self.kwargs)
+            return trans, extra
+        else:
+            trans = TransactionManager()
+            return trans, {}
 
     def _cleanup(self, trans: pd.DataFrame):
         """Makes the necessary adjustements
