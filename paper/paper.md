@@ -36,6 +36,10 @@ This library aims to provide a simple interface for such process, making results
 
 Algorithms implemented in this library have been used by the authors [@horta2017] [@kiedanski2019] as well as other researchers in the field [@mengelkamp2017]. Moreover, the library is a key enabler of ongoing research in the LEMs.
 
+# List of Implemented Algorithms
+* Huang et.al. Double Auction [@huangauction].
+* MUDA [@segal2018muda].
+* P2P random trading based on [@blouin2001decentralized], [@mengelkamp2017].
 
 
 # Acknowledgements
