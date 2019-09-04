@@ -1,7 +1,7 @@
-pandas
-pulp
-networkx
+pandas >= '0.24'
+pulp >= '2.8'
+networkx >= '0.23'
 numpy >= '1.14'
-tox-travis
-matplotlib
-sphinx_rtd_theme
+tox-travis >= '0.12'
+matplotlib >= '3.0'
+sphinx_rtd_theme == '0.4.3'
