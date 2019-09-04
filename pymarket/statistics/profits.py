@@ -86,7 +86,7 @@ def calculate_profits(
         profit_player = merged.groupby('user')['gain'].sum()
         # print(profit_player)
         profit_player = np.array([profit_player.get(x, 0) for x in users])
-        profit[f'player_{case}'] = profit_player
+        profit[f'player_{case}'] = profit_player.astype('float64')
 
         if case == 'bid':
             # print(merged)
@@ -98,9 +98,9 @@ def calculate_profits(
             profit_market = (mb.price_x * mb.quantity).values.sum()
             profit_market -= (ms.price_x * ms.quantity).values.sum()
             profit_market += fees.sum()
-            profit['market'] = profit_market
+            profit['market'] = profit_market.astype('float64')
 
-    return profit.astype('int64')
+    return profit
 
 
 def get_gain(row):
