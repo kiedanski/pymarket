@@ -25,10 +25,15 @@ you through the process.
 .. warning::
     Python `3.6 >=` is required. PyMarket won't run on Python 2.
 
-Requirements
+Dependencies
 -------------
 
+* PyMarket has been tested in Linux only.
 * Python `3.6 >=` is required. The code currently uses `f-strings` only introduced in python version 3.6.
+* Versions `3.6, 3.7 and 3.8-dev` have been tested.
+* PyMarket does not require additional dependencies outside for those specified in the `requeriments.txt` file. Nevertheless,
+  `PulP` might benefit from having access to additional solvers such as CPLEX (not required).
+
 
 
 From sources

@@ -1,0 +1,20 @@
+language: python
+python:
+- 3.6
+- 3.7
+- 3.8-dev
+install: pip install -r requirements.txt
+script: tox
+
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  skip_existing: true
+  skip_cleanup: true
+  user: gus0k
+  password:
+    secure: fQIT5t8nh1LPHuut5Cqt9w/1EFMYM1RnTPDtZ7qM3QfmfRHnedRTNRXmMONJlM8yRzqvl4ksB2BPi1lNbS5iN8xt6NqxFuhllNr+vmqTLWko/64xC/tf0rzdJTcUhzsTDlAvZzsEe7J4ibAznsOrRGpu2K66QDi+gpIUN5gb1vnIHuAXlHI9TfAVFL6An8tLB/3aWOwu/qCp2H2lhh7VVqXwpshH1kU9IdWX1t5HvjvSrnwiS3VYcxTIUDliiqKfe2wraxJgpUK/2PYNX8psqEUIgX+ZLVPYwbqifIuy3sxAruADLQslLoMdRdP8GBDfrPlA1UQMz13G2MidCozjVWVrTuMSMY1A7GuIkSOIqeevXYu+mEX4Ks4kjlg5VoMeYaVREDDt7ZGcYizED1dkYw7I/Y2g2o8qKesuv7T4W1pRsXdQ0Pej8nKwJqNPvtaF+RvsK/V5vRflgR3YseHR7Kn0YL2HxuX+oaaRaTPi9QFE9+63mFNP3yxIev5of9n4q9uuxhoRbl/3wy9zBX/LI2lRuHMHNHlz9SaIfYhmfUq7KXxDparo8QPLOpMsH4ABDUsDZToFVoRTV78RWDTazFeblXAxDqmj6kmqREIARE3BU0ABu18gHuHKe+TE/ag1505r2AbqMKfywqz2a+MLRTs2N8O4EALDChukeM+PBAg=
+  on:
+    tags: true
+    repo: gus0k/pymarket
+    python: 3.6
