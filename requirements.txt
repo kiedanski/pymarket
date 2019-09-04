@@ -1,5 +1,5 @@
 pandas >= '0.24'
-pulp >= '2.8'
+pulp >= '1.6'
 networkx >= '0.23'
 numpy >= '1.14'
 tox-travis >= '0.12'
