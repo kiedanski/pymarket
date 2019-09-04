@@ -98,7 +98,7 @@ class BidManager(object):
         0
         >>> bm.add_bid(1, 3, 1, buying=False)
         1
-        >>> bm.get_df()
+        >>> print(bm.get_df())
            quantity  price  user  buying  time  divisible
         0         2      1     0    True     0       True
         1         1      3     1   False     0       True

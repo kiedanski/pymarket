@@ -74,7 +74,7 @@ def demand_curve_from_bids(
     buying['acum'] = buying.quantity.cumsum()
     demand_curve = buying[['acum', 'price']].values
     demand_curve = np.vstack([demand_curve, [np.inf, 0]])
-    index = buying.index.values
+    index = buying.index.values.astype('int64')
     return demand_curve, index
 
 

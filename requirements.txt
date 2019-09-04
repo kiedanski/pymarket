@@ -1,7 +1,7 @@
 pandas
 pulp
 networkx
-numpy
+numpy >= '1.14'
 tox-travis
 matplotlib
 sphinx_rtd_theme

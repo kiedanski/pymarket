@@ -100,7 +100,7 @@ def calculate_profits(
             profit_market += fees.sum()
             profit['market'] = profit_market
 
-    return profit
+    return profit.astype('int64')
 
 
 def get_gain(row):
