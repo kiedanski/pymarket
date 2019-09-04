@@ -25,6 +25,12 @@ you through the process.
 .. warning::
     Python `3.6 >=` is required. PyMarket won't run on Python 2.
 
+Requirements
+-------------
+
+* Python `3.6 >=` is required. The code currently uses `f-strings` only introduced in python version 3.6.
+
+
 From sources
 ------------
 
