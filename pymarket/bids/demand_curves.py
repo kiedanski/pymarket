@@ -149,7 +149,7 @@ def supply_curve_from_bids(
     selling['acum'] = selling.quantity.cumsum()
     supply_curve = selling[['acum', 'price']].values
     supply_curve = np.vstack([supply_curve, [np.inf, np.inf]])
-    index = selling.index.values
+    index = selling.index.values.astype('int64')
     return supply_curve, index
 
 

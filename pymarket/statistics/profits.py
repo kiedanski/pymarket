@@ -55,9 +55,9 @@ def calculate_profits(
     >>> profits = calculate_profits(bm.get_df(), tm.get_df(),
     ...        reservation_prices=rp)
     >>> profits['player_bid']
-    array([1.0, 0.0, 1.0])
+    array([1., 0., 1.])
     >>> profits['player_reservation']
-    array([1.0, 0.0, 2.0])
+    array([1., 0., 2.])
     >>> profits['market']
     0.0
     """
