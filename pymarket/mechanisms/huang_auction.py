@@ -137,27 +137,28 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
 
     q_, b_, s_, _ = intersect_stepwise(buy, sell)
 
-    price_sell = sell[s_, 1]
-    price_buy = buy[b_, 1]
-
-    #quantity_buy = bids.iloc[b_index[:b_], 0].values
-    #quantity_sell = bids.iloc[s_index[:s_], 0].values
-
-    buying_bids = bids.loc[bids['buying']].sort_values(
-        'price', ascending=False)
-    selling_bids = bids.loc[~bids['buying']
-                            ].sort_values('price', ascending=True)
-
-    # Filter only the trading bids.
-    buying_bids = buying_bids.iloc[: b_, :]
-    selling_bids = selling_bids.iloc[: s_, :]
-
-    # print(selling_bids, buying_bids)
-
-    quantity_buy = buying_bids.quantity.values
-    quantity_sell = selling_bids.quantity.values
-
+    price_sell = None
+    price_buy = None
+    quantity_buy = np.array([0, 0]) 
     if b_ is not None and b_ > 0 and s_ is not None and s_ > 0:
+
+        price_sell = sell[s_, 1]
+        price_buy = buy[b_, 1]
+
+        buying_bids = bids.loc[bids['buying']].sort_values(
+            'price', ascending=False)
+        selling_bids = bids.loc[~bids['buying']
+                                ].sort_values('price', ascending=True)
+
+        # Filter only the trading bids.
+        buying_bids = buying_bids.iloc[: b_, :]
+        selling_bids = selling_bids.iloc[: s_, :]
+
+        # print(selling_bids, buying_bids)
+
+        quantity_buy = buying_bids.quantity.values
+        quantity_sell = selling_bids.quantity.values
+
         #long_sellers = sell[s_ - 1, 0] > buy[b_ - 1, 0]
         #gap = sell[s_ - 1, 0] - buy[b_ - 1, 0]
         gap = quantity_sell.sum() - quantity_buy.sum()
