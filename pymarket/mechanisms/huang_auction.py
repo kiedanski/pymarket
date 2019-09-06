@@ -137,27 +137,25 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
 
     q_, b_, s_, _ = intersect_stepwise(buy, sell)
 
-    price_sell = None
-    price_buy = None
-    quantity_buy = np.array([0, 0]) 
+    price_sell = sell[s_, 1]
+    price_buy = buy[b_, 1]
+
+    buying_bids = bids.loc[bids['buying']].sort_values(
+        'price', ascending=False)
+    selling_bids = bids.loc[~bids['buying']
+                            ].sort_values('price', ascending=True)
+
+    # Filter only the trading bids.
+    buying_bids = buying_bids.iloc[: b_, :]
+    selling_bids = selling_bids.iloc[: s_, :]
+
+    # print(selling_bids, buying_bids)
+
+    quantity_buy = buying_bids.quantity.values
+    quantity_sell = selling_bids.quantity.values
+
     if b_ is not None and b_ > 0 and s_ is not None and s_ > 0:
 
-        price_sell = sell[s_, 1]
-        price_buy = buy[b_, 1]
-
-        buying_bids = bids.loc[bids['buying']].sort_values(
-            'price', ascending=False)
-        selling_bids = bids.loc[~bids['buying']
-                                ].sort_values('price', ascending=True)
-
-        # Filter only the trading bids.
-        buying_bids = buying_bids.iloc[: b_, :]
-        selling_bids = selling_bids.iloc[: s_, :]
-
-        # print(selling_bids, buying_bids)
-
-        quantity_buy = buying_bids.quantity.values
-        quantity_sell = selling_bids.quantity.values
 
         #long_sellers = sell[s_ - 1, 0] > buy[b_ - 1, 0]
         #gap = sell[s_ - 1, 0] - buy[b_ - 1, 0]
@@ -186,9 +184,12 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
     #        id_ = b_index[i]
     #        trans.add_transaction(id_, quantity_buy[i],
     #                price_buy, -1, False)
-
-    extra = {'price_sell': price_sell, 'price_buy': price_buy,
-             'quantity_traded': quantity_buy.sum()}
+    
+    if b_ is None or s_ is None:
+        extra = {}
+    else:
+        extra = {'price_sell': price_sell, 'price_buy': price_buy,
+                 'quantity_traded': quantity_buy.sum()}
     # print(trans.get_df())
     return trans, extra
 
