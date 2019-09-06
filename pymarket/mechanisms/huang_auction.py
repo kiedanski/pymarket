@@ -45,19 +45,24 @@ def update_quantity(quantity: np.ndarray, gap: float) -> np.ndarray:
 
     """
     quantity = quantity * 1.0
-    i_min = quantity[quantity > 0].argmin()
-    v_min = quantity[quantity > 0].min()
+    i_min = np.nanargmin(quantity)
+    v_min = np.nanmin(quantity)
+    #i_min = quantity[quantity > 0].argmin()
+    #v_min = quantity[quantity > 0].min()
     end = False
     N = len(quantity)
     while not end:
         if v_min < gap / N:
-            quantity[i_min] = 0.0
+            quantity[i_min] = np.nan
             N -= 1
             gap -= v_min
-            i_min = quantity[quantity > 0].argmin()
-            v_min = quantity[quantity > 0].min()
+            i_min = np.nanargmin(quantity)
+            v_min = np.nanmin(quantity)
+            #i_min = quantity[quantity > 0].argmin()
+            #v_min = quantity[quantity > 0].min()
         else:
             end = True
+    quantity = np.nan_to_num(quantity)
     quantity -= float(gap) / N
     max_ = quantity.max()
     quantity = np.clip(quantity, 0, max_)
