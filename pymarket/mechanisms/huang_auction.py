@@ -137,22 +137,28 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
 
     q_, b_, s_, _ = intersect_stepwise(buy, sell)
 
-    price_sell = sell[s_, 1]
-    price_buy = buy[b_, 1]
+    if b_ is None or s_ is None:
+        price_sell = None
+        price_buy = None
+        quantity_bid = np.array([0, 0])
+    else:
 
-    buying_bids = bids.loc[bids['buying']].sort_values(
-        'price', ascending=False)
-    selling_bids = bids.loc[~bids['buying']
-                            ].sort_values('price', ascending=True)
+        price_sell = sell[s_, 1]
+        price_buy = buy[b_, 1]
 
-    # Filter only the trading bids.
-    buying_bids = buying_bids.iloc[: b_, :]
-    selling_bids = selling_bids.iloc[: s_, :]
+        buying_bids = bids.loc[bids['buying']].sort_values(
+            'price', ascending=False)
+        selling_bids = bids.loc[~bids['buying']
+                                ].sort_values('price', ascending=True)
 
-    # print(selling_bids, buying_bids)
+        # Filter only the trading bids.
+        buying_bids = buying_bids.iloc[: b_, :]
+        selling_bids = selling_bids.iloc[: s_, :]
 
-    quantity_buy = buying_bids.quantity.values
-    quantity_sell = selling_bids.quantity.values
+        # print(selling_bids, buying_bids)
+
+        quantity_buy = buying_bids.quantity.values
+        quantity_sell = selling_bids.quantity.values
 
     if b_ is not None and b_ > 0 and s_ is not None and s_ > 0:
 
