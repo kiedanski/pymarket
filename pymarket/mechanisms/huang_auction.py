@@ -157,7 +157,7 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
     quantity_buy = buying_bids.quantity.values
     quantity_sell = selling_bids.quantity.values
 
-    if b_ > 0 and s_ > 0:
+    if b_ is not None and b_ > 0 and s_ is not None and s_ > 0:
         #long_sellers = sell[s_ - 1, 0] > buy[b_ - 1, 0]
         #gap = sell[s_ - 1, 0] - buy[b_ - 1, 0]
         gap = quantity_sell.sum() - quantity_buy.sum()

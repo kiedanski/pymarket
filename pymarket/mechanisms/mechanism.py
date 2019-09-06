@@ -132,7 +132,7 @@ class Mechanism():
         """Runs the mechanisms"""
         bids = self.bids
         N = bids.shape[0]
-        if bids.loc[bids['buying']].shape[0] not in [0, N]:
+        if (bids.loc[bids['buying']].shape[0] not in [0, N]):
             trans, extra = self.algo(self.bids, *self.args, **self.kwargs)
             return trans, extra
         else:
