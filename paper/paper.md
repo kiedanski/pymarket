@@ -28,6 +28,8 @@ PyMarket is a python library aimed to ease the design, simulation and comparison
 
 Marketplaces have been proposed to solve a diverse array of problems. They are currently used to sell ads online, allocate bandwidth spectrum, exchange energy, etc. PyMarket provides a simple environment to try, simulate, compare and visualize different market mechanisms; a task that is inherent to the process of market design.
 
+This library is not intended for the its use in financial domain, where mature tools already exist such as [@simulation],[@builder] to name a few [^1]. It was developed for the engineering domain, in which markets are sometimes used for interfacing the interaction of different agents.
+
 As an example, Local Energy Markets (LEMs) have been proposed to synchronize energy consumption with surplus of renewable generation. Several mechanisms have been proposed for such markets: from discrete-time double sided auctions to continuous peer to peer trading.
 
 This library aims to provide a simple interface for such process, making results reproducible. In doing so, it exposes a Market interface that accepts bids, runs market clearing algorithms, and produces statistics  and plots (Figure \ref{figure}) from the results. Moreover, an intuitive procedure is provided to implement new market mechanisms and compare them with existing ones.
@@ -45,5 +47,8 @@ Algorithms implemented in this library have been used by the authors [@horta2017
 # Acknowledgements
 
 The code was developed in the context of Diego Kiedanski's PhD at Telecom ParisTech.
+
+[^1]: See also: https://github.com/fiquant/marketsimulator
+
 
 # References
