@@ -23,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider :digital_ocean do |provider, override| 
     provider.token  = ENV['DIGITAL_OCEAN_TOKEN']
 
-    provider.image  = 'ubuntu-16-04-x64' # vagrant digitalocean-list images $DIGITALOCEAN_TOKEN
+    provider.image  = 'ubuntu-18-04-x64' # vagrant digitalocean-list images $DIGITALOCEAN_TOKEN
     provider.region = 'nyc3'             # vagrant digitalocean-list regions $DIGITALOCEAN_TOKEN
     provider.size   = 's-2vcpu-4gb'      # vagrant digitalocean-list sizes $DIGITALOCEAN_TOKEN
 
@@ -36,7 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     provider.ca_path = "/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt" 
   end
 
-  config.vm.provision 'shell', path: 'vendor/setup.sh'
+  config.vm.provision 'shell', path: 'setup.sh'
   config.vm.provision 'shell', inline: 'pip3 install pymarket'
 
 end

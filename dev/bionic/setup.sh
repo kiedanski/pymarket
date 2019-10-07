@@ -9,4 +9,5 @@ apt install --yes curl
 
 # pymarket repository specifics
 echo "Installing pymarket and requirements..."
-apt install --yes python3-pip=8.1.1-2ubuntu0.4
+
+apt install --yes python3-pip=9.0.1-2.3~ubuntu1.18.04.1
