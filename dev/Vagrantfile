@@ -34,33 +34,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     override.vm.box_url           = 'https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box'
 
     provider.ca_path = "/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt" 
-  end 
-
-  config.vm.provision 'chef_zero' do |chef|
-    # Specify the local paths where Chef data is stored
-    chef.cookbooks_path = ['vendor/zero/site-cookbooks', 'vendor/zero/cookbooks']
-    chef.nodes_path     = 'vendor/zero/nodes'
-    chef.version = '14.12.9'
-    # Add attributes
-    chef.json = {
-      user: {
-        username: 'pymarket'
-      },
-      apt: {
-        packages: {
-          'apt-transport-https': {action: 'install'},
-          'ca-certificates': {action: 'install'},
-          'curl': {action: 'install'},
-          'software-properties-common': {action: 'install'}
-        }
-      },
-      'poise-python' => {
-        'install_python2' => 'false',
-        'install_python3' => 'true',
-      }
-    }
-    # chef.run_list = [ 'recipe[apt::default]']
-    chef.add_recipe 'apt::default'
-    chef.add_recipe 'poise-python::default'
   end
+
+  config.vm.provision 'shell', path: 'vendor/setup.sh'
+  config.vm.provision 'shell', inline: 'pip3 install pymarket'
+
 end
