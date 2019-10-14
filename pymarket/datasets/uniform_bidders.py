@@ -51,6 +51,9 @@ def generate(
     quantities = [cant_buyers, cant_sellers]
     bids = []
 
+    if max(quantities) > (1 / eps):
+        eps = 1 / max(quantities) / 2
+
     user = 0
     for i, (o_, q_) in enumerate(zip(offset, quantities)):
         range_ = np.arange(0, 1, eps)
