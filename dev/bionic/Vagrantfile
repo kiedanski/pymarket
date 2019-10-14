@@ -1,0 +1,42 @@
+# -*- mode: ruby -*- 
+# vi: set ft=ruby : 
+#
+# INSTRUCTIONS
+# Assumptions:
+#   - A working installation, and knowledge, of Vagrant
+#   - A DigitalOcean account: https://m.do.co/c/9a152ce8c79e
+#   - Vagrant plugins installed:
+#     - vagrant-digitalocean
+#     - vagrant-omnibus 
+#   - Shell environment variables:
+#     - DIGITALOCEAN_TOKEN
+#     - DIGITALOCEAN_SSH_KEY_NAME
+
+VAGRANTFILE_API_VERSION = '2'
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # config.vm.network "private_network", type: "dhcp"
+  config.vm.synced_folder ".", "/vagrant", disabled: true, type: 'rsync'
+  # config.ohai.plugins_dir = "/var/ohai/custom_plugins"
+  # config.ohai.plugin_path = ["/etc/chef/ohai_plugins"]
+
+  config.vm.provider :digital_ocean do |provider, override| 
+    provider.token  = ENV['DIGITAL_OCEAN_TOKEN']
+
+    provider.image  = 'ubuntu-18-04-x64' # vagrant digitalocean-list images $DIGITALOCEAN_TOKEN
+    provider.region = 'nyc3'             # vagrant digitalocean-list regions $DIGITALOCEAN_TOKEN
+    provider.size   = 's-2vcpu-4gb'      # vagrant digitalocean-list sizes $DIGITALOCEAN_TOKEN
+
+    provider.ssh_key_name = ENV['DIGITAL_OCEAN_SSH_KEY_NAME'] 
+  
+    override.ssh.private_key_path = '~/.ssh/id_rsa' 
+    override.vm.box               = 'digital_ocean'
+    override.vm.box_url           = 'https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box'
+
+    provider.ca_path = "/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt" 
+  end
+
+  config.vm.provision 'shell', path: 'setup.sh'
+  config.vm.provision 'shell', inline: 'pip3 install pymarket'
+
+end
