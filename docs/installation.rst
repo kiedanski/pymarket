@@ -18,6 +18,7 @@ This is the preferred method to install pymarket, as it will always install the 
 We recommend to have the latest version of pip available. To do so, run:
 
 .. code-block:: console
+
    $ pip install --upgrade pip
 
 If you don't have `pip`_ installed, this `Python installation guide`_ can guide
@@ -27,11 +28,12 @@ you through the process.
 .. _Python installation guide: http://docs.python-guide.org/en/latest/starting/installation/
 
 .. warning::
-    Python `3.6 >=` is required. PyMarket won't run on Python 2.
+    Python `3.6 >=` is required. PyMarket won't run on Python 2 nor Python 3.5.
 
 Ubuntu 16.04 ships with Python 3.5. To update the python version do the following:
 
 .. code-block:: console
+
         $ sudo add-apt-repository ppa:jonathonf/python-3.6
         $ sudo apt-get update
         $ sudo apt-get install python3.6
