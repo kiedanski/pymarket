@@ -15,6 +15,10 @@ To install pymarket, run this command in your terminal:
     $ pip install pymarket
 
 This is the preferred method to install pymarket, as it will always install the most recent stable release.
+We recommend to have the latest version of pip available. To do so, run:
+
+.. code-block:: console
+   $ pip install --upgrade pip
 
 If you don't have `pip`_ installed, this `Python installation guide`_ can guide
 you through the process.
@@ -24,6 +28,15 @@ you through the process.
 
 .. warning::
     Python `3.6 >=` is required. PyMarket won't run on Python 2.
+
+Ubuntu 16.04 ships with Python 3.5. To update the python version do the following:
+
+.. code-block:: console
+        $ sudo add-apt-repository ppa:jonathonf/python-3.6
+        $ sudo apt-get update
+        $ sudo apt-get install python3.6
+        $ sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
+
 
 Dependencies
 -------------
