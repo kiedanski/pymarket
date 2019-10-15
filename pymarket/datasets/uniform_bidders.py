@@ -17,6 +17,10 @@ def generate(
     the reservation price of one of them is resampled until
     in both side of the market, all players have different values.
 
+    The maximum number of players is limited by 1/eps, although the
+    parameter currently updates itself to allow the requested quantity
+    of buyers and sellers.
+
     Parameters
     ----------
     cant_buyers: int
@@ -30,7 +34,7 @@ def generate(
     r : optional
         RandomState used to generate the data
     eps : optional
-        Minimum precision of the prices
+        Minimum precision of the prices.
 
     Returns
     -------
