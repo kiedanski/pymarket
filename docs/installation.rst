@@ -43,7 +43,7 @@ Ubuntu 16.04 ships with Python 3.5. To update the python version do the followin
 Dependencies
 -------------
 
-* PyMarket has been tested in Linux and mac OS.
+* PyMarket has been tested in Ubuntu 16.04, Manjaro 18.1.1 and mac OS 10.14.4.
 * Python `3.6 >=` is required. The code currently uses `f-strings` only introduced in python version 3.6.
 * Versions `3.6, 3.7` have been tested and are working.
 * PyMarket does not require additional dependencies outside for those specified in the `requeriments.txt` file. Nevertheless,
