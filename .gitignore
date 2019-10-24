@@ -104,3 +104,6 @@ ENV/
 
 # vagrant
 .vagrant/
+
+# VS Code
+.vscode/
