@@ -43,7 +43,7 @@ def maximum_aggregated_utility(bids, *args, reservation_prices=None):
     >>> o
     2.5
     >>> v
-    OrderedDict([((1, 2), 0.5), ((0, 2), 1.0)])
+    OrderedDict([((0, 2), 1.0), ((1, 2), 0.5)])
 
     If in reality the seller had 0 value for his commodity,
     the social welfare will be 1.5 units larger
@@ -63,7 +63,7 @@ def maximum_aggregated_utility(bids, *args, reservation_prices=None):
     >>> o
     4.0
     >>> v
-    OrderedDict([((1, 2), 0.5), ((0, 2), 1.0)])
+    OrderedDict([((0, 2), 1.0), ((1, 2), 0.5)])
     """
 
     if reservation_prices is None:
@@ -99,7 +99,8 @@ def maximum_aggregated_utility(bids, *args, reservation_prices=None):
     objective = pulp.value(model.objective)
 
     variables = OrderedDict()
-    for var in qs:
+    sorted_keys = sorted(qs.keys())
+    for var in sorted_keys:
         varval = qs[var].varValue
         variables[var] = varval
 

@@ -43,7 +43,7 @@ def maximum_traded_volume(bids, *args, reservation_prices=OrderedDict()):
     >>> o
     1.5
     >>> v
-    OrderedDict([((1, 2), 1.0), ((0, 2), 0.5)])
+    OrderedDict([((0, 2), 0.5), ((1, 2), 1.0)])
 
     """
 
@@ -71,7 +71,8 @@ def maximum_traded_volume(bids, *args, reservation_prices=OrderedDict()):
     status = pulp.LpStatus[model.status]
     objective = pulp.value(model.objective)
     variables = OrderedDict()
-    for q in qs:
+    sorted_keys = sorted(qs.keys())
+    for q in sorted_keys:
         v = qs[q].varValue
         variables[q] = v
 
