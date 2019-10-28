@@ -37,7 +37,7 @@ def new_player_id(index):
     7
 
     """
-
+    new_player_id.index = index
     def new_id(users):
         """
         Generates a unique identifier for a
@@ -62,10 +62,11 @@ def new_player_id(index):
             than one.
 
         """
-        nonlocal index
+
+        #nonlocal index
         if len(users) > 1:
-            new_index = index
-            index += 1
+            new_index = new_player_id.index
+            new_player_id.index += 1
         else:
             new_index = users[0]
 
