@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Implements processing techniques applied to bids before
 mechanisms can use them
