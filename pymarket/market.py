@@ -3,6 +3,7 @@ from pymarket.mechanisms import *
 from pymarket.transactions import TransactionManager
 from pymarket.statistics import *
 from pymarket.plot import plot_demand_curves, plot_trades_as_graph, plot_both_side_muda, plot_huang_auction
+from collections import OrderedDict
 
 MECHANISM = {
     'huang': HuangAuction,
@@ -52,7 +53,7 @@ class Market():
     1
     >>> trans, extra = mar.run('huang')
     >>> extra
-    {}
+    OrderedDict()
     >>> trans.get_df()
     Empty DataFrame
     Columns: [bid, quantity, price, source, active]
@@ -69,7 +70,7 @@ class Market():
     1
     >>> trans, extra = mar.run('huang')
     >>> extra
-    {}
+    OrderedDict()
     >>> trans.get_df()
     Empty DataFrame
     Columns: [bid, quantity, price, source, active]
@@ -84,7 +85,7 @@ class Market():
     1
     >>> trans, extra = mar.run('huang')
     >>> extra
-    {'price_sell': 2.0, 'price_buy': 3.0, 'quantity_traded': 0}
+    OrderedDict([('price_sell', 2.0), ('price_buy', 3.0), ('quantity_traded', 0)])
     >>> trans.get_df()
     Empty DataFrame
     Columns: [bid, quantity, price, source, active]
@@ -96,7 +97,7 @@ class Market():
         """TODO: to be defined1."""
         self.bm = BidManager()
         self.transactions = TransactionManager()
-        self.extra = {}
+        self.extra = OrderedDict()
 
     def accept_bid(self, *args):
         """Adds a bid to the bid manager
@@ -176,8 +177,8 @@ class Market():
 
         
         """
-        stats = {}
-        extras = {}
+        stats = OrderedDict()
+        extras = OrderedDict()
         if 'fees' in self.extra:
             extras['fees'] = self.extra['fees']
         extras['reservation_prices'] = reservation_prices

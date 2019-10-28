@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from collections import OrderedDict
 
 
 def calculate_profits(
@@ -66,7 +67,7 @@ def calculate_profits(
     sellers = bids.loc[~bids['buying']].index.values
 
     if reservation_prices is None:
-        reservation_prices = {}
+        reservation_prices = OrderedDict()
     for i, x in bids.iterrows():
         if i not in reservation_prices:
             reservation_prices[i] = x.price
@@ -74,7 +75,7 @@ def calculate_profits(
     if fees is None:
         fees = np.zeros(bids.user.unique().shape[0])
 
-    profit = {}
+    profit = OrderedDict()
     for case in ['bid', 'reservation']:
         tmp = bids.reset_index().rename(columns={'index': 'bid'}).copy()
         tmp = tmp[['bid', 'price', 'buying', 'user']]
@@ -86,7 +87,7 @@ def calculate_profits(
         profit_player = merged.groupby('user')['gain'].sum()
         # print(profit_player)
         profit_player = np.array([profit_player.get(x, 0) for x in users])
-        profit[f'player_{case}'] = profit_player.astype('float64')
+        profit['player_{}'.format(case)] = profit_player.astype('float64')
 
         if case == 'bid':
             # print(merged)

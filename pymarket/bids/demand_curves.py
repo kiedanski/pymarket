@@ -1,11 +1,9 @@
 import numpy as np
 import pandas as pd
-from typing import Tuple, Union
 from pymarket.bids import BidManager
 
 
-def demand_curve_from_bids(
-        bids: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
+def demand_curve_from_bids(bids):
     """
     Creates a demand curve from a set of buying bids.
     It is the inverse cumulative distribution of quantity
@@ -78,8 +76,7 @@ def demand_curve_from_bids(
     return demand_curve, index
 
 
-def supply_curve_from_bids(
-        bids: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
+def supply_curve_from_bids(bids):
     """
     Creates a supply curve from a set of selling bids.
     It is the cumulative distribution of quantity
@@ -87,7 +84,7 @@ def supply_curve_from_bids(
 
     Parameters
     ----------
-    bids
+    bids: pd.DataFrame
         Collection of all the bids in the market. The algorithm
         filters only the selling bids.
 
@@ -153,7 +150,7 @@ def supply_curve_from_bids(
     return supply_curve, index
 
 
-def get_value_stepwise(x: float, f: np.ndarray) -> Union[float, None]:
+def get_value_stepwise(x, f):
     """
     Returns the value of a stepwise constant
     function defined by the right extrems
@@ -163,10 +160,10 @@ def get_value_stepwise(x: float, f: np.ndarray) -> Union[float, None]:
 
     Parameters
     ----------
-    x
+    x: float
         Value in which the function is to be
         evaluated
-    f
+    f: np.ndarray
         Stepwise function represented as a 2 column
         matrix. Each row is the rightmost extreme
         point of each constant interval. The first column
@@ -200,14 +197,10 @@ def get_value_stepwise(x: float, f: np.ndarray) -> Union[float, None]:
 
 
 def intersect_stepwise(
-        f: np.ndarray,
-        g: np.ndarray,
-        k: float=0.5
-    ) -> Tuple[
-    Union[float, None],
-    Union[int, None],
-    Union[int, None],
-        float]:
+        f,
+        g,
+        k=0.5
+    ):
     """
     Finds the intersection of
     two stepwise constants functions
@@ -217,21 +210,21 @@ def intersect_stepwise(
 
     Parameters
     ----------
-    f
+    f: np.ndarray
         Stepwise constant function represented as
         a 2 column matrix where each row is the rightmost
         point of the constat interval. The first column
         is sorted increasingly.
         Preconditions: f is non-increasing.
 
-    g
+    g: np.ndarray
         Stepwise constant function represented as
         a 2 column matrix where each row is the rightmost
         point of the constat interval. The first column
         is sorted increasingly.
         Preconditions: g is non-decreasing and
         `f[0, 0] > g[0, 0]`
-    k
+    k : float
         If the intersection is empty or an interval,
         a convex combination of the y-values of f and g
         will be returned and k will be used to determine

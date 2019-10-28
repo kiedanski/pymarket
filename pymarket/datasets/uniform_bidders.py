@@ -2,12 +2,12 @@ import numpy as np
 
 
 def generate(
-        cant_buyers: int,
-        cant_sellers: int,
-        offset_sellers: float=0,
-        offset_buyers: float=0,
-        r: np.random.RandomState = None,
-        eps: float=1e-4):
+        cant_buyers,
+        cant_sellers,
+        offset_sellers=0,
+        offset_buyers=0,
+        r= None,
+        eps=1e-4):
     """
     Generates random bids. All the volumes and reservation
     prices are sampled independently from a uniform distribution.
@@ -27,13 +27,13 @@ def generate(
         Number of buyers to generate. Has to be positiv
     cant_sellers: int
         Number of sellers to generate. Has to be positive.
-    offset_sellers
+    offset_sellers: float
         Quantity to shift the reservation price of sellers
-    offset_buyers
+    offset_buyers : float
         Quantity to shift the reservation price of buyers
-    r : optional
+    r : optional, RandomState
         RandomState used to generate the data
-    eps : optional
+    eps : optional, float
         Minimum precision of the prices.
 
     Returns

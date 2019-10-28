@@ -3,9 +3,8 @@ import pandas as pd
 from pymarket.bids.processing import merge_same_price
 from pymarket.transactions.processing import split_transactions_merged_players
 from pymarket.transactions.transactions import TransactionManager
-from typing import Tuple, Callable
+from collections import OrderedDict
 
-MechanismReturn = Tuple[TransactionManager, dict]
 
 
 class Mechanism():
@@ -80,7 +79,7 @@ class Mechanism():
         self.merge = merge
         self.bids = self._sanitize_bids(bids)
 
-    def _sanitize_bids(self, bids: pd.DataFrame):
+    def _sanitize_bids(self, bids):
         """
         Method to be overwritten by different
         mechanisms according to their needs
@@ -88,7 +87,7 @@ class Mechanism():
 
         Parameters
         ----------
-        bids
+        bids: pd.DataFrame
             Collection of unprocess bids.
 
         Returns
@@ -137,9 +136,9 @@ class Mechanism():
             return trans, extra
         else:
             trans = TransactionManager()
-            return trans, {}
+            return trans, OrderedDict()
 
-    def _cleanup(self, trans: pd.DataFrame):
+    def _cleanup(self, trans):
         """Makes the necessary adjustements
         to return the transactions in a proper format.
 
@@ -149,7 +148,7 @@ class Mechanism():
 
         Parameters
         ----------
-        trans
+        trans : pd.DataFrame
             Collection of all the transactions executed
             in the market.
 

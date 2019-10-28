@@ -1,5 +1,6 @@
 import numpy as np
 from pymarket import Market
+from collections import OrderedDict
 
 
 def test_market_init():
@@ -24,9 +25,9 @@ def test_market_init():
     
     algos = ['huang', 'muda', 'p2p']
     
-    trans = {}
-    extras = {}
-    stats = {}
+    trans = OrderedDict()
+    extras = OrderedDict()
+    stats = OrderedDict()
     ## Run the three algorithms
     for al in algos:
         if al != 'huang':

@@ -1,11 +1,12 @@
 import networkx as nx
 import pandas as pd
 import matplotlib.pyplot as plt
+from collections import OrderedDict
 
 
 def plot_trades_as_graph(
-        bids: pd.DataFrame,
-        transactions: pd.DataFrame,
+        bids,
+        transactions,
         ax=None):
     """Plots all the bids as a bipartit graph
     with buyers and trades and an edge between
@@ -13,11 +14,11 @@ def plot_trades_as_graph(
 
     Parameters
     ----------
-    bids
+    bids : pd.DataFrame
         Collection of bids to be used
-    transactions
+    transactions : pd.DataFrame
         Collection of transactions to be used
-    ax
+    ax : pyplot.axe
         The axe in which the figure should be ploted
 
     Returns
@@ -35,7 +36,7 @@ def plot_trades_as_graph(
 
     G = nx.from_pandas_edgelist(tmp, 'user_1', 'user_2')
 
-    edge_labels = {}
+    edge_labels = OrderedDict()
     duplicated_labels = tmp.set_index(
         ['user_1', 'user_2'])['quantity'].to_dict()
     for (x, y), v in duplicated_labels.items():

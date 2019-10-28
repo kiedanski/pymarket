@@ -4,23 +4,23 @@ mechanisms can use them
 """
 import numpy as np
 import pandas as pd
-from typing import Callable, List
 from pymarket.bids import BidManager
+from collections import OrderedDict
 
 
-def new_player_id(index: int) -> Callable[[List[int]], int]:
+def new_player_id(index):
     """Helper function for merge_same_price.
     Creates a function that returns consecutive integers.
 
     Parameters
     -----------
-    index
+    index: int
         First identifier to use for the
         new fake players
 
     Returns
     -------
-    Callable
+    Callable : function
         Function that maps a list
         of user ids into a new user id.
 
@@ -38,7 +38,7 @@ def new_player_id(index: int) -> Callable[[List[int]], int]:
 
     """
 
-    def new_id(users: List[int]) -> int:
+    def new_id(users):
         """
         Generates a unique identifier for a
         list of users. If the list has
@@ -48,7 +48,7 @@ def new_player_id(index: int) -> Callable[[List[int]], int]:
 
         Parameters
         ----------
-        users
+        users: list of int
             List of 1 or more user's identifiers.
             Precondition: all elements of users
             are smaller than index.
@@ -74,7 +74,7 @@ def new_player_id(index: int) -> Callable[[List[int]], int]:
     return new_id
 
 
-def merge_same_price(df: pd.DataFrame, prec: float=5) -> pd.DataFrame:
+def merge_same_price(df, prec=5):
     """
     Process a collection of bids by merging in each
     side (buying or selling) all players with the same
@@ -82,9 +82,9 @@ def merge_same_price(df: pd.DataFrame, prec: float=5) -> pd.DataFrame:
 
     Parameters
     ----------
-    df
+    df : pd.DataFrame
         Collection of bids to process
-    prec
+    prec: float
         Number of digits to use after the comma
         while comparing floating point prices
         as equal.
@@ -241,7 +241,7 @@ def merge_same_price(df: pd.DataFrame, prec: float=5) -> pd.DataFrame:
     }
 
     dataframe_new = []
-    user_to_bid = {}
+    user_to_bid = OrderedDict()
     for df_ in dataframes:
         rounded_prices = df_.price.apply(lambda x: np.round(x, prec))
         df_new = df_.groupby(rounded_prices).agg(agg_fun).reset_index()
@@ -261,7 +261,7 @@ def merge_same_price(df: pd.DataFrame, prec: float=5) -> pd.DataFrame:
     # print(dataframe_new)
     #index_to_user = dataframe_new.user.to_dict()
 
-    #final_maping = {}
+    #final_maping =
     # for k, v in index_to_user.items():
     #    final_maping[k] = user_to_bid[v]
 
