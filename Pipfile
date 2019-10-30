@@ -1,0 +1,18 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+pandas = ">=0.22"
+pulp = ">=1.6"
+networkx = ">=0.23"
+numpy = ">=1.12"
+tox-travis = ">=0.12"
+matplotlib = ">2.2.4"
+sphinx-rtd-theme = "==0.4.3"
+
+[requires]
+python_version = "3.5"
