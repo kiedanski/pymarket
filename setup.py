@@ -11,7 +11,7 @@ with open('README.md') as readme_file:
 requirements = ['pandas == 0.22; python_full_version <= "3.5.3"',
                 'pandas >= 0.22; python_full_version > "3.5.3"',
                 'numpy>=1.12',
-                'networkx==2.3; python_version <= "3.5"',
+                'networkx==2.2; python_version <= "3.5"',
                 'networkx>=2.3; python_version > "3.5"',
                 'pulp >= 1.6',
                 'matplotlib == 2.2.4; python_version <= "3.5"',
