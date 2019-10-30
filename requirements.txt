@@ -1,4 +1,4 @@
-pandas>=0.21
+pandas==0.21
 pulp>=1.6
 networkx>=0.23
 numpy>=1.12
