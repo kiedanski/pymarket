@@ -1,7 +1,17 @@
 #!/bin/bash
+
+
+echo `ps aux | grep [a]pt`
+
 echo "Installing pymarket and requirements..."
 
-apt update & apt install --yes python3-pip=8.1.1-2ubuntu0.4 pkg-config libfreetype6-dev libpng12-dev
+
+
+apt-get update
+apt-get install --yes python3-pip=8.1.1-2ubuntu0.4
+apt-get install --yes pkg-config
+apt-get install --yes libfreetype6-dev
+apt-get install --yes libpng12-dev
 python3 -m pip -V
 
 echo "Installing setupttools"

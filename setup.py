@@ -9,7 +9,7 @@ with open('README.md') as readme_file:
     readme = readme_file.read()
 
 requirements = ['pandas == 0.23; python_full_version <= "3.5.2"',
-                'pandas > 0.23; python_full_version >= "3.5.2"',
+                'pandas > 0.23; python_full_version > "3.5.2"',
                 'numpy>=1.12',
                 'networkx==2.2; python_version <= "3.5"',
                 'networkx>=2.3; python_version > "3.5"',
