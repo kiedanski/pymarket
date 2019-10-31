@@ -14,6 +14,6 @@ cd /home/vagrant
 git clone -b python3.5 https://github.com/gus0k/pymarket.git
 setfacl -m u:vagrant:rwx /home/vagrant/pymarket
 cd pymarket
-#python3 setup.py install
-#python3 setup.py test
+python3 setup.py install
+python3 setup.py test
 #python3 -m pip install https://github.com/gus0k/pymarket/archive/python3.5.zip
