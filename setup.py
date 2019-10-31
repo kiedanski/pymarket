@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 with open('README.md') as readme_file:
     readme = readme_file.read()
 
-requirements = ['pandas == 0.22; python_full_version <= "3.5.3"',
+requirements = ['pandas == 0.21; python_full_version <= "3.5.3"',
                 'pandas >= 0.22; python_full_version > "3.5.3"',
                 'numpy>=1.12',
                 'networkx==2.2; python_version <= "3.5"',
@@ -16,7 +16,6 @@ requirements = ['pandas == 0.22; python_full_version <= "3.5.3"',
                 'pulp >= 1.6',
                 'matplotlib == 2.2.4; python_version <= "3.5"',
                 'matplotlib >= 2.2.4; python_version >= "3.6"',
-                'setuptools >= 40'
                 ]
 
 setup_requirements = ['pytest-runner']
