@@ -8,8 +8,8 @@ from setuptools import setup, find_packages
 with open('README.md') as readme_file:
     readme = readme_file.read()
 
-requirements = ['pandas == 0.21; python_full_version <= "3.5.3"',
-                'pandas >= 0.22; python_full_version > "3.5.3"',
+requirements = ['pandas == 0.21; python_full_version <= "3.4"',
+                'pandas >= 0.23; python_full_version > "3.4"',
                 'numpy>=1.12',
                 'networkx==2.2; python_version <= "3.5"',
                 'networkx>=2.3; python_version > "3.5"',
