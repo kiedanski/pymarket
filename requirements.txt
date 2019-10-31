@@ -9,3 +9,4 @@ matplotlib>=2.2.4
 matplotlib==2.2.4; python_version <= '3.5'
 matplotlib>2.2.4; python_version >= '3.6'
 sphinx_rtd_theme==0.4.3
+setuptools >= 40

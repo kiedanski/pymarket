@@ -16,6 +16,7 @@ requirements = ['pandas == 0.22; python_full_version <= "3.5.3"',
                 'pulp >= 1.6',
                 'matplotlib == 2.2.4; python_version <= "3.5"',
                 'matplotlib >= 2.2.4; python_version >= "3.6"',
+                'setuptools >= 40'
                 ]
 
 setup_requirements = ['pytest-runner']
