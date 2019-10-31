@@ -1,21 +1,49 @@
 #!/bin/bash
+if [ "$major_version" -ge "16" ]; then
+  systemctl stop apt-daily.timer;
+  systemctl stop apt-daily-upgrade.timer;
+  systemctl disable apt-daily.timer;
+  systemctl disable apt-daily-upgrade.timer;
+  systemctl mask apt-daily.service;
+  systemctl mask apt-daily-upgrade.service;
+  systemctl daemon-reload;
+fi
 
-# Generic requirements for funtional curl, etc.
-#echo "Provisioning virtual machine..."
-#apt install --yes apt-transport-https
-#apt install --yes ca-certificates
-#apt install --yes software-properties-common
-#apt install --yes curl
+# Disable periodic activities of apt to be safe
+cat <<EOF >/etc/apt/apt.conf.d/10periodic;
+APT::Periodic::Enable "0";
+APT::Periodic::Update-Package-Lists "0";
+APT::Periodic::Download-Upgradeable-Packages "0";
+APT::Periodic::AutocleanInterval "0";
+APT::Periodic::Unattended-Upgrade "0";
+EOF
 
-# pymarket repository specifics
+# Clean and nuke the package from orbit
+rm -rf /var/log/unattended-upgrades;
+apt-get -y purge unattended-upgrades;
+
+echo `ps aux | grep [a]pt`
+
 echo "Installing pymarket and requirements..."
 
-#apt install --yes python3-pip=9.0.1-2.3~ubuntu1.18.04.1
+
+
 apt-get update
 apt-get install --yes  python3-pip=9.0.1-2.3~ubuntu1.18.04.1
+apt-get install --yes pkg-config
+apt-get install --yes libfreetype6-dev
+apt-get install --yes libpng12-dev
+python3 -m pip -V
+
+echo "Installing setupttools"
+python3 -m pip install 'setuptools>=27.3'
+echo "Checking setuptools"
+python3 -m pip freeze | grep setuptools
+
 mkdir -p /home/vagrant
 cd /home/vagrant
-git clone https://github.com/gus0k/pymarket.git
+git clone -b python3.5 https://github.com/gus0k/pymarket.git
+setfacl -m u:vagrant:rwx /home/vagrant/pymarket
 cd pymarket
 python3 setup.py install
 python3 setup.py test
