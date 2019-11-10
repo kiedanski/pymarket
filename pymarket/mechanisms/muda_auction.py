@@ -1,16 +1,16 @@
 import numpy as np
 import pandas as pd
-from typing import Tuple, List
 from pymarket.bids import BidManager, merge_same_price
 from pymarket.transactions import TransactionManager, \
     split_transactions_merged_players
 from pymarket.bids.demand_curves import *
-from pymarket.mechanisms import Mechanism, MechanismReturn
+from pymarket.mechanisms import Mechanism
 from pymarket.utils.decorators import check_equal_price
+from collections import OrderedDict
 
 
 @check_equal_price
-def muda(bids: pd.DataFrame, r: np.random.RandomState=None) -> MechanismReturn:
+def muda(bids, r=None):
     """Implements the Vickrey MUDA as described in [1].
 
     The mechanism does not support two players in the
@@ -18,9 +18,9 @@ def muda(bids: pd.DataFrame, r: np.random.RandomState=None) -> MechanismReturn:
 
     Parameters
     ----------
-    bids
+    bids: pd.DataFrame
         Collection of bids to be used in the market
-    r
+    r: np.random.RandomState
         A numpy random state generator. If not given,
         a new one will be created and the output will
         be random.
@@ -66,7 +66,7 @@ def muda(bids: pd.DataFrame, r: np.random.RandomState=None) -> MechanismReturn:
     >>> r = np.random.RandomState(420)
     >>> trans, extra = muda(bm.get_df(), r)
     >>> extra
-    {'left': [], 'right': [0, 1, 2, 3], 'price_left': inf, 'price_right': 2.5, 'fees': array([0., 0., 0., 0.])}
+    OrderedDict([('left', []), ('right', [0, 1, 2, 3]), ('price_left', inf), ('price_right', 2.5), ('fees', array([0., 0., 0., 0.]))])
     >>> trans.get_df()
     Empty DataFrame
     Columns: [bid, quantity, price, source, active]
@@ -78,7 +78,7 @@ def muda(bids: pd.DataFrame, r: np.random.RandomState=None) -> MechanismReturn:
     >>> r = np.random.RandomState(69)
     >>> trans, extra = muda(bm.get_df(), r)
     >>> extra
-    {'left': [1, 3], 'right': [0, 2], 'price_left': 1.5, 'price_right': 3.5, 'fees': array([0., 0., 0., 0.])}
+    OrderedDict([('left', [1, 3]), ('right', [0, 2]), ('price_left', 1.5), ('price_right', 3.5), ('fees', array([0., 0., 0., 0.]))])
     >>> trans.get_df()
     Empty DataFrame
     Columns: [bid, quantity, price, source, active]
@@ -97,7 +97,7 @@ def muda(bids: pd.DataFrame, r: np.random.RandomState=None) -> MechanismReturn:
     2    2         1    3.0      -1   False
     3    0         1    3.0      -1   False
     >>> extra
-    {'left': [1, 3, 4], 'right': [0, 2], 'price_left': 3.0, 'price_right': 3.5, 'fees': array([0., 0., 0., 0., 0.])}
+    OrderedDict([('left', [1, 3, 4]), ('right', [0, 2]), ('price_left', 3.0), ('price_right', 3.5), ('fees', array([0., 0., 0., 0., 0.]))])
 
     """
     if r is None:
@@ -118,20 +118,18 @@ def muda(bids: pd.DataFrame, r: np.random.RandomState=None) -> MechanismReturn:
 
     trans = trans_left.merge(trans_right)
 
-    extra = {
-        'left': left,
-        'right': right,
-        'price_left': pl,
-        'price_right': pr,
-        'fees': fees
-    }
+    extra = OrderedDict([
+        ('left', left),
+        ('right', right),
+        ('price_left', pl),
+        ('price_right', pr),
+        ('fees', fees),])
     return trans, extra
 
 
 def solve_market_side_with_exogenous_price(
-    bids: pd.DataFrame, price: float,
-    fees: List[float]
-) -> Tuple[TransactionManager, List[float]]:
+    bids, price,
+    fees):
     """
     Clears the market based on an external price.
     First it removes all biders that are not willing
@@ -142,19 +140,19 @@ def solve_market_side_with_exogenous_price(
 
     Parameters
     ----------
-    bids
+    bids : pd.DataFrame
         Collection of bids to clear the market with
-    price
+    price : float
         Price at which all the trades will ocurr
-    fees
+    fees: list of floats
         List of all the fees that players will have to pay.
         It gets updated.
 
     Returns
     -------
-    trans:
+    trans: TransactionManager
         Collection of the transactions that clear the market
-    fees:
+    fees: list of floats
         Fees to be paid by each player. Is a list where
         the fee of player with id `u` is located at `fees[u]`.
 
@@ -229,9 +227,8 @@ def solve_market_side_with_exogenous_price(
 
 
 def get_trading_bids(
-    bids: pd.DataFrame,
-    quantity_traded: float
-) -> Tuple[pd.DataFrame, int]:
+    bids,
+    quantity_traded):
     """
     Finds the index of the rightmost trading
     bid in a side of the market.
@@ -241,19 +238,19 @@ def get_trading_bids(
 
     Parameters
     ----------
-    bids
+    bids : pd.DataFrame
         Collection of bids in one side of the market
         Precondition: the dataframe is sorted by
         price. Reverse order for buying and selling
         side.
 
-    quantity_traded
+    quantity_traded : float
         Total quantity that the side of the market
         can trade.
 
     Returns
     -------
-    bids_trading:
+    bids_trading: pd.DataFrame
         Same as `bids`, but the index (which represent the
         bid identifier) is added as the first column.
         If a bid had to be splitted, that bid is replaced by two, with
@@ -261,7 +258,7 @@ def get_trading_bids(
         quantity. The index is reseted but both splitted
         bids retain the oringal bid number in the column.
 
-    bid_index:
+    bid_index: int
         Index of the `worst` bid that gets to trade.
 
     Examples
@@ -338,18 +335,17 @@ def get_trading_bids(
 
 
 def compute_fee(
-    df: pd.DataFrame,
-    index: int,
-    user: int,
-    quantity: float,
-    price: float
-) -> float:
+    df,
+    index,
+    user,
+    quantity,
+    price):
     """Computes the fee that a user has to pay by
     not letting others trade
 
     Parameters
     ----------
-    df
+    df : pd.DataFrame
         Dataframe for one side of the market
         resulting from reseting the index
         of a bid dataframe, getting the bid
@@ -357,19 +353,19 @@ def compute_fee(
         standard ones.
         Precondition: all bids should be willing
         to trade at the trading price.
-    index
+    index : int
         Index of the last trading bid
-    user
+    user : int
         User identifier for which the fee should be computed
-    quantity
+    quantity : float
         Total quantity that the side of the
         market trades
-    price
+    price : float
         Price at which the market clears.
 
     Returns
     -------
-    fee
+    fee : float
         Fee that user `ùser` will have to pay
         for not letting others trade as well.
     Examples
@@ -404,20 +400,20 @@ def compute_fee(
     return fee
 
 
-def find_competitive_price(bids: pd.DataFrame) -> float:
+def find_competitive_price(bids):
     """
     Finds the unique trading price of the intersection
     of supply and demand.
 
     Parameters
     ----------
-    bids
+    bids: pd.DataFrame
         Collection of bids to process the
         mechanism with.
 
     Returns
     -------
-    price
+    price : float
         The price at which the market clears.
 
     Notes

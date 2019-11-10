@@ -3,6 +3,8 @@ matrix:
   include:
     - name: "Python 3.7.1 on Xenial Linux"
       python: 3.7           # this works for Linux but is ignored on macOS or Windows
+    - name: "Python 3.5 on Xenial Linux"
+      python: 3.5           # this works for Linux but is ignored on macOS or Windows
     - name: "Python 3.6 on Xenial Linux"
       python: 3.6           # this works for Linux but is ignored on macOS or Windows
     - name: "Python 3.7.4 on macOS"
@@ -19,5 +21,6 @@ matrix:
       #      env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
 # install: pip3 install --upgrade pip  # all three OSes agree about 'pip3'
 # 'python' points to Python 2.7 on macOS but points to Python 3.7 on Linux and Windows
-# 'python3' is a 'command not found' error on Windows but 'py' works on Windows only
+#" 'python3' is a 'command not found' error on Windows but 'py' works on Windows only
+install: python3 setup.py install || python setup.py install
 script: python3 setup.py test || python setup.py test

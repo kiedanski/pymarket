@@ -1,6 +1,7 @@
 import pulp
 import pandas as pd
 from pymarket.bids import BidManager
+from collections import OrderedDict
 
 
 def maximum_aggregated_utility(bids, *args, reservation_prices=None):
@@ -42,7 +43,7 @@ def maximum_aggregated_utility(bids, *args, reservation_prices=None):
     >>> o
     2.5
     >>> v
-    {(0, 2): 1.0, (1, 2): 0.5}
+    OrderedDict([((0, 2), 1.0), ((1, 2), 0.5)])
 
     If in reality the seller had 0 value for his commodity,
     the social welfare will be 1.5 units larger
@@ -62,11 +63,11 @@ def maximum_aggregated_utility(bids, *args, reservation_prices=None):
     >>> o
     4.0
     >>> v
-    {(0, 2): 1.0, (1, 2): 0.5}
+    OrderedDict([((0, 2), 1.0), ((1, 2), 0.5)])
     """
 
     if reservation_prices is None:
-        reservation_prices = {}
+        reservation_prices = OrderedDict()
 
     model = pulp.LpProblem("Max aggregated utility", pulp.LpMaximize)
     buyers = bids.loc[bids['buying']].index.values
@@ -77,7 +78,8 @@ def maximum_aggregated_utility(bids, *args, reservation_prices=None):
         if i not in reservation_prices:
             reservation_prices[i] = x.price
 
-    coeffs = {}
+    coeffs = OrderedDict()
+
     for x in index:
         coeffs[x] = reservation_prices[x[0]] - reservation_prices[x[1]]
 
@@ -96,8 +98,9 @@ def maximum_aggregated_utility(bids, *args, reservation_prices=None):
     status = pulp.LpStatus[model.status]
     objective = pulp.value(model.objective)
 
-    variables = {}
-    for var in qs:
+    variables = OrderedDict()
+    sorted_keys = sorted(qs.keys())
+    for var in sorted_keys:
         varval = qs[var].varValue
         variables[var] = varval
 
@@ -144,7 +147,7 @@ def percentage_welfare(bids, transactions, reservation_prices=None, **kwargs):
     >>> percentage_welfare(bm.get_df(), tm.get_df())
     0.8
     """
-    reservation_prices = {}
+    reservation_prices = OrderedDict()
     for i, x in bids.iterrows():
         if i not in reservation_prices:
             reservation_prices[i] = x.price

@@ -33,32 +33,32 @@ class BidManager(object):
 
     def add_bid(
         self,
-        quantity: float,
-        price: float,
-        user: int,
-        buying: bool=True,
-        time: float = 0,
-        divisible: bool =True
-    ) -> int:
+        quantity,
+        price,
+        user,
+        buying=True,
+        time = 0,
+        divisible=True
+    ):
         """Appends a bid to the bid list
 
         Parameters
         ----------
-        quantity
+        quantity: float
             Quantity of good desired. If `divisible=True` then any
             fraction of the good is an acceptable outcome of the
             market.
-        price
+        price: float
             Uniform price offered in the market for each unit of the the good.
-        user
+        user: int
             Identifier of the user submitting the bid.
-        buying
+        buying: bool
             `True` if the bid is for buying the good and `False`otherwise.
             Default is `True`.
-        time
+        time : float
             Instant at which the offer was made. This is relevant only if the
             market mechanism has perferences for earlier bids. Default is `0`
-        divisible
+        divisible : bool
             `True` is the user accepts a fraction of the asked quantity as
             a result and `False` otherwise.
 
@@ -79,7 +79,7 @@ class BidManager(object):
 
         return self.n_bids - 1
 
-    def get_df(self) -> pd.DataFrame:
+    def get_df(self):
         """Creates a dataframe with the bids
 
         Parameters

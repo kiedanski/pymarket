@@ -1,9 +1,10 @@
 import pulp
 import pandas as pd
 from pymarket.bids import BidManager
+from collections import OrderedDict
 
 
-def maximum_traded_volume(bids, *args, reservation_prices={}):
+def maximum_traded_volume(bids, *args, reservation_prices=OrderedDict()):
     """
 
     Parameters
@@ -42,7 +43,7 @@ def maximum_traded_volume(bids, *args, reservation_prices={}):
     >>> o
     1.5
     >>> v
-    {(0, 2): 0.5, (1, 2): 1.0}
+    OrderedDict([((0, 2), 0.5), ((1, 2), 1.0)])
 
     """
 
@@ -69,15 +70,16 @@ def maximum_traded_volume(bids, *args, reservation_prices={}):
 
     status = pulp.LpStatus[model.status]
     objective = pulp.value(model.objective)
-    variables = {}
-    for q in qs:
+    variables = OrderedDict()
+    sorted_keys = sorted(qs.keys())
+    for q in sorted_keys:
         v = qs[q].varValue
         variables[q] = v
 
     return status, objective, variables
 
 
-def percentage_traded(bids, transactions, reservation_prices={}, **kwargs):
+def percentage_traded(bids, transactions, reservation_prices=OrderedDict(), **kwargs):
     """Calculates from the transaction dataframe
     the percentage of the total maximum possible
     traded quantity.

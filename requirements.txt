@@ -1,7 +1,11 @@
-pandas>=0.24
+pandas == 0.23; python_full_version <= '3.5.2'
+pandas > 0.23; python_full_version > '3.5.2'
 pulp>=1.6
-networkx>=0.23
-numpy>=1.14
+networkx==0.23; python_version <= '3.5'
+networkx>=0.23; python_version > '3.5'
+numpy>=1.12
 tox-travis>=0.12
-matplotlib>=3.0
+matplotlib>=2.2.4
+matplotlib==2.2.4; python_version <= '3.5'
+matplotlib>2.2.4; python_version >= '3.6'
 sphinx_rtd_theme==0.4.3

@@ -1,26 +1,26 @@
 from pymarket.bids import BidManager
-from pymarket.mechanisms import Mechanism, MechanismReturn
+from pymarket.mechanisms import Mechanism
 from pymarket.transactions import TransactionManager
 from pymarket.bids.demand_curves import *
-from typing import List
+from collections import OrderedDict
 
 
-def update_quantity(quantity: np.ndarray, gap: float) -> np.ndarray:
+def update_quantity(quantity, gap):
     """Implements the footnote in page 8 of [1],
     where the long side updates their
     trading quantities to match the short side.
 
     Parameters
     ----------
-    quantity
+    quantity: np.ndarray
         List of the quantities to be traded by each
         player.
-    gap
+    gap: float
         Difference between the short and long side
 
     Returns
     -------
-    quantity
+    quantity: np.ndarray
         Updated list of quantities to be traded
         by each player
 
@@ -69,12 +69,12 @@ def update_quantity(quantity: np.ndarray, gap: float) -> np.ndarray:
     return quantity
 
 
-def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
+def huang_auction(bids):
     """Implements the auction described in [1]
 
     Parameters
     ----------
-    bids:
+    bids: pd.DataFrame
         Collection of all the bids to take
         into account by the mechanism
 
@@ -114,7 +114,7 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
     Columns: [bid, quantity, price, source, active]
     Index: []
     >>> extra
-    {'price_sell': 2.0, 'price_buy': 3.0, 'quantity_traded': 0}
+    OrderedDict([('price_sell', 2.0), ('price_buy', 3.0), ('quantity_traded', 0)])
 
     Adding small bids at the beginning, those can trade
     because they don't define de market price:
@@ -129,7 +129,7 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
     0    3       0.2    2.0      -1   False
     1    4       0.2    3.0      -1   False
     >>> extra
-    {'price_sell': 2.0, 'price_buy': 3.0, 'quantity_traded': 0.2}
+    OrderedDict([('price_sell', 2.0), ('price_buy', 3.0), ('quantity_traded', 0.2)])
 
     """
 
@@ -197,10 +197,10 @@ def huang_auction(bids: pd.DataFrame) -> MechanismReturn:
     #                price_buy, -1, False)
     
     if b_ is None or s_ is None:
-        extra = {}
+        extra = OrderedDict()
     else:
-        extra = {'price_sell': price_sell, 'price_buy': price_buy,
-                 'quantity_traded': quantity_buy.sum()}
+        extra = OrderedDict([('price_sell', price_sell), ('price_buy', price_buy),
+                 ('quantity_traded', quantity_buy.sum())])
     # print(trans.get_df())
     return trans, extra
 

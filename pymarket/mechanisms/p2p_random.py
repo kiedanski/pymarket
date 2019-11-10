@@ -1,32 +1,29 @@
 import pandas as pd
 import networkx as nx
 import numpy as np
-from typing import Union
 from pymarket.transactions import TransactionManager
 from pymarket.bids import BidManager
-from pymarket.mechanisms import Mechanism, MechanismReturn
-
-RandomState = Union[np.random.RandomState, None]
+from pymarket.mechanisms import Mechanism
 
 
-def p2p_random(bids: pd.DataFrame, p_coef: float=0.5,
-               r: RandomState=None) -> MechanismReturn:
+
+def p2p_random(bids, p_coef=0.5, r=None):
     """Computes all the trades using a P2P random trading
     process inspired in [1].
 
     Parameters
     ----------
-    bids
+    bids: pd.DataFrame
         Collection of bids that will trade.
         Precondition: a user participates only in one
         side of the market, i.e, it cannot sell and buy in
         the same run.
-    p_coef
+    p_coef: float
         coefficient to calculate the trading price as a convex
         combination of the price of the seller and the price of
         the buyer. If 1, the seller gets all the profit and if 0,
         the buyer gets all the profit.
-    r
+    r: np.random.RandomState
         Random state to generate stochastic values. If None,
         then the outcome of the market will be different on
         each run.

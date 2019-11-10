@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from pymarket.plot.demand_curves import plot_demand_curves
 
