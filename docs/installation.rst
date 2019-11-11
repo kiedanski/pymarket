@@ -26,7 +26,7 @@ You can proceed to install PyMarket with the following command (the --user flag 
 
 .. code-block:: console
 
-    $ python -m pip install pymarket (--user)
+    $ python -m pip install pymarket --user
 
 This is the preferred method to install pymarket, as it will always install the most recent stable release.
 
