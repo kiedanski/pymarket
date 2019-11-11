@@ -13,6 +13,7 @@ numpy = ">=1.12"
 tox-travis = ">=0.12"
 matplotlib = ">2.2.4"
 sphinx-rtd-theme = "==0.4.3"
+bumpversion = "*"
 
 [requires]
 python_version = "3.5"

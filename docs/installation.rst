@@ -30,8 +30,6 @@ You can proceed to install PyMarket with the following command (the --user flag 
 
 This is the preferred method to install pymarket, as it will always install the most recent stable release.
 
-We recommend to have the latest version of pip available. To do so, run:
-
 If you don't have `pip`_ installed, this `Python installation guide`_ can guide
 you through the process.
 
