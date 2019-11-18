@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/gus0k/pymarket.svg?branch=master)](https://travis-ci.org/gus0k/pymarket)
 
-[![Documentation Status](https://readthedocs.org/projects/pymarket/badge/?version=master)](https://pymarket.readthedocs.io/en/latest/?badge=master)
+[![Documentation Status](https://readthedocs.org/projects/pymarket/badge/?version=latest)](https://pymarket.readthedocs.io/en/latest/?badge=master)
 
 [![PyPI version](https://badge.fury.io/py/pymarket.svg)](https://badge.fury.io/py/pymarket)
 
