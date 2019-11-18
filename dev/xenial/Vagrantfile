@@ -20,23 +20,40 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.ohai.plugins_dir = "/var/ohai/custom_plugins"
   # config.ohai.plugin_path = ["/etc/chef/ohai_plugins"]
 
-  config.vm.provider :digital_ocean do |provider, override| 
-    provider.token  = ENV['DIGITAL_OCEAN_TOKEN']
+  config.vm.define "pymarket1604"
+
+  config.vm.provider :digital_ocean do |provider, override|
+
+    provider.name = "pymarket1604"
 
     provider.image  = 'ubuntu-16-04-x64' # vagrant digitalocean-list images $DIGITALOCEAN_TOKEN
     provider.region = 'nyc3'             # vagrant digitalocean-list regions $DIGITALOCEAN_TOKEN
     provider.size   = 's-2vcpu-4gb'      # vagrant digitalocean-list sizes $DIGITALOCEAN_TOKEN
 
+    provider.token       = ENV['DIGITAL_OCEAN_TOKEN']
     provider.ssh_key_name = ENV['DIGITAL_OCEAN_SSH_KEY_NAME'] 
-  
-    override.ssh.private_key_path = '~/.ssh/id_rsa' 
+
+    override.ssh.private_key_path = '~/.ssh/id_rsa'
     override.vm.box               = 'digital_ocean'
     override.vm.box_url           = 'https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box'
 
     provider.ca_path = "/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt" 
   end
 
+  config.vm.provider :virtualbox do |vbox, override| 
+    # override box url
+    override.vm.box = "v0rtex/xenial64"
+  end
+
+  config.vm.provision "disable-apt-periodic-updates", type: "shell" do |s|
+    s.privileged = true
+    s.inline = "echo 'APT::Periodic::Enable \"0\";' > /etc/apt/apt.conf.d/02periodic"
+  end
+  config.vm.provision "fix-no-tty", type: "shell" do |s|
+    s.privileged = true
+    s.inline = "sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n \\|\\| true/' /root/.profile"
+  end
   config.vm.provision 'shell', path: 'setup.sh'
-  config.vm.provision 'shell', inline: 'pip3 install pymarket'
+  config.vm.provision 'shell', path: 'install_test.sh'
 
 end

@@ -1,7 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Generic requirements for funtional curl, etc.
 echo "Provisioning virtual machine..."
+apt update
 apt install --yes apt-transport-https
 apt install --yes ca-certificates
 apt install --yes software-properties-common
