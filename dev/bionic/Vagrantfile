@@ -40,6 +40,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     provider.ca_path = "/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt"
   end
 
+    config.vm.provider :virtualbox do |vbox, override| 
+    # override box url
+    override.vm.box = "hashicorp/bionic64"
+  end
+
+  config.vm.provision "disable-apt-periodic-updates", type: "shell" do |s|
+    s.privileged = true
+    s.inline = "echo 'APT::Periodic::Enable \"0\";' > /etc/apt/apt.conf.d/02periodic"
+  end
+  config.vm.provision "fix-no-tty", type: "shell" do |s|
+    s.privileged = true
+    s.inline = "sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n \\|\\| true/' /root/.profile"
+  end
+
   config.vm.provision 'shell', path: 'setup.sh'
   config.vm.provision 'shell', path: 'install_test.sh'
 
