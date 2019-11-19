@@ -11,5 +11,4 @@ apt autoremove --yes
 # pymarket repository specifics
 echo "Installing pymarket and requirements..."
 
-apt-get update
-apt-get install --yes python3-pip
+apt-get install --yes --fix-missing python3-pip
