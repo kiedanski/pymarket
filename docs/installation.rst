@@ -75,7 +75,6 @@ Installing from source requires additional dependencies:
       $ apt-get install --yes libfreetype6-dev
       $ apt-get install --yes libpng12-dev
       $ python -m pip install 'setuptools>=27.3' --user
-      $ python -m pip install pytest
 
 
 Once you have a copy of the source, you can install it with:
@@ -92,7 +91,13 @@ Once you have a copy of the source, you can install it with:
 Running Tests
 ---------------
 
-If the project was installed from source, in the main directory of the project run:
+To run the tests an additional dependency is needed. It can be installed by running:
+
+.. code-block:: console
+
+        $ python -m pip install pytest --user
+
+Test can be run from the main directory of the project by running:
 
 .. code-block:: console
 
