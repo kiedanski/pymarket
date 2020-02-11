@@ -24,15 +24,15 @@ bibliography: paper.bib
 
 # Summary
 
-PyMarket is a python library aimed to ease the design, simulation and comparison of different market mechanisms.
+PyMarket is a python library aimed to ease the design, simulation, and comparison of different market mechanisms.
 
-Marketplaces have been proposed to solve a diverse array of problems. They are currently used to sell ads online, allocate bandwidth spectrum, exchange energy, etc. PyMarket provides a simple environment to try, simulate, compare and visualize different market mechanisms; a task that is inherent to the process of market design.
+Marketplaces have been proposed to solve a diverse array of problems. They are currently used to sell ads online, allocate bandwidth spectrum, exchange energy, etc. PyMarket provides a simple environment to try, simulate, compare, and visualize different market mechanisms, a task that is inherent to the process of market design.
 
-This library was not intended for its use in financial domain, where mature tools already exist[^1] such as [@simulation],[@builder]. Instead, it was targeted for the engineering domain in which markets are sometimes used for interfacing the interaction of multi-agent systems.
+This library is not intended for use in the financial domain, where mature tools already exist[^1] such as [@simulation],[@builder]. Instead, it is targeted at the engineering domain in which markets are sometimes used for interfacing the interaction of multi-agent systems.
 
-As an example, Local Energy Markets (LEMs) have been proposed to synchronize energy consumption with surplus of renewable generation. Several mechanisms have been proposed for such markets: from discrete-time double sided auctions to continuous peer to peer trading.
+As an example, Local Energy Markets (LEMs) have been proposed to synchronize energy consumption with a surplus of renewable generation. Several mechanisms have been proposed for such markets, from discrete-time double sided auctions to continuous peer to peer trading.
 
-This library aims to provide a simple interface for such process, making results reproducible. In doing so, it exposes a Market interface that accepts bids, runs market clearing algorithms, and produces statistics  and plots (Figure \ref{figure}) from the results. Moreover, an intuitive procedure is provided to implement new market mechanisms and compare them with existing ones.
+This library aims to provide a simple interface for such processes, making results reproducible. In doing so, it exposes a Market interface that accepts bids, runs market clearing algorithms, and produces statistics  and plots (Figure \ref{figure}) from the results. Moreover, an intuitive procedure is provided to implement new market mechanisms and compare them with existing ones.
 
 ![png\label{figure}](../README_files/README_4_0.png)
 
