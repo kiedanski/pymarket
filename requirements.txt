@@ -5,7 +5,6 @@ networkx==0.23; python_version <= '3.5'
 networkx>=0.23; python_version > '3.5'
 numpy>=1.12
 tox-travis>=0.12
-matplotlib>=2.2.4
 matplotlib==2.2.4; python_version <= '3.5'
 matplotlib>2.2.4; python_version >= '3.6'
 sphinx_rtd_theme==0.4.3
