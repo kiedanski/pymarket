@@ -7,6 +7,8 @@
 
 [![PyPI version](https://badge.fury.io/py/pymarket.svg)](https://badge.fury.io/py/pymarket)
 
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.01591/status.svg)](https://doi.org/10.21105/joss.01591)
+
 PyMarket is a python library designed to ease the simulation and
 comparison of different market mechanisms.
 
