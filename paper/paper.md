@@ -34,7 +34,7 @@ As an example, Local Energy Markets (LEMs) have been proposed to synchronize ene
 
 This library aims to provide a simple interface for such processes, making results reproducible. In doing so, it exposes a Market interface that accepts bids, runs market clearing algorithms, and produces statistics  and plots (Figure \ref{figure}) from the results. Moreover, an intuitive procedure is provided to implement new market mechanisms and compare them with existing ones.
 
-![png\label{figure}](../README_files/README_4_0.png)
+![Supply and demand curves plot generated from bids\label{figure}](../README_files/README_4_0.png)
 
 Algorithms implemented in this library have been used by the authors [@horta2017] [@kiedanski2019] as well as other researchers in the field [@mengelkamp2017]. Moreover, the library is a key enabler of ongoing research in the LEMs.
 
