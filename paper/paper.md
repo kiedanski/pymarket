@@ -12,12 +12,10 @@ authors:
     orcid: 0000-0002-7337-050X
     affiliation: 1
   - name: José Horta
-    affiliation: 2
+    affiliation: 1
 affiliations:
  - name: Telecom ParisTech
    index: 1
- - name: ICT4V
-   index: 2
 date: 16 July 2019
 bibliography: paper.bib
 ---
