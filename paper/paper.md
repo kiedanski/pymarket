@@ -46,6 +46,8 @@ Algorithms implemented in this library have been used by the authors [@horta2017
 
 # Acknowledgements
 
+The VALADOE Chair of IMT Atlantique in partnership with Télécom ParisTech and Mines Saint Etienne and supported by ENEDIS, Région Pays de la Loire, Nantes Metropole.
+
 The code was developed in the context of Diego Kiedanski's PhD at Telecom ParisTech.
 
 [^1]: See also: https://github.com/fiquant/marketsimulator
